@@ -1,11 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
-/*
- * Created by JFormDesigner on Wed Apr 24 15:49:44 EDT 2013
- */
 
 
 
@@ -18,7 +13,7 @@ public class dungeonCrawler extends JFrame {
 	}
 
 	private void newCharButtonActionPerformed(ActionEvent e) {
-		// TODO add your code here
+		createCharacter newCharMenu = new createCharacter();
 	}
 
 	private void initComponents() {

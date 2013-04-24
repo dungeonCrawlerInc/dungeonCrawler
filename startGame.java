@@ -4,6 +4,8 @@ import javax.swing.*;
 //First thing called at every execution
 public class startGame {
   public static void main(String[] args) {
+	dungeonCrawler mainMenu = new dungeonCrawler();
+	
     //Create the game window
     WindowUtilities.setNativeLookAndFeel();
     JFrame f = new JFrame("Dungeon Crawler");
