@@ -1,15 +1,15 @@
-public class humanoid {
+public class Humanoid {
         
     // humanoid class fields
   private String name;
     private int str, dex, con, intel, wis, cha, gold, locX, locY;
-    private weapon rightHand, leftHand; 
-    private armor head, chest, legs, feet, hands, ring1, ring2, necklace;
+    private Weapon rightHand, leftHand; 
+    private Armor head, chest, legs, feet, hands, ring1, ring2, necklace;
     
         
     // the humanoid class has
     // one constructor
-    public humanoid(String name) {
+    public Humanoid(String name) {
         this.name = name;
         
         //10 being average

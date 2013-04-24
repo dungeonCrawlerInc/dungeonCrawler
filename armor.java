@@ -1,4 +1,4 @@
-public class armor {
+public class Armor {
         
     // armor class fields
   private String name;
@@ -7,7 +7,7 @@ public class armor {
     
 	// the armor class has
     // one constructor
-    public armor(String name, int ac, int goldValue) {
+    public Armor(String name, int ac, int goldValue) {
         this.name = name;
         this.ac = ac;
         this.goldValue = goldValue;
