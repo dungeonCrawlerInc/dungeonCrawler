@@ -22,7 +22,7 @@ public class Room extends JPanel{
    private char _numAdjRooms = 0; // Accesible rooms from current room
   
    // Grid for room
-   private char[][] _roomGrid;
+   private MapChar[][] _roomGrid;
 
    // array of adjecent room addresses
 
@@ -30,7 +30,7 @@ public class Room extends JPanel{
    public Room(int rows, int columns){
       _columns = columns;
       _rows = rows;
-      this._roomGrid = new char[rows][columns];
+      this._roomGrid = new MapChar[rows][columns];
       for(int i = 0; i < rows; i++){
          for(int j = 0; j < columns; j++)
             _roomGrid[i][j] = Globals.FLOOR;
@@ -43,6 +43,13 @@ public class Room extends JPanel{
 
   // Keep room tree somewhere...
 
+   public void setTavern(){
+      for(int i = 0; i < _rows; i++)
+         _roomGrid[i][0] = _roomGrid[i][_columns - 1] = Globals.WALL;
+      for(int i = 0; i < _columns; i++)
+         _roomGrid[0][i] = _roomGrid[_rows - 1][i] = Globals.WALL;
+   }
+   
    @Override
    public void paintComponent(Graphics g){
       // Important to call super class method
@@ -63,7 +70,8 @@ public class Room extends JPanel{
             int x = i * rectWidth;
             int y = j * rectHeight;
             if(_roomGrid[i][j] != Globals.FLOOR){
-               String s = "" + _roomGrid[i][j];
+               g.setColor(_roomGrid[i][j].getColor());
+               String s = "" + _roomGrid[i][j].getChar();
                g.drawString(s, x, y);
             }
          }
@@ -73,8 +81,10 @@ public class Room extends JPanel{
    public static void main(String[] args){ // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
       SwingUtilities.invokeLater(new Runnable(){
          public void run(){
+            Globals globals = new Globals();
             JFrame frame = new JFrame("Room");
             Room room = new Room(50, 50);
+            room.setTavern();
             frame.add(room);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
