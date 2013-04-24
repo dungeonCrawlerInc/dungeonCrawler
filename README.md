@@ -12,6 +12,7 @@ Software/Versions/PlugIns
 TO DO:
 
   Tavern
+  
     Populate map
     Add character movement
     Bartender movement
@@ -20,7 +21,8 @@ TO DO:
       Quest generations
       Open Portal
 
-  1 room dungeon
+  Dungeon
+  
     Populate map
     Add in transportation from portal to this dungeon
     Add in enemies
@@ -28,11 +30,12 @@ TO DO:
       Enemy aggro
       Enemy attack
 
-  Combat handling...
+  Combat handling
   
 =========================
 =========================
 Map Key:
+
   User - U
   Bartender - B
   Stool - S
