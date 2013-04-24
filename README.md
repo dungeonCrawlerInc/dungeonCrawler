@@ -56,3 +56,9 @@ Development:
     Build id: 20120920-0800
       http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/junosr1
     
+    Git (Eclipse Plugin)
+      Help -> Eclipse Marketplace
+    
+    Jformdesigner (Eclipse plugin)
+      http://www.formdev.com/jformdesigner/download/
+    
