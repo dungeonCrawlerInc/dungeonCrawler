@@ -56,15 +56,6 @@ Development:
       Build id: 20120920-0800
         http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/junosr1
     
-    Git (Eclipse Plugin)
-      Help -> Eclipse Marketplace
-    
-    Jformdesigner (Eclipse plugin)
-      Start Eclipse.
-      Open the install wizard (Menu: Help > Install New Software)
-      Click Add button, enter "JFormDesigner Update Site" into the name field, enter http://download.formdev.com/jformdesigner/eclipse/ into the location field and click OK to close the dialog.
-      Check "JFormDesigner" in the list of available software and click Next.
-      Review the items to be installed and click Next.
-      If requested, accept the license agreement and click Finish to start the download and installation.
-      Restart Eclipse.
+    jformdesigner (http://www.formdev.com/)
+    github (http://windows.github.com/)
     
