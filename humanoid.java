@@ -2,7 +2,7 @@ public class humanoid {
         
     // humanoid class fields
   private String name;
-    private int str, dex, con, intel, wis, cha, gold;
+    private int str, dex, con, intel, wis, cha, gold, locX, locY;
     private weapon rightHand, leftHand; 
     private armor head, chest, legs, feet, hands, ring1, ring2, necklace;
     
