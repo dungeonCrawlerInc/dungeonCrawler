@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 // 
-public class Room extends JPanel{
+public class room extends JPanel{
   
    // Size of square
    public static final int _GridSize = 10;
@@ -27,7 +27,7 @@ public class Room extends JPanel{
    // array of adjecent room addresses
 
    // 
-   public Room(int rows, int columns){
+   public room(int rows, int columns){
       _columns = columns;
       _rows = rows;
       this._roomGrid = new char[rows][columns];
@@ -72,7 +72,7 @@ public class Room extends JPanel{
       SwingUtilities.invokeLater(new Runnable(){
          public void run(){
             JFrame frame = new JFrame("Tavern");
-            Room room = new Room(50, 50);
+            room room = new room(50, 50);
             frame.add(room);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
