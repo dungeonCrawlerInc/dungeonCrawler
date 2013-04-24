@@ -27,3 +27,14 @@ TO DO:
       Enemy attack
 
   Combat handling...
+
+
+
+Map Key:
+  User - U
+  Bartender - B
+  Stool - S
+  Table - T
+  Wall - W
+  Door - D
+  Enemy - E // Change later
