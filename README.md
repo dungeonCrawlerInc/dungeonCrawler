@@ -60,6 +60,11 @@ Development:
       Help -> Eclipse Marketplace
     
     Jformdesigner (Eclipse plugin)
-      http://www.formdev.com/jformdesigner/download/
-        (I extracted the zip into eclipse's dropin folder)
+      Start Eclipse.
+      Open the install wizard (Menu: Help > Install New Software)
+      Click Add button, enter "JFormDesigner Update Site" into the name field, enter http://download.formdev.com/jformdesigner/eclipse/ into the location field and click OK to close the dialog.
+      Check "JFormDesigner" in the list of available software and click Next.
+      Review the items to be installed and click Next.
+      If requested, accept the license agreement and click Finish to start the download and installation.
+      Restart Eclipse.
     
