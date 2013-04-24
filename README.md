@@ -61,4 +61,5 @@ Development:
     
     Jformdesigner (Eclipse plugin)
       http://www.formdev.com/jformdesigner/download/
+        (I extracted the zip into eclipse's dropin folder)
     
