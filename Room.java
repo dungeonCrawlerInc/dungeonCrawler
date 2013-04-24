@@ -33,7 +33,7 @@ public class Room extends JPanel{
       this._roomGrid = new char[rows][columns];
       for(int i = 0; i < rows; i++){
          for(int j = 0; j < columns; j++)
-            _roomGrid[i][j] = 'F';
+            _roomGrid[i][j] = Globals.FLOOR;
       }
       
       int roomWidth = columns * _GridSize;
@@ -54,16 +54,18 @@ public class Room extends JPanel{
       int rectWidth = getWidth() / _rows;
       int rectHeight = getHeight() / _columns;
     
+      //g.setColor(Color.RED);
+      
       for (int i = 0; i < _rows; i++){
          for (int j = 0; j < _columns; j++){
+            
             // Upper left corner of this terrain rect
             int x = i * rectWidth;
             int y = j * rectHeight;
-            String s = "" + _roomGrid[i][j];
-            g.drawString(s, x, y);
-                         //Color terrainColor = new Color(102,153,0); // Change this....
-            //g.setColor(terrainColor);
-            //g.fillRect(x, y, rectWidth, rectHeight);
+            if(_roomGrid[i][j] != Globals.FLOOR){
+               String s = "" + _roomGrid[i][j];
+               g.drawString(s, x, y);
+            }
          }
       }
    }
@@ -71,7 +73,7 @@ public class Room extends JPanel{
    public static void main(String[] args){ // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
       SwingUtilities.invokeLater(new Runnable(){
          public void run(){
-            JFrame frame = new JFrame("Tavern");
+            JFrame frame = new JFrame("Room");
             Room room = new Room(50, 50);
             frame.add(room);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
