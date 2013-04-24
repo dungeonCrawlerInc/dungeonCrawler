@@ -43,5 +43,6 @@ Map Key:
     Wall - W
     Door - D
     Enemy - E // Change later
+    Floor - F
   
 =========================
