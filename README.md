@@ -36,14 +36,15 @@ TO DO:
 =========================
 Map Key:
 
-    User - U
-    Bartender - B
-    Stool - S
-    Table - T
-    Wall - W
-    Door - D
-    Enemy - E // Change later
-    Floor - F
+    USER - U
+    BARTENDER - B
+    STOOL - S
+    TABLE - T
+    WALL - W
+    DOOR - D
+    ENEMY - E
+    FLOOR - F
+    VOID - V
   
 =========================
 
