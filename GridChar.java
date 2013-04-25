@@ -1,13 +1,13 @@
 //Imports
 import java.util.*;
 
-// MapChar is an object that get placed on the map
-public class MapChar{
+// GridChar is an object that gets placed on the grid
+public class GridChar{
    
    private java.awt.Color _color; // Color to paint object
    private char _character; // ASCI char to display for object
    
-   public MapChar(char character, java.awt.Color color){
+   public GridChar(char character, java.awt.Color color){
       _character = character; // Set the variables based on parameters for constructor
       _color = color;
    }
@@ -22,7 +22,7 @@ public class MapChar{
       return _color;
    }
    
-   // In game possibility to change what is currently at spot on map
+   // In game possibility to change what is currently at spot on grid
    public void setChar(char character){
       _character = character;
    }
