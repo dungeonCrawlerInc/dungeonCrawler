@@ -7,7 +7,7 @@ import javax.swing.*;
 public class Globals{
  
    private Color brown = new Color(50, 50 , 50); // Not actually brown, will have to test
-   public static MapChar USER, BARTENDER, STOOL, TABLE, WALL, DOOR, ENEMY, FLOOR; // Accesible by other classes/files
+   public static MapChar USER, BARTENDER, STOOL, TABLE, WALL, DOOR, ENEMY, FLOOR, VOID; // Accesible by other classes/files
 
    public Globals(){ // When adding in a new item/thing to go on map just give it a name and call constructor
       USER = new MapChar('U', Color.BLACK); // Constructor takes an ASCI char and a color.
@@ -18,6 +18,7 @@ public class Globals{
       DOOR = new MapChar('D', brown);
       ENEMY = new MapChar('E', Color.RED);
       FLOOR = new MapChar('F', Color.WHITE);
+      VOID = new MapChar('V', Color.BLACK); // Unused surrounding map space
    }
 
 }
