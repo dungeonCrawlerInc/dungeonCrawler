@@ -1,40 +1,27 @@
 dungeonCrawler
-==============
+dungeonCrawlerInc.
+=========================
 For fun project by Gregory Hilston and Andrew Boutin. 
-
-=========================
-Software/Versions/PlugIns
-  Eclipse
-  GitHub
-  
-=========================
 =========================
 TO DO:
 
-  Tavern
+  GUI
   
-    Populate map
-    Add character movement
-    Bartender movement
-    Wizard quest offerings
-      Quest difficulties
-      Quest generations
-      Open Portal
+    startPage GUI
+    playerPage GUI
 
-  Dungeon
+  Grid
   
-    Populate map
-    Add in transportation from portal to this dungeon
-    Add in enemies
-      Enemy movement
-      Enemy aggro
-      Enemy attack
-
-  Combat handling
+    Start with populating Tavern grid
+    Add in character
+    Add in character movement
+    Add in collision with character and walls etc.
+    Add in NPCs
+    Add in NPC movement
   
 =========================
 =========================
-Map Key:
+Grid Key:
 
     USER - U
     BARTENDER - B
@@ -47,8 +34,7 @@ Map Key:
     VOID - V
   
 =========================
-
-
+=========================
 
 Development:
   
