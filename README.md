@@ -7,8 +7,17 @@ TO DO:
 
   GUI
   
-    startPage GUI
-    playerPage GUI
+    1. startPage GUI
+      New Character generates .txt file
+      Load Character loads existing .txt file
+      Both options go to playerPage GUI with correct character
+      About brings up .txt file or something similiar
+      Flash Animation on start up
+      
+    2. playerPage GUI
+      Need GUI to make grid and populate with tavern layout on start of this GUI
+      Need to make panels for items and inventory
+      Text/Combat Dialogue pane
 
   Grid
   
@@ -18,22 +27,37 @@ TO DO:
     Add in collision with character and walls etc.
     Add in NPCs
     Add in NPC movement
+    
+  Character
+    ...
+    
+  Controls
   
-=========================
+    Need to decide what character movement controls will be - arrow keys, asdw, etc.
+    Will user have to use mouse, keyboard, or both?
+    Combat controls, hotkeys, etc.
+
 =========================
 Grid Key:
 
-    USER - U
+    USER      - U
     BARTENDER - B
-    STOOL - S
-    TABLE - T
-    WALL - W
-    DOOR - D
-    ENEMY - E
-    FLOOR - F
-    VOID - V
+    STOOL     - S
+    TABLE     - T
+    WALL      - W
+    DOOR      - D
+    ENEMY     - E
+    FLOOR     - F
+    VOID      - V
   
 =========================
+Controls Layout:
+
+    Up      - 
+    Down    - 
+    Left    - 
+    Right   - 
+    
 =========================
 
 Development:
@@ -45,4 +69,3 @@ Development:
     
     jformdesigner (http://www.formdev.com/)
     github (http://windows.github.com/)
-    
