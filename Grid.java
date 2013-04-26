@@ -2,8 +2,8 @@
  * Simulates the map, building, terrain, walkable space, items, people, etc.
  */
 
+
 // Imports
-import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,19 +13,19 @@ import java.awt.*;
  *  Keep array of adjecent grid addresses
  */
 
-
 // 
 public class Grid extends JPanel{
   
-   public static final int _GridSize = 10; // Size of an individual square
+   public static final int _GridSize = 20; // Size of an individual square
    
-   private int _rows = 100; // Size of the available grid
-   private int _columns = 100;
-   private char _numAdjGrids = 0; // Accesible rooms from current room
+   private int _rows = 50; // Size of the available grid
+   private int _columns = 50;
+//   private char _numAdjGrids = 0; // Accesible rooms from current room
   
    
    private GridChar[][] _grid; // Grid for room
    
+
 
    // Room constructor
    public Grid(){
@@ -33,25 +33,38 @@ public class Grid extends JPanel{
       this._grid = new GridChar[_rows][_columns]; // Initialize the grid
       
       // Populate the grid with all floor objects, can be changed later
-      for(int i = 0; i < rows; ++i){
-         for(int j = 0; j < columns; ++j)
+      for(int i = 0; i < _rows; ++i){
+         for(int j = 0; j < _columns; ++j)
             _grid[i][j] = Globals.FLOOR;
       }
       
       // Set the dimensions of the overall grid
-      int gridWidth = columns * _GridSize;
-      int gridHeight = rows * _GridSize;
+      int gridWidth = _columns * _GridSize;
+      int gridHeight = _rows * _GridSize;
       setPreferredSize(new Dimension(gridWidth, gridHeight));
    }
 
+
   // Temporary method, will go into the play area gui for it to call.
   public void setTavern(){
-      for(int i = 0; i < _rows; i++)
-         _grid[i][0] = _grid[i][_columns - 1] = Globals.WALL;
-      for(int i = 0; i < _columns; i++)
-         _grid[0][i] = _grid[_rows - 1][i] = Globals.WALL;
-   }
+     
+     
+     for(int i = 0; i < _rows; i++){ // Populate outer VOID space
+        for(int j = 0; j < 10; ++j)
+         _grid[i][j] = _grid[i][_columns - 1 - j] = Globals.VOID;
+     }
+     for(int i = 0; i < _columns; i++){
+        for(int j = 0; j < 10; ++j)
+         _grid[j][i] = _grid[_rows - 1 - j][i] = Globals.VOID;
+     }
    
+   
+     for(int i = 10; i < _rows - 10; ++i) // Populate walls
+        _grid[i][10] = _grid[i][_rows - 11] = Globals.WALL;
+     for(int i = 11; i < _columns - 10; ++i)
+        _grid[10][i] = _grid[_columns - 11][i] = Globals.WALL;
+  
+  }
    @Override
    public void paintComponent(Graphics g){
       
@@ -71,11 +84,13 @@ public class Grid extends JPanel{
             
             if(_grid[i][j] == Globals.VOID){ // Paint black grid for void space
               g.setColor(Color.BLACK); // All void space is black
-              g.drawRect(xCord, yCord, recW, recH); // Fill in the square with black
+              g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
             }
             
              // Don't paint anything for floor space. Void space already painted
             if(_grid[i][j] != Globals.FLOOR && _grid[i][j] != Globals.VOID){
+               g.setColor(Color.BLACK);
+               g.drawRect(xCord, yCord, recW, recH);
                g.setColor(_grid[i][j].getColor()); // Get color of map object
                String s = "" + _grid[i][j].getChar(); // Grab the character from the map object
                g.drawString(s, xCord, yCord); // Paint the character in the appropriate color on the grid square
@@ -84,6 +99,7 @@ public class Grid extends JPanel{
          }
       }
    }
+
 
    public static void main(String[] args){
       SwingUtilities.invokeLater(new Runnable(){
@@ -100,3 +116,4 @@ public class Grid extends JPanel{
       });
    }
 }
+
