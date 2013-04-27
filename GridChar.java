@@ -1,5 +1,4 @@
 //Imports
-import java.util.*;
 
 // GridChar is an object that gets placed on the grid
 public class GridChar{
