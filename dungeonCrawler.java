@@ -38,7 +38,8 @@ public class dungeonCrawler extends JFrame {
 		//---- label1 ----
 		label1.setHorizontalAlignment(JLabel.CENTER);
 		label1.setText("Dungeon Crawler");
-		label1.setFont(new Font("Tahoma", Font.PLAIN, 36));
+		label1.setFont(new Font("Tahoma", Font.BOLD, 36));
+		label1.pack();
 
 		//---- newCharButton ----
 		newCharButton.setText("New Character");
