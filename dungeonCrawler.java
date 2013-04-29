@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.Toolkit;  
 
 
 
@@ -19,6 +20,12 @@ public class dungeonCrawler extends JFrame {
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		// Generated using JFormDesigner Evaluation license - Greg Hilston
+		
+		Toolkit tk = Toolkit.getDefaultToolkit();//Full screen
+		int xSize = ((int) tk.getScreenSize().getWidth());  
+		int ySize = ((int) tk.getScreenSize().getHeight());  
+		this.setSize(xSize,ySize);  //I am a frame! YOLO
+		
 		label1 = new JLabel();
 		newCharButton = new JButton();
 		loadCharButton = new JButton();
@@ -95,6 +102,7 @@ public class dungeonCrawler extends JFrame {
    {
    	dungeonCrawler GUI = new dungeonCrawler();// Call creation of game
    	GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+   	GUI.setLocationRelativeTo(null);//Set it in the center relative to the screen
    	GUI.setVisible(true); // Make it appear
    } 
 }
