@@ -79,6 +79,9 @@ public class dungeonCrawler extends JFrame {
 		pack();
 		setLocationRelativeTo(getOwner());
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
+		
+		
+		setVisible(true); // Make it appear
 	}
 
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -88,4 +91,8 @@ public class dungeonCrawler extends JFrame {
 	private JButton loadCharButton;
 	private JButton aboutButton;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
+	
+	
+	
+   public static void main(String[] args){ new dungeonCrawler();} // Call creation of game
 }
