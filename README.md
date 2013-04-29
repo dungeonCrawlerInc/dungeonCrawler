@@ -36,6 +36,11 @@ TO DO:
     Need to decide what character movement controls will be - arrow keys, asdw, etc.
     Will user have to use mouse, keyboard, or both?
     Combat controls, hotkeys, etc.
+    
+  More
+    Expand actual grid, have paint populate the visual grid
+    3Dish grid images
+    Background object movement
 
 =========================
 Grid Key:
