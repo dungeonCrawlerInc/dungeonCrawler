@@ -1,69 +1,18 @@
 dungeonCrawlerInc.
 dungeonCrawler
-=========================
+
 For fun project by Gregory Hilston and Andrew Boutin. 
-=========================
+
 TO DO:
-
-  GUI
-  
-    1. startPage GUI
-      New Character generates .txt file
-      Load Character loads existing .txt file
-      Both options go to playerPage GUI with correct character
-      About brings up .txt file or something similiar
-      Flash Animation on start up
-      
-    2. playerPage GUI
-      Need GUI to make grid and populate with tavern layout on start of this GUI
-      Need to make panels for items and inventory
-      Text/Combat Dialogue pane
-
-  Grid
-  
-    Start with populating Tavern grid
-    Add in character
-    Add in character movement
-    Add in collision with character and walls etc.
-    Add in NPCs
-    Add in NPC movement
     
-  Character
-    ...
-    
-  Controls
-  
-    Need to decide what character movement controls will be - arrow keys, asdw, etc.
-    Will user have to use mouse, keyboard, or both?
-    Combat controls, hotkeys, etc.
-    
-  More
-    Expand actual grid, have paint populate the visual grid
-    3Dish grid images
-    Background object movement
-
-=========================
-Grid Key:
-
-    USER      - U
-    BARTENDER - B
-    STOOL     - S
-    TABLE     - T
-    WALL      - W
-    DOOR      - D
-    ENEMY     - E
-    FLOOR     - F
-    VOID      - V
-  
-=========================
-Controls Layout:
-
-    Up      - 
-    Down    - 
-    Left    - 
-    Right   - 
-    
-=========================
+    1. Items/Inventory/Character Stats - Need to set up areas to display items 
+       being worn, inventory slots, character name/lvl/etc.
+    2. Combat Dialogue - Need to figure out how we're going to display messages, update them, etc.
+    3. Need to have house map and town map
+          Make door usable to go back and forth between
+    4. (IMPORTANT) Need to develope game loop
+    5. Need to add in NPC and randomized movement    
+    6. Need to add in enemy and create path finding towards character
 
 Development:
   
@@ -71,6 +20,7 @@ Development:
       Version: Juno Service Release 1
       Build id: 20120920-0800
         http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/junosr1
-    
     jformdesigner (http://www.formdev.com/)
     github (http://windows.github.com/)
+    Image Creation (http://pyxeledit.com/)
+    Website (http://www.EpicCrawl.com)
