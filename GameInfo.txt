@@ -1,0 +1,9 @@
+Epic Crawl
+
+This game is a project intended for people to use for fun.
+
+Game Controls
+A - Move left
+W - Move up
+S - Move down
+D - Move right
