@@ -102,7 +102,7 @@ public class DungeonGame{
 		
 		mainScreenImage = null;
 		
-		input = this.getClass().getClassLoader().getResourceAsStream("MainScreenImage.png");
+		input = this.getClass().getClassLoader().getResourceAsStream("EpicCrawlTitle.png");
 		try {
 			mainScreenImage = ImageIO.read(input);
 		} catch (IOException e) {

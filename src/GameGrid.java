@@ -49,7 +49,7 @@ public class GameGrid extends JPanel{
 		// Populate the grid with all floor objects, can be changed later
 		for(int i = 0; i < _rows; ++i){
 			for(int j = 0; j < _columns; ++j)
-				_grid[i][j] = GridSquareTypes.FLOOR;
+				_grid[i][j] = GridSquareTypes.VOID;
 		}
 	}
 	
@@ -64,6 +64,8 @@ public class GameGrid extends JPanel{
 			for(int j = 4; j < 12; ++j)
 				_grid[i][j] = GridSquareTypes.FLOOR;
 		}
+		
+		_grid[5][10] = GridSquareTypes.TABLE;
 		
 		_grid[7][12] = GridSquareTypes.DOOR;
 		
@@ -141,7 +143,7 @@ public class GameGrid extends JPanel{
 					g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
 				}
 				
-				if(_grid[i][j] == GridSquareTypes.FLOOR || _grid[i][j] == GridSquareTypes.CHARACTER || _grid[i][j] == GridSquareTypes.WALL){
+				if(_grid[i][j] == GridSquareTypes.FLOOR || _grid[i][j] == GridSquareTypes.CHARACTER || _grid[i][j] == GridSquareTypes.WALL || _grid[i][j] == GridSquareTypes.TABLE){
 					if(_grid[i][j] == GridSquareTypes.CHARACTER){
 						if(gridSquareUnderPlayer == GridSquareTypes.FLOOR)
 							g.drawImage(gridSquareUnderPlayer.getImage(), xCord, yCord, recW, recH, null);
@@ -150,11 +152,9 @@ public class GameGrid extends JPanel{
 					g.drawImage(_grid[i][j].getImage(), xCord, yCord, recW, recH, null);
 				}
 
-				if(_grid[i][j] != GridSquareTypes.VOID && _grid[i][j] != GridSquareTypes.FLOOR && _grid[i][j] != GridSquareTypes.CHARACTER && _grid[i][j] != GridSquareTypes.WALL){ // && _grid[i][j] != GridSquareTypes.FLOOR
+				if(_grid[i][j] != GridSquareTypes.VOID && _grid[i][j] != GridSquareTypes.FLOOR && _grid[i][j] != GridSquareTypes.CHARACTER && _grid[i][j] != GridSquareTypes.WALL && _grid[i][j] != GridSquareTypes.TABLE){ // && _grid[i][j] != GridSquareTypes.FLOOR
 					g.setColor(Color.BLACK);
 					g.drawRect(xCord, yCord, recW, recH);
-					
-					g.setColor(_grid[i][j].getColor()); // Get color of map object
 					Font font = new Font(Font.SANS_SERIF, Font.BOLD, 15);
 					g.setFont(font);
 					String s = "" + _grid[i][j].getChar(); // Grab the character from the map object

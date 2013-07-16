@@ -8,19 +8,17 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 public class GridSquare{
-   private java.awt.Color _color; // Color to paint object
    private char _object; // ASCI char to display for object
    private boolean _passable, _visible;
    private BufferedImage _gridImageLabel;
    //private DefaultListModel listModel;
    
-   public GridSquare(char c, java.awt.Color color, boolean passable){
+   public GridSquare(char c, boolean passable){
       _object = c; // Set the variables based on parameters for constructor
-      _color = color;
       _passable = passable;
       _visible = false;
       
-      if(c == 'F' || c == 'C'|| c == 'W')
+      if(c == 'F' || c == 'C'|| c == 'W' || c == 'T')
     	  _gridImageLabel = createImageLabel(c);
    }
 
@@ -38,6 +36,8 @@ public class GridSquare{
 	   case 'C': imageName = "Enemy2.png";
 	   break;
 	   case 'W': imageName = "32x32StoneWall.png";
+	   break;
+	   case 'T': imageName = "table.png";
 	   }
 	   
 	   InputStream input = this.getClass().getClassLoader().getResourceAsStream(imageName);
@@ -46,11 +46,6 @@ public class GridSquare{
 	   }catch (IOException e){System.err.println("Failed to load image for grid square.");}
 		
 	   return bufImage;
-   }
-   
-   // Accesor to color of object
-   public java.awt.Color getColor(){
-      return _color;
    }
    
    // Can be used to determine what object is at a given location
