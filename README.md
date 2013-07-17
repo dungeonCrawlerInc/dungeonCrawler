@@ -18,7 +18,6 @@ Minor Fixes Needed:
 
 
     Have character names text file be a resource so it doesn't get created on user's desktop
-    Need to get floor to appear under character when moving and under door when occupied.
     Need to create arraylist of images at each location in order that they should be painted.
 
 Development:
