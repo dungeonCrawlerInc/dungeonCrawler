@@ -165,18 +165,16 @@ public class GameGrid extends JPanel{
 				
 				System.out.println("(" + playerX + ", " + playerY + ")");
 				
-				if(_grid[viewY][viewX] == GridSquareTypes.VOID){ // Paint black grid for void space
+				if(_grid[viewX][viewY] == GridSquareTypes.VOID){ // Paint black grid for void space
 					g.setColor(Color.BLACK); // All void space is black
 					g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
 				}
 				
-				if(_grid[viewY][viewX] != GridSquareTypes.VOID){
-					if(_grid[viewY][viewX] == GridSquareTypes.CHARACTER){
-						if(gridSquareUnderPlayer == GridSquareTypes.FLOOR)
-							g.drawImage(gridSquareUnderPlayer.getImage(), xCord, yCord, recW, recH, null);
-					}
+				if(_grid[viewX][viewY] != GridSquareTypes.VOID){
+					g.drawImage(GridSquareTypes.FLOOR.getImage(), xCord, yCord, recW, recH, null);
 					
-					g.drawImage(_grid[viewX][viewY].getImage(), xCord, yCord, recW, recH, null);
+					if(_grid[viewX][viewY] != GridSquareTypes.FLOOR)
+						g.drawImage(_grid[viewX][viewY].getImage(), xCord, yCord, recW, recH, null);
 				}
 			}
 		}
