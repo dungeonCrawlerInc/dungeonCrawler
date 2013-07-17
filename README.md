@@ -13,6 +13,10 @@ TO DO:
     4. (IMPORTANT) Need to develope game loop
     5. Need to add in NPC and randomized movement    
     6. Need to add in enemy and create path finding towards character
+    
+Minor Fixes Needed:
+    Need to get floor to appear under character when moving and under door when occupied.
+    Need to create arraylist of images at each location in order that they should be painted.
 
 Development:
   
