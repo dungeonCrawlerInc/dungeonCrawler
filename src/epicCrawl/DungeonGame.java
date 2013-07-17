@@ -1,4 +1,4 @@
-package dungeonGame;
+package epicCrawl;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -63,7 +63,7 @@ public class DungeonGame{
 
 	private void setUpMainScreen(){
 		BufferedImage tmpImage = null;
-		InputStream input = this.getClass().getClassLoader().getResourceAsStream("64x64EpicCrawler.png");
+		InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/64x64EpicCrawler.png");
 		try{
 			tmpImage = ImageIO.read(input);
 		}catch(IOException e){
@@ -102,7 +102,7 @@ public class DungeonGame{
 		
 		mainScreenImage = null;
 		
-		input = this.getClass().getClassLoader().getResourceAsStream("EpicCrawlTitle.png");
+		input = this.getClass().getClassLoader().getResourceAsStream("Images/EpicCrawlTitle.png");
 		try {
 			mainScreenImage = ImageIO.read(input);
 		} catch (IOException e) {
@@ -207,7 +207,7 @@ public class DungeonGame{
 		gameInfo.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent event){
-				InputStream inStream = getClass().getResourceAsStream("/GameInfo.txt");
+				InputStream inStream = getClass().getClassLoader().getResourceAsStream("GameInfo.txt");
 				Scanner inScanner = new Scanner(inStream);
 				StringBuffer strBuf = new StringBuffer("");
 				
@@ -232,7 +232,6 @@ public class DungeonGame{
 				backToMainScreen();
 				
 				gameFrame.setTitle("Epic Crawl - Main Menu");
-				
 				gameFrame.repaint();
 			}
 		});

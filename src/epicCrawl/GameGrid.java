@@ -1,21 +1,21 @@
-package dungeonGame;
+package epicCrawl;
 
-// Imports
+//Imports
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-// HUGE 2d array containing "current level/world" map
+//HUGE 2d array containing "current level/world" map
 
-// maybe instead of setting town or house could create them at start up and store them into list of levels..
+//maybe instead of setting town or house could create them at start up and store them into list of levels..
 
-// _grid is current view of the level/world
+//_grid is current view of the level/world
 
-// change later so when clicked the focus is on this panel
+//change later so when clicked the focus is on this panel
 
-// 
+//
 public class GameGrid extends JPanel{
 	private static final long serialVersionUID = 6942355989519710021L;
 
@@ -23,13 +23,13 @@ public class GameGrid extends JPanel{
 	
 	private ArrayList<GridSquare> gridSquares;
 
-	private int _rows = 15, _columns = 15; // Size of the available grid
+	private int _maxRows = 30, _maxColumns = 30; // Size of the available grid
+	private int _rows = 15, _columns = 15;
 	
 	private Action leftAction, rightAction, upAction, downAction;
 	
 	//   private char _numAdjGrids = 0; // Accesible rooms from current room
-
-	private GridSquare[][] _grid; // Grid for room
+	private GridSquare[][] _grid; // Grid for current map
 	
 	private int playerX, playerY, newX, newY; // --------------------------------------------------
 	private GridSquare gridSquareUnderPlayer;
@@ -43,13 +43,22 @@ public class GameGrid extends JPanel{
 		setUpKeyBindings();
 
 		// change to load in saved spot..??
-		
-		this._grid = new GridSquare[_rows][_columns]; // Initialize the grid
+		_grid = new GridSquare[_maxRows][_maxColumns]; // Initialize the grid
 
 		// Populate the grid with all floor objects, can be changed later
-		for(int i = 0; i < _rows; ++i){
-			for(int j = 0; j < _columns; ++j)
-				_grid[i][j] = GridSquareTypes.VOID;
+		for(int i = 0; i < _maxRows; ++i){
+			for(int j = 0; j < _maxColumns; ++j)
+				_grid[i][j] = GridSquareTypes.FLOOR;
+		}
+		
+		for(int i = 0; i < _maxRows; ++i){
+			_grid[i][0] = GridSquareTypes.WALL;
+			_grid[i][_maxRows - 1] = GridSquareTypes.WALL;
+		}
+		
+		for(int i = 0; i < _maxRows; ++i){
+			_grid[0][i] = GridSquareTypes.WALL;
+			_grid[_maxColumns - 1][i] = GridSquareTypes.WALL;
 		}
 	}
 	
@@ -65,12 +74,18 @@ public class GameGrid extends JPanel{
 				_grid[i][j] = GridSquareTypes.FLOOR;
 		}
 		
-		_grid[5][10] = GridSquareTypes.TABLE;
+		_grid[7][6] = GridSquareTypes.LCHAIR;
+		_grid[8][6] = GridSquareTypes.TABLE;
+		_grid[9][6] = GridSquareTypes.RCHAIR;
 		
 		_grid[7][12] = GridSquareTypes.DOOR;
 		
-		playerX = 7;
-		playerY = 5;
+		_grid[20][20] = GridSquareTypes.CHEST;
+		
+		_grid[20][5] = GridSquareTypes.GIRL;
+		
+		playerX = 15;
+		playerY = 15;
 		gridSquareUnderPlayer = _grid[playerX][playerY];
 		_grid[playerX][playerY] = GridSquareTypes.CHARACTER;
 	}
@@ -98,7 +113,7 @@ public class GameGrid extends JPanel{
 		}
 		
 		// check if move is out of bounds
-		if(newX < 0 || newX > _rows -1 || newY < 0 || newY > _columns - 1){
+		if(newX < 0 || newX > _maxRows -1 || newY < 0 || newY > _maxColumns - 1){
 			System.out.println("Attempting to move out of bounds");
 			return;
 		}
@@ -125,44 +140,48 @@ public class GameGrid extends JPanel{
 	
 	@Override
 	public void paintComponent(Graphics g){
-
 		super.paintComponent(g); // Important to call super class method
-
 		g.clearRect(0, 0, getWidth(), getHeight()); // Clear the board
 
 		int recW = getWidth() / _rows; // Draw the grid
 		int recH = getHeight() / _columns;
-
-		for (int i = 0; i < _rows; i++){ // Determine what to draw for each grid square on grid
+		
+		for (int i = 0; i <  _rows; i++){ // Determine what to draw for each grid square on grid
+			int viewX = (playerX - (7) + i);
+			int xCord = i * recW; // Upper left corner of this terrain rect
+			
 			for (int j = 0; j < _columns; j++){
-				int xCord = i * recW; // Upper left corner of this terrain rect
 				int yCord = j * recH;
-
-				if(_grid[i][j] == GridSquareTypes.VOID){ // Paint black grid for void space
+				int viewY = (playerY - (7) + j);
+				
+				if(playerX < 8)
+					viewX = i;
+				if(playerY < 8)
+					viewY = j;
+				if(playerX > _maxColumns - 8)
+					viewX = _maxColumns - _columns + i;
+				if(playerY > _maxRows - 8)
+					viewY = _maxRows - _rows + j;
+				
+				System.out.println("(" + playerX + ", " + playerY + ")");
+				
+				if(_grid[viewY][viewX] == GridSquareTypes.VOID){ // Paint black grid for void space
 					g.setColor(Color.BLACK); // All void space is black
 					g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
 				}
 				
-				if(_grid[i][j] == GridSquareTypes.FLOOR || _grid[i][j] == GridSquareTypes.CHARACTER || _grid[i][j] == GridSquareTypes.WALL || _grid[i][j] == GridSquareTypes.TABLE){
-					if(_grid[i][j] == GridSquareTypes.CHARACTER){
+				if(_grid[viewY][viewX] != GridSquareTypes.VOID){
+					if(_grid[viewY][viewX] == GridSquareTypes.CHARACTER){
 						if(gridSquareUnderPlayer == GridSquareTypes.FLOOR)
 							g.drawImage(gridSquareUnderPlayer.getImage(), xCord, yCord, recW, recH, null);
 					}
 					
-					g.drawImage(_grid[i][j].getImage(), xCord, yCord, recW, recH, null);
+					g.drawImage(_grid[viewX][viewY].getImage(), xCord, yCord, recW, recH, null);
 				}
-
-				if(_grid[i][j] != GridSquareTypes.VOID && _grid[i][j] != GridSquareTypes.FLOOR && _grid[i][j] != GridSquareTypes.CHARACTER && _grid[i][j] != GridSquareTypes.WALL && _grid[i][j] != GridSquareTypes.TABLE){ // && _grid[i][j] != GridSquareTypes.FLOOR
-					g.setColor(Color.BLACK);
-					g.drawRect(xCord, yCord, recW, recH);
-					Font font = new Font(Font.SANS_SERIF, Font.BOLD, 15);
-					g.setFont(font);
-					String s = "" + _grid[i][j].getChar(); // Grab the character from the map object
-					g.drawString(s, xCord + 4, yCord + 16); // Paint the character in the appropriate color on the grid square
-				}
-
 			}
 		}
+		
+		System.out.println("exit");
 	}
 
 	private void setUpKeyBindings(){
@@ -230,4 +249,3 @@ public class GameGrid extends JPanel{
 		frame.repaint();
 	}
 }
-

@@ -1,4 +1,4 @@
-package dungeonGame;
+package epicCrawl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,9 +17,7 @@ public class GridSquare{
       _object = c; // Set the variables based on parameters for constructor
       _passable = passable;
       _visible = false;
-      
-      if(c == 'F' || c == 'C'|| c == 'W' || c == 'T')
-    	  _gridImageLabel = createImageLabel(c);
+      _gridImageLabel = createImageLabel(c);
    }
 
    public BufferedImage getImage(){
@@ -31,13 +29,23 @@ public class GridSquare{
 	   String imageName = "";
 
 	   switch(c){
-	   case 'F': imageName = "32x32WoodFloor.png"; // "32x32WoodFloor.png";
+	   case 'F': imageName = "Images/32x32WoodFloor.png"; // "32x32WoodFloor.png";
 	   break;
-	   case 'C': imageName = "Enemy2.png";
+	   case 'C': imageName = "Images/CHARACTER-Armor.png";
 	   break;
-	   case 'W': imageName = "32x32StoneWall.png";
+	   case 'W': imageName = "Images/32x32StoneWall.png";
 	   break;
-	   case 'T': imageName = "table.png";
+	   case 'T': imageName = "Images/table.png";
+	   break;
+	   case 'D': imageName = "Images/Door.png";
+	   break;
+	   case 'Z': imageName = "Images/Chest.png";
+	   break;
+	   case 'G': imageName = "Images/GIRL.png";
+	   break;
+	   case 'X': imageName = "Images/chair right.png";
+	   break;
+	   case 'Y': imageName = "Images/chair left.png";
 	   }
 	   
 	   InputStream input = this.getClass().getClassLoader().getResourceAsStream(imageName);
