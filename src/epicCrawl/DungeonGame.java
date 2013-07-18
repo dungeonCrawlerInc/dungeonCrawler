@@ -11,12 +11,10 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -34,7 +32,6 @@ public class DungeonGame{
 	private JButton newGame, loadGame, gameInfo, mainMenu;
 	private JLabel gameLabel;
 	private BufferedImage mainScreenImage;
-	private GameGrid gameGrid;
 	private GamePanel gamePanel;
 	private ImageIcon newAndLoadGameIcon;
 

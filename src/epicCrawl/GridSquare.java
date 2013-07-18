@@ -1,53 +1,54 @@
 package epicCrawl;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
 public class GridSquare{
-   private char _object; // ASCI char to display for object
+   private String _name; // ASCI char to display for object
    private boolean _passable, _visible;
    private BufferedImage _gridImageLabel;
-   //private DefaultListModel listModel;
    
-   public GridSquare(char c, boolean passable){
-      _object = c; // Set the variables based on parameters for constructor
+   public GridSquare(String s, boolean passable){
+	   _name = s; // Set the variables based on parameters for constructor
       _passable = passable;
       _visible = false;
-      _gridImageLabel = createImageLabel(c);
+      
+      if(!s.equals("void"))
+    	  _gridImageLabel = createImageLabel(s);
    }
 
    public BufferedImage getImage(){
 	   return _gridImageLabel;
    }
    
-   public BufferedImage createImageLabel(char c){
+   public BufferedImage createImageLabel(String s){
 	   BufferedImage bufImage = null;
 	   String imageName = "";
-
-	   switch(c){
-	   case 'F': imageName = "Images/32x32WoodFloor.png"; // "32x32WoodFloor.png";
-	   break;
-	   case 'C': imageName = "Images/CHARACTER-Armor.png";
-	   break;
-	   case 'W': imageName = "Images/32x32StoneWall.png";
-	   break;
-	   case 'T': imageName = "Images/table.png";
-	   break;
-	   case 'D': imageName = "Images/Door.png";
-	   break;
-	   case 'Z': imageName = "Images/Chest.png";
-	   break;
-	   case 'G': imageName = "Images/GIRL.png";
-	   break;
-	   case 'X': imageName = "Images/chair right.png";
-	   break;
-	   case 'Y': imageName = "Images/chair left.png";
-	   }
 	   
+	   if(s.equals("woodfloor"))
+		   imageName = "Images/32x32WoodFloor.png";
+	   else if(s.equals("character"))
+		   imageName = "Images/CHARACTER-Armor.png";
+	   else if(s.equals("wall"))
+		   imageName = "Images/32x32StoneWall.png";
+	   else if(s.equals("table"))
+		   imageName = "Images/table.png";
+	   else if(s.equals("door"))
+		   imageName = "Images/Door.png";
+	   else if(s.equals("chest"))
+		   imageName = "Images/Chest.png";
+	   else if(s.equals("girl"))
+		   imageName = "Images/GIRL.png";
+	   else if(s.equals("rightchair"))
+		   imageName = "Images/chair left.png";
+	   else if(s.equals("leftchair"))
+		   imageName = "Images/chair right.png";
+	   else if(s.equals("enemy"))
+		   imageName = "Images/Enemy.png";
+
 	   InputStream input = this.getClass().getClassLoader().getResourceAsStream(imageName);
 	   try{
 		   bufImage = ImageIO.read(input);
@@ -57,8 +58,8 @@ public class GridSquare{
    }
    
    // Can be used to determine what object is at a given location
-   public char getChar(){
-      return _object;
+   public String getName(){
+      return _name;
    }
 
    public void setPassable(boolean passable){

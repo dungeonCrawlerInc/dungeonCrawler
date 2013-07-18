@@ -5,21 +5,17 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-//HUGE 2d array containing "current level/world" map
-
 //maybe instead of setting town or house could create them at start up and store them into list of levels..
-
-//_grid is current view of the level/world
 
 //change later so when clicked the focus is on this panel
 
 //
 public class GameGrid extends JPanel{
 	private static final long serialVersionUID = 6942355989519710021L;
-
-	//public static final int _GridSize = 1000; // Size of an individual square
+	private boolean _viewMode = false;
 	
 	private ArrayList<GridSquare> gridSquares;
 
@@ -36,8 +32,6 @@ public class GameGrid extends JPanel{
 
 	// Room constructor
 	public GameGrid(){
-		//gridSquareUnderPlayer = GridSquareTypes.FLOOR;
-		
 		setFocusable(true); // Not needed?
 		
 		setUpKeyBindings();
@@ -48,7 +42,7 @@ public class GameGrid extends JPanel{
 		// Populate the grid with all floor objects, can be changed later
 		for(int i = 0; i < _maxRows; ++i){
 			for(int j = 0; j < _maxColumns; ++j)
-				_grid[i][j] = GridSquareTypes.FLOOR;
+				_grid[i][j] = GridSquareTypes.WOODFLOOR;
 		}
 		
 		for(int i = 0; i < _maxRows; ++i){
@@ -71,18 +65,16 @@ public class GameGrid extends JPanel{
 		
 		for(int i = 4; i < 12; ++i){
 			for(int j = 4; j < 12; ++j)
-				_grid[i][j] = GridSquareTypes.FLOOR;
+				_grid[i][j] = GridSquareTypes.WOODFLOOR;
 		}
 		
 		_grid[7][6] = GridSquareTypes.LCHAIR;
 		_grid[8][6] = GridSquareTypes.TABLE;
 		_grid[9][6] = GridSquareTypes.RCHAIR;
-		
 		_grid[7][12] = GridSquareTypes.DOOR;
-		
 		_grid[20][20] = GridSquareTypes.CHEST;
-		
 		_grid[20][5] = GridSquareTypes.GIRL;
+		_grid[10][20] = GridSquareTypes.ENEMY;
 		
 		playerX = 15;
 		playerY = 15;
@@ -108,9 +100,8 @@ public class GameGrid extends JPanel{
 			newX = playerX;
 			newY = playerY + 1;
 		}
-		else{
+		else
 			System.out.println("wtf");
-		}
 		
 		// check if move is out of bounds
 		if(newX < 0 || newX > _maxRows -1 || newY < 0 || newY > _maxColumns - 1){
@@ -118,24 +109,21 @@ public class GameGrid extends JPanel{
 			return;
 		}
 		
-		// grab square type 
-		GridSquare nextSquare = _grid[newX][newY];
+		GridSquare nextSquare = _grid[newX][newY]; // grab square type 
 		
 		if(!nextSquare.isPassable()){ // check if move is passable
 			System.out.println("Attempting to move through solid object");
 			return;
 		}
-		// restore last grid square
-		_grid[playerX][playerY] = gridSquareUnderPlayer;
-		gridSquareUnderPlayer = _grid[newX][newY];
-		_grid[newX][newY] = GridSquareTypes.CHARACTER;
-		// save grid square type
+		
+		_grid[playerX][playerY] = gridSquareUnderPlayer; // restore last grid square
+		gridSquareUnderPlayer = _grid[newX][newY]; // save grid square type
+		_grid[newX][newY] = GridSquareTypes.CHARACTER; 
 		
 		playerX = newX;
 		playerY = newY;
 		
 		repaint();
-		// do move
 	}
 	
 	@Override
@@ -143,43 +131,67 @@ public class GameGrid extends JPanel{
 		super.paintComponent(g); // Important to call super class method
 		g.clearRect(0, 0, getWidth(), getHeight()); // Clear the board
 
-		int recW = getWidth() / _rows; // Draw the grid
-		int recH = getHeight() / _columns;
-		
-		for (int i = 0; i <  _rows; i++){ // Determine what to draw for each grid square on grid
-			int viewX = (playerX - (7) + i);
-			int xCord = i * recW; // Upper left corner of this terrain rect
-			
-			for (int j = 0; j < _columns; j++){
-				int yCord = j * recH;
-				int viewY = (playerY - (7) + j);
-				
-				if(playerX < 8)
-					viewX = i;
-				if(playerY < 8)
-					viewY = j;
-				if(playerX > _maxColumns - 8)
-					viewX = _maxColumns - _columns + i;
-				if(playerY > _maxRows - 8)
-					viewY = _maxRows - _rows + j;
-				
-				System.out.println("(" + playerX + ", " + playerY + ")");
-				
-				if(_grid[viewX][viewY] == GridSquareTypes.VOID){ // Paint black grid for void space
-					g.setColor(Color.BLACK); // All void space is black
-					g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
-				}
-				
-				if(_grid[viewX][viewY] != GridSquareTypes.VOID){
-					g.drawImage(GridSquareTypes.FLOOR.getImage(), xCord, yCord, recW, recH, null);
-					
-					if(_grid[viewX][viewY] != GridSquareTypes.FLOOR)
-						g.drawImage(_grid[viewX][viewY].getImage(), xCord, yCord, recW, recH, null);
+		if(!_viewMode){
+			int recW = getWidth() / _rows; // Draw the grid
+			int recH = getHeight() / _columns;
+
+			for (int i = 0; i <  _rows; i++){ // Determine what to draw for each grid square on grid
+				int viewX = (playerX - (7) + i);
+				int xCord = i * recW; // Upper left corner of this terrain rect
+
+				for (int j = 0; j < _columns; j++){
+					int yCord = j * recH;
+					int viewY = (playerY - (7) + j);
+
+					if(playerX < 8)
+						viewX = i;
+					if(playerY < 8)
+						viewY = j;
+					if(playerX > _maxColumns - 8)
+						viewX = _maxColumns - _columns + i;
+					if(playerY > _maxRows - 8)
+						viewY = _maxRows - _rows + j;
+
+					if(_grid[viewX][viewY] == GridSquareTypes.VOID){ // Paint black grid for void space
+						g.setColor(Color.BLACK); // All void space is black
+						g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
+					}
+
+					if(_grid[viewX][viewY] != GridSquareTypes.VOID){
+						g.drawImage(GridSquareTypes.WOODFLOOR.getImage(), xCord, yCord, recW, recH, null);
+						
+						
+						if(_grid[viewX][viewY] != GridSquareTypes.WOODFLOOR)
+							g.drawImage(_grid[viewX][viewY].getImage(), xCord, yCord, recW, recH, null);
+					}
 				}
 			}
 		}
-		
-		System.out.println("exit");
+		else{
+			int recW = getWidth() / _maxRows; // Draw the grid
+			int recH = getHeight() / _maxColumns;
+			
+			for (int i = 0; i <  _maxRows; i++){ // Determine what to draw for each grid square on grid
+				int xCord = i * recW; // Upper left corner of this terrain rect
+				
+				for (int j = 0; j < _maxColumns; j++){
+					int yCord = j * recH;
+					
+					if(_grid[i][j] == GridSquareTypes.VOID){ // Paint black grid for void space
+						g.setColor(Color.BLACK); // All void space is black
+						g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
+					}
+					
+					if(_grid[i][j] != GridSquareTypes.VOID){
+						g.drawImage(GridSquareTypes.WOODFLOOR.getImage(), xCord, yCord, recW, recH, null);
+						
+						
+						if(_grid[i][j] != GridSquareTypes.WOODFLOOR)
+							g.drawImage(_grid[i][j].getImage(), xCord, yCord, recW, recH, null);
+					}
+				}
+			}
+		}
 	}
 
 	private void setUpKeyBindings(){
@@ -228,17 +240,50 @@ public class GameGrid extends JPanel{
 		}
 	}
 
+	public void setViewMode(boolean x){
+		_viewMode = x;
+	}
+	
+	public boolean getViewMode(){
+		return _viewMode;
+	}
 	
 	public static void main(java.lang.String[] args){
 		JFrame frame = new JFrame();
 		GridSquareTypes GridSquareTypes = new GridSquareTypes();
 		
-		GameGrid grid = new GameGrid();
+		final GameGrid grid = new GameGrid();
 		grid.setVisible(true);
 		grid.setHome();
 		grid.repaint();
 		
-		frame.add(grid);
+		JPanel mainPanel = new JPanel();
+		mainPanel.setVisible(true);
+		mainPanel.setLayout(new BorderLayout());
+		
+		JPanel devPanel = new JPanel();
+		devPanel.setVisible(true);
+		devPanel.setLayout(new FlowLayout());
+		
+		JButton viewModeButton = new JButton("Toggle View Mode");
+		
+		viewModeButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				if(grid.getViewMode())
+					grid.setViewMode(false);
+				else
+					grid.setViewMode(true);
+				grid.repaint();
+			}
+		});
+		
+		devPanel.add(viewModeButton);
+		
+		mainPanel.add(grid, BorderLayout.CENTER);
+		mainPanel.add(devPanel, BorderLayout.NORTH);
+		
+		frame.add(mainPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close on exit
 		frame.setTitle("Epic Crawl"); // Game title
 		frame.setSize(700,700); // Size of play window on start, later support changing screen size

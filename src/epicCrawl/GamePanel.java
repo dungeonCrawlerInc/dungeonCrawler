@@ -27,12 +27,9 @@ public class GamePanel extends JPanel{
 	public GamePanel(JButton _mainMenu){
 		setFocusable(true);
 		mainMenu = _mainMenu;
-
 		setLayout(new BorderLayout());
 		setBackground(Color.GREEN);
-		
 		setUpGameInfoPanel();
-		
 		setUpGridAreaAndTextArea();
 	}
 
@@ -69,15 +66,7 @@ public class GamePanel extends JPanel{
 		gameTextPanel.setVisible(true);
 		gameTextPanel.setLayout( new BorderLayout() );
 		
-		String	listData[] =
-			{
-				"-",
-				"-",
-				"-",
-				"-"
-			};
-		
-		 DefaultListModel model = new DefaultListModel();
+		DefaultListModel model = new DefaultListModel();
 		
 		textList = new JList(model);
 		textList.setBackground(Color.GRAY);
@@ -89,7 +78,7 @@ public class GamePanel extends JPanel{
 		textList.setBorder(textListBorder);
 		
 		 for (int i = 0; i < 4; i++)
-			model.addElement("Element " + i);
+			model.addElement(" ");
 		
 		JScrollPane pane = new JScrollPane(textList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		pane.getVerticalScrollBar().setValue(pane.getVerticalScrollBar().getMinimum());
@@ -114,7 +103,6 @@ public class GamePanel extends JPanel{
 
 		GamePanel gamePanel = new GamePanel(mainMenu);
 		gamePanel.setVisible(true);
-		//grid.setHouse();
 		gamePanel.repaint();
 
 		frame.add(gamePanel);
