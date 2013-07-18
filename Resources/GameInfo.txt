@@ -1,9 +1,16 @@
-+Epic Crawl
-+
-+This game is a project intended for people to use for fun.
-+
-+Game Controls
-+A - Move left
-+W - Move up
-+S - Move down
-+D - Move right
+Epic Crawl
+
+This game is a programming project.
+
+Check out the website for future updates.
+
+http://www.EpicCrawl.com
+
+Leave any comments you have on the game there!
+
+
+Game Controls
+A - Move left
+W - Move up
+S - Move down
+D - Move right
