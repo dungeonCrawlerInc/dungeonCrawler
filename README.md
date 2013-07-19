@@ -5,14 +5,27 @@ For fun project by Gregory Hilston and Andrew Boutin.
 
 TO DO:
     
-    1. Items/Inventory/Character Stats - Need to set up areas to display items 
+    Items/Inventory/Character Stats - Need to set up areas to display items 
        being worn, inventory slots, character name/lvl/etc.
-    2. Combat Dialogue - Need to figure out how we're going to display messages, update them, etc.
-    3. Need to have house map and town map
-          Make door usable to go back and forth between
-    4. (IMPORTANT) Need to develope game loop
-    5. Need to add in NPC and randomized movement    
-    6. Need to add in enemy and create path finding towards character
+       
+    Combat Dialogue - Need to figure out how we're going to display messages, update them, etc.
+    
+    (IMPORTANT) Need to develope game loop for moving all movable objects on grid
+    
+    Need to add in NPC and randomized movement
+    
+    Need to add in enemy and create path finding towards character
+    
+    Write method to read saved levels from level designer and load into the game
+    
+    Switch over from grid square types to gridType interface - branch out different classes of objects
+    Give doors information that will allow them to load new levels
+    
+    Add in save button to level designer
+    Fix level designer open width/height
+    Add in all options to level designer and all other files
+    Add in fill method to level designer
+    Possibly change how things are saved in level designer files
     
 Minor Fixes Needed:
 
