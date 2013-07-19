@@ -13,11 +13,12 @@ import javax.swing.JPanel;
 public class Grid extends JPanel implements ActionListener{
    LevelDesigner grid;
    int myI, myJ;
-   private String[] imageNames = {"dirt.png", "grass.png", "Door.png", "wood floor.png", "32x32WoodFloor.png"};
+   private String[] imageNames;
    BufferedImage gridImage;
    private String imagePath;
    
-   public Grid(int i, int j, int size, LevelDesigner m){
+   public Grid(int i, int j, int size, LevelDesigner m, String[] strs){
+	  imageNames = strs;
 	  imagePath = "";
       grid = m;
       myI = i;

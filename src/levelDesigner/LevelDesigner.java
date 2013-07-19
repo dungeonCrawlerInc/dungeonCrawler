@@ -1,5 +1,16 @@
 package levelDesigner;
 
+/*
+ * Add in different combo boxes based on object
+ * 		terrain
+ * 		object
+ * 		living thing
+ * 
+ * Add in option to change rows/columns
+ * 
+ * Add in ability to place objects on top of others
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -20,12 +31,15 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 	private int rows, cols;
 	private JPanel gridPanel;
 	private JFrame frame;
+	String[] test = {"dirt.png", "grass.png", "Door.png", "wood floor.png", "32x32WoodFloor.png", 
+			"32x32StoneWall.png", "chair left.png", "chair right.png", "CHARACTER - No Armor.png", 
+			"CHARACTER - Weapon.png", "CHARACTER-Armor.png", "Chest.png", "Enemy.png", "GIRL.png", 
+			"TallTable with food.png", "table.png", "Void.png", "++Save Level++"};
 
 	public LevelDesigner(int r, int c){
 		frame = new JFrame();
 		setVisible(true);
 		setLayout(new BorderLayout());
-		setBackground(Color.BLUE);
 
 		rows = r;
 		cols = c;
@@ -43,16 +57,16 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		gridLayout.setRows(rows);
 
 		gridPanel.setLayout(gridLayout);
-
+		
 		for(int i = 0; i < r; i++){
 			for(int j = 0; j < c; j++){
-				theView[i][j] = new Grid(i, j, SIZE, this);
+				theView[i][j] = new Grid(i, j, SIZE, this, test);
 				gridPanel.add(theView[i][j]);
 			}
 		}
 
-		String test [] = {"0", "1","2","3","4","save"};
-		bp =  new ButtonPanel(test,  this);
+		
+		bp =  new ButtonPanel(test, this);
 
 		this.add(bp, BorderLayout.SOUTH);
 		this.add(gridPanel, BorderLayout.CENTER);
@@ -117,14 +131,13 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		thePit[i][j] = val;
 	}
 
-	public void print(){
+	public void saveGame(){
 		final JFileChooser fc = new JFileChooser();
 
 		fc.setCurrentDirectory(new java.io.File("."));
 		int returnVal = fc.showSaveDialog( null);
 
-		if( returnVal == JFileChooser.APPROVE_OPTION ) 
-		{
+		if( returnVal == JFileChooser.APPROVE_OPTION ){
 			try{
 				PrintWriter p = new PrintWriter( 
 						new File( fc.getSelectedFile().getName() ) );
@@ -133,23 +146,17 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 				p.println( this );
 				p.close();   
 			}
-			catch( Exception e)
-			{
-				System.out.println("ERROR: file not saved");
-			}
+			catch( Exception e){System.out.println("ERROR: file not saved");}
 		}
 	}
 
-	public void buttonPressed(String buttonLabel, int id){
-		if(id == 5) // Save
-			print();
+	public void buttonPressed(int id){
+		if(id == test.length - 1) // Save
+			saveGame();
 		else
 			val = id;
 	}
-
-	public void buttonReleased( String buttonLabel, int buttonId ){}
-	public void buttonClicked( String buttonLabel, int buttonId ){}
-
+	
 	public static void main(String arg[]){ 
 		LevelDesigner levelDesigner = new LevelDesigner(50, 50);
 	}
