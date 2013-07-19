@@ -13,8 +13,10 @@ package levelDesigner;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -103,9 +105,11 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 			} 
 		});
 
+		Dimension dim = new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
+				(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 60);
+		frame.setPreferredSize(dim);
 		frame.setVisible(true);
 		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-		
 		frame.setTitle("Epic Crawl - Main Menu");
 		frame.pack();
 		frame.setLocationRelativeTo(null);
@@ -114,17 +118,19 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 	}
 
 	public String toString(){
-		int noRows = thePit.length;
-		int noColumns = thePit[0].length;
-
-		String s="";
-		for (int r=0;r<noRows;r++){
-			for (int c=0;c<noColumns;c++){
-				s=s + thePit[r][c] + " ";
+		String s= "";
+		for(int r = 0; r < rows; r++){
+			for(int c = 0; c < cols; c++){
+				if(theView[r][c].imageName.equals("null"))
+					s = s + "Void.png ";
+				else
+					s = s + theView[r][c].imageName + " ";
 			}
-			s=s+"\n";
+			
+			s = s + "\n";
 		}
-		return(s);
+		
+		return s;
 	}
 
 	public void notify( int i, int j){

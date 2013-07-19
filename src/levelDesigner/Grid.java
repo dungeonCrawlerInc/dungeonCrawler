@@ -15,11 +15,11 @@ public class Grid extends JPanel implements ActionListener{
    int myI, myJ;
    private String[] imageNames;
    BufferedImage gridImage;
-   private String imagePath;
+   String imageName;
    
    public Grid(int i, int j, int size, LevelDesigner m, String[] strs){
 	  imageNames = strs;
-	  imagePath = "";
+	  imageName = "null";
       grid = m;
       myI = i;
       myJ = j;
@@ -33,10 +33,10 @@ public class Grid extends JPanel implements ActionListener{
    public void actionPerformed(ActionEvent ae){
 	   grid.notify(myI, myJ);
 	   
-	   imagePath = "Images/" + imageNames[LevelDesigner.val];
+	   imageName = imageNames[LevelDesigner.val];
 	   
 	   gridImage = null;
-		InputStream input = this.getClass().getClassLoader().getResourceAsStream(imagePath);
+		InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + imageName);
 		try{
 			gridImage = ImageIO.read(input);
 		}catch(Exception e){System.err.println("Failed to load image");}

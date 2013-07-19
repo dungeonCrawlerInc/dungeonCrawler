@@ -20,7 +20,7 @@ public class Button extends JButton{
 			@Override
 			public void actionPerformed(ActionEvent ae){
 				if(listener != null)
-					listener.buttonReleased( label, identifier );
+					listener.buttonPressed(identifier);
 				else
 					System.out.println("No Listener: mouseReleased");
 			}
