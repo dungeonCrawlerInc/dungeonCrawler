@@ -3,11 +3,10 @@ package levelDesigner;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.io.*;
 import javax.swing.*;
 
@@ -24,7 +23,6 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 	public LevelDesigner(int r, int c){
 		frame = new JFrame();
-		int h = 10, w = 10;
 		setVisible(true);
 		setLayout(new BorderLayout());
 		setBackground(Color.BLUE);
@@ -32,12 +30,13 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		rows = r;
 		cols = c;
 
-		thePit = new int[ r][ c];
+		thePit = new int[r][c];
 		theView = new Grid[r][c];   
 
 		gridPanel = new JPanel();
 		gridPanel.setVisible(true);
 		gridPanel.setBackground(Color.BLACK);
+		gridPanel.setPreferredSize(getMaximumSize());
 
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.setColumns(cols);
@@ -52,26 +51,50 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 			}
 		}
 
-		String test [] = {"0 (blue)", "1 (black)","2 (red)","3 (yellow)","4 (green)","save"};
+		String test [] = {"0", "1","2","3","4","save"};
 		bp =  new ButtonPanel(test,  this);
 
-		this.add(bp, BorderLayout.NORTH);
+		this.add(bp, BorderLayout.SOUTH);
 		this.add(gridPanel, BorderLayout.CENTER);
 
-		frame.addMouseListener(new MouseAdapter() { // Work on indexing into 2d array -----------------
+		frame.addMouseListener(new MouseAdapter(){
 			public void mousePressed(MouseEvent me) {
-				int colIndex = (me.getX() - gridPanel.getX()) / (gridPanel.getWidth() / rows);
-				int rowIndex = (me.getY() - gridPanel.getY()) / (gridPanel.getHeight() / cols);
+	
+				for(int i = 0; i < rows; ++i){
+					for(int j = 0; j < cols; ++j){
+						Point p = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
+						
+						if (theView[i][j].contains(p)){
+							theView[i][j].actionPerformed(null);
+							return;
+						}
+					}
+				}
+			} 
+		});
+		
+		frame.addMouseMotionListener(new MouseMotionAdapter(){
+			public void mouseDragged(MouseEvent me) {
 				
-				theView[rowIndex][colIndex].actionPerformed(null);
+				for(int i = 0; i < rows; ++i){
+					for(int j = 0; j < cols; ++j){
+						Point p = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
+						
+						if (theView[i][j].contains(p)){
+							theView[i][j].actionPerformed(null);
+							return;
+						}
+					}
+				}
 			} 
 		});
 
 		frame.setVisible(true);
 		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-		frame.setLocationRelativeTo(null);
+		
 		frame.setTitle("Epic Crawl - Main Menu");
 		frame.pack();
+		frame.setLocationRelativeTo(null);
 		frame.repaint();
 		frame.add(this);
 	}
@@ -118,9 +141,7 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 	}
 
 	public void buttonPressed(String buttonLabel, int id){
-		System.out.println("in here");
-		
-		if(id == 5)
+		if(id == 5) // Save
 			print();
 		else
 			val = id;
