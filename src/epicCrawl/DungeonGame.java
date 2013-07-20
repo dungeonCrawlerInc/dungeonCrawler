@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 
 public class DungeonGame{
 	private JFrame gameFrame;
-	private JPanel mainScreenPanel, mainFrameOptions, gameInfoPanel, mainScreenImageAndOptionsPanel;
+	private JPanel mainScreenPanel, mainFrameOptions, mainScreenImageAndOptionsPanel;
 	private JButton newGame, loadGame, gameInfo, mainMenu;
 	private JLabel gameLabel;
 	private BufferedImage mainScreenImage;

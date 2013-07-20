@@ -1,45 +1,49 @@
 package epicCrawl;
 
 //Imports
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Scanner;
-
-//maybe instead of setting town or house could create them at start up and store them into list of levels..
-
-//change later so when clicked the focus is on this panel
 
 //
 public class GameGrid extends JPanel{
 	private static final long serialVersionUID = 6942355989519710021L;
 	private boolean _viewMode = false;
-	
-	private ArrayList<GridSquare> gridSquares;
 
 	private int _maxRows = 50, _maxColumns = 50; // Size of the available grid
 	private int _rows = 15, _columns = 15;
 	
 	private Action leftAction, rightAction, upAction, downAction;
 	
-	//   private char _numAdjGrids = 0; // Accesible rooms from current room
 	private GridSquare[][] _grid; // Grid for current map
 	
 	private int playerX, playerY, newX, newY; // --------------------------------------------------
-	private GridSquare gridSquareUnderPlayer;
 
+	GridSquare grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
+		voidSquare;
+	
+	BufferedImage playerImage;
+	
 	// Room constructor
 	public GameGrid(){
-		setFocusable(true); // Not needed?
+		grassSquare = new GridSquare("grassFloor", "grass.png", true);
+		dirtSquare = new GridSquare("dirtFloor", "dirt.png", true);
+		darkWoodFloorSquare = new GridSquare("woodFloorDark", "32x32WoodFloor.png", true);
+		lightWoodFloorSquare = new GridSquare("woodFloorLight", "woodfloor.png", true);
+		stoneWallSquare = new GridSquare("stoneWall", "32x32StoneWall.png", false);
+		voidSquare = new GridSquare("void", "Void.png", false);
 		
+		setFocusable(true); // Not needed?
 		setUpKeyBindings();
 
 		_grid = new GridSquare[_maxRows][_maxColumns];
-		
 		loadLevel("Levels/newLevel.txt");
 	}
 	
@@ -47,59 +51,64 @@ public class GameGrid extends JPanel{
 		InputStream inStream = getClass().getClassLoader().getResourceAsStream(levelFileName);
 		Scanner lineScanner = new Scanner(inStream);
 		Scanner wordScanner = null;
-		
 		int curRow = 0, curCol = 0;
 		String cur = "";
-		boolean headerInfo = true;
 
 		while(lineScanner.hasNextLine()){
 			wordScanner = new Scanner(lineScanner.nextLine());
-
+			
 			while(wordScanner.hasNext()){
 				cur = wordScanner.next();
 				
 				if(cur.equals("dirt.png"))
-					_grid[curCol][curRow] = GridSquareTypes.DIRTFLOOR;
+					_grid[curCol][curRow] = dirtSquare;
 				else if(cur.equals("grass.png"))
-					_grid[curCol][curRow] = GridSquareTypes.GRASSFLOOR;
+					_grid[curCol][curRow] = grassSquare;
 				else if(cur.equals("Door.png"))
-					_grid[curCol][curRow] = GridSquareTypes.DOOR;
+					_grid[curCol][curRow] = new GridSquare("door", "Door.png", true);
 				else if(cur.equals("woodfloor.png"))
-					_grid[curCol][curRow] = GridSquareTypes.WOODFLOORLIGHT;
+					_grid[curCol][curRow] = lightWoodFloorSquare;
 				else if(cur.equals("32x32WoodFloor.png"))
-					_grid[curCol][curRow] = GridSquareTypes.WOODFLOORDARK;
+					_grid[curCol][curRow] = darkWoodFloorSquare;
 				else if(cur.equals("32x32StoneWall.png"))
-					_grid[curCol][curRow] = GridSquareTypes.STONEWALL;
+					_grid[curCol][curRow] = stoneWallSquare;
 				else if(cur.equals("chairleft.png"))
-					_grid[curCol][curRow] = GridSquareTypes.LCHAIR;
+					_grid[curCol][curRow] = new GridSquare("leftchair", "chairleft.png", false);
 				else if(cur.equals("chairright.png"))
-					_grid[curCol][curRow] = GridSquareTypes.RCHAIR;
+					_grid[curCol][curRow] = new GridSquare("rightchair", "chairright.png", false);
 				else if(cur.equals("Chest.png"))
-					_grid[curCol][curRow] = GridSquareTypes.CHEST;
+					_grid[curCol][curRow] = new GridSquare("chest", "Chest.png", false);
 				else if(cur.equals("Enemy.png"))
-					_grid[curCol][curRow] = GridSquareTypes.ENEMY;
+					_grid[curCol][curRow] = new GridSquare("enemy", "Enemy.png", false);
 				else if(cur.equals("GIRL.png"))
-					_grid[curCol][curRow] = GridSquareTypes.GIRL;
+					_grid[curCol][curRow] = new GridSquare("girl", "GIRL.png", false);
 				else if(cur.equals("TallTablewithfood.png"))
-					_grid[curCol][curRow] = GridSquareTypes.TABLEFOOD;
+					_grid[curCol][curRow] = new GridSquare("tableFood", "TallTablewithfood.png", false);
 				else if(cur.equals("Void.png"))
-					_grid[curCol][curRow] = GridSquareTypes.VOID;
+					_grid[curCol][curRow] = voidSquare;
 				else if(cur.equals("table.png"))
-					_grid[curCol][curRow] = GridSquareTypes.TABLE;
+					_grid[curCol][curRow] = new GridSquare("table", "table.png", false);
+				else if(cur.equals("Portal.png"))
+					_grid[curCol][curRow] = new GridSquare("portal", "Portal.png", true);
 
 				++curCol;
-
 			}
 			
 			curCol = 0;
 			++curRow;
 		}
 		
-		
 		playerX = 3;
 		playerY = 24;
-		gridSquareUnderPlayer = _grid[playerX][playerY];
-		_grid[playerX][playerY] = GridSquareTypes.CHARACTER;
+		
+		BufferedImage bufImage = null;
+
+		   InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + "CHARACTER-Armor.png");
+		   try{
+			   bufImage = ImageIO.read(input);
+		   }catch (IOException e){System.err.println("Failed to load image for grid square.");}
+			
+		   playerImage = bufImage;
 		
 		lineScanner.close();
 		wordScanner.close();
@@ -126,22 +135,16 @@ public class GameGrid extends JPanel{
 		else
 			System.out.println("wtf");
 		
-		// check if move is out of bounds
+		// Check if move is out of bounds
 		if(newX < 0 || newX > _maxRows -1 || newY < 0 || newY > _maxColumns - 1){
-			System.out.println("Attempting to move out of bounds");
 			return;
 		}
 		
 		GridSquare nextSquare = _grid[newX][newY]; // grab square type 
 		
-		if(!nextSquare.isPassable()){ // check if move is passable
-			System.out.println("Attempting to move through solid object");
+		if(!nextSquare.isPassable()){ // Check if trying to move through solid object
 			return;
 		}
-		
-		_grid[playerX][playerY] = gridSquareUnderPlayer; // restore last grid square
-		gridSquareUnderPlayer = _grid[newX][newY]; // save grid square type
-		_grid[newX][newY] = GridSquareTypes.CHARACTER; 
 		
 		playerX = newX;
 		playerY = newY;
@@ -154,7 +157,7 @@ public class GameGrid extends JPanel{
 		super.paintComponent(g); // Important to call super class method
 		g.clearRect(0, 0, getWidth(), getHeight()); // Clear the board
 
-		if(!_viewMode){
+		if(!_viewMode){ // 15x15 view mode
 			int recW = getWidth() / _rows; // Draw the grid
 			int recH = getHeight() / _columns;
 
@@ -175,24 +178,34 @@ public class GameGrid extends JPanel{
 					if(playerY > _maxRows - 8)
 						viewY = _maxRows - _rows + j;
 
-					if(_grid[viewX][viewY] == GridSquareTypes.VOID){ // Paint black grid for void space
+					if(_grid[viewX][viewY] == voidSquare){ // Paint black grid for void space
 						g.setColor(Color.BLACK); // All void space is black
 						g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
 					}
 
-					if(_grid[viewX][viewY] != GridSquareTypes.VOID){
-							g.drawImage(GridSquareTypes.WOODFLOORDARK.getImage(), xCord, yCord, recW, recH, null);
+					if(_grid[viewX][viewY] != voidSquare){
+							g.drawImage(darkWoodFloorSquare.getImage(), xCord, yCord, recW, recH, null);
 							
-							if(_grid[viewX][viewY] == GridSquareTypes.CHARACTER)
-								g.drawImage(gridSquareUnderPlayer.getImage(), xCord, yCord, recW, recH, null);
-							
-							if(_grid[i][j] != GridSquareTypes.WOODFLOORDARK)
+							if(_grid[i][j] != darkWoodFloorSquare)
 								g.drawImage(_grid[viewX][viewY].getImage(), xCord, yCord, recW, recH, null);
 					}
 				}
 			}
+			
+			int drawPlayerX = 7, drawPlayerY = 7;
+			
+			if(playerX < 8)
+				drawPlayerX = playerX;
+			if(playerY < 8)
+				drawPlayerY = playerY;
+			if(playerX > _maxColumns - 8)
+				drawPlayerX = playerX - (_maxRows- _rows);
+			if(playerY > _maxRows - 8)
+				drawPlayerY = playerY - (_maxColumns - _columns);
+	
+			g.drawImage(playerImage, drawPlayerX * recW, drawPlayerY * recH, recW, recH, null);
 		}
-		else{
+		else{ // Full view mode
 			int recW = getWidth() / _maxRows; // Draw the grid
 			int recH = getHeight() / _maxColumns;
 			
@@ -202,22 +215,21 @@ public class GameGrid extends JPanel{
 				for (int j = 0; j < _maxColumns; j++){
 					int yCord = j * recH;
 					
-					if(_grid[i][j] == GridSquareTypes.VOID){ // Paint black grid for void space
+					if(_grid[i][j] == voidSquare){ // Paint black grid for void space
 						g.setColor(Color.BLACK); // All void space is black
 						g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
 					}
 					
-					if(_grid[i][j] != GridSquareTypes.VOID){
-						g.drawImage(GridSquareTypes.WOODFLOORDARK.getImage(), xCord, yCord, recW, recH, null);
+					if(_grid[i][j] != voidSquare){
+						g.drawImage(darkWoodFloorSquare.getImage(), xCord, yCord, recW, recH, null);
 						
-						if(_grid[i][j] == GridSquareTypes.CHARACTER)
-							g.drawImage(gridSquareUnderPlayer.getImage(), xCord, yCord, recW, recH, null);
-						
-						if(_grid[i][j] != GridSquareTypes.WOODFLOORDARK)
+						if(_grid[i][j] != darkWoodFloorSquare)
 							g.drawImage(_grid[i][j].getImage(), xCord, yCord, recW, recH, null);
 					}
 				}
 			}
+			
+			g.drawImage(playerImage, playerX * recW, playerY * recH, recW, recH, null);
 		}
 	}
 
@@ -239,18 +251,22 @@ public class GameGrid extends JPanel{
 		getActionMap().put( "doDownAction", downAction );
 	}
 	
+	@SuppressWarnings("serial")
 	class LeftAction extends AbstractAction{
 		public void actionPerformed( ActionEvent ae ){movePlayer("left");}
 	}
 	
+	@SuppressWarnings("serial")
 	class UpAction extends AbstractAction{
 		public void actionPerformed( ActionEvent ae ){movePlayer("up");}
 	}
 	
+	@SuppressWarnings("serial")
 	class RightAction extends AbstractAction{
 		public void actionPerformed( ActionEvent ae ){movePlayer("right");}
 	}
 	
+	@SuppressWarnings("serial")
 	class DownAction extends AbstractAction{
 		public void actionPerformed( ActionEvent ae ){movePlayer("down");}
 	}
@@ -261,7 +277,6 @@ public class GameGrid extends JPanel{
 	
 	public static void main(java.lang.String[] args){
 		JFrame frame = new JFrame();
-		GridSquareTypes GridSquareTypes = new GridSquareTypes();
 		
 		final GameGrid grid = new GameGrid();
 		grid.setVisible(true);

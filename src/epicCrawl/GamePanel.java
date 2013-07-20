@@ -19,9 +19,9 @@ public class GamePanel extends JPanel{
 
 	private static final long serialVersionUID = -2089981632801905548L;
 	private JButton mainMenu;
-	private GridSquareTypes gridSquareTypes;
 	private GameGrid gameGrid;
 	private JPanel gameInfoPanel, gameTextPanel, gridAndTextPanel;
+	@SuppressWarnings("rawtypes")
 	private JList textList;
 
 	public GamePanel(JButton _mainMenu){
@@ -49,14 +49,12 @@ public class GamePanel extends JPanel{
 		add(gameInfoPanel, BorderLayout.EAST);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void setUpGridAreaAndTextArea(){ // Fix the panel and list...............
 		gridAndTextPanel = new JPanel();
 		gridAndTextPanel.setLayout(new BorderLayout());
-		
-		GridSquareTypes gridSquareTypes = new GridSquareTypes();
 
 		gameGrid = new GameGrid();
-
 		gameGrid.setBackground(Color.BLACK);
 		gameGrid.setVisible(true);
 		

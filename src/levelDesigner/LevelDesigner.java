@@ -36,7 +36,7 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 	String[] test = {"dirt.png", "grass.png", "Door.png", "woodfloor.png", "32x32WoodFloor.png", 
 			"32x32StoneWall.png", "chairleft.png", "chairright.png", "CHARACTER-NoArmor.png", 
 			"CHARACTER-Weapon.png", "CHARACTER-Armor.png", "Chest.png", "Enemy.png", "GIRL.png", 
-			"TallTablewithfood.png", "table.png", "Void.png", "++Save Level++"};
+			"TallTablewithfood.png", "table.png", "Portal.png", "Void.png", "++Save Level++"};
 
 	public LevelDesigner(int r, int c){
 		frame = new JFrame();

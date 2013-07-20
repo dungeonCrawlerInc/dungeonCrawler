@@ -7,59 +7,27 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 public class GridSquare{
-   private String _name; // ASCI char to display for object
+   private String _name, _path; // ASCI char to display for object
    private boolean _passable, _visible;
    private BufferedImage _gridImageLabel;
    
-   public GridSquare(String s, boolean passable){
-	   _name = s; // Set the variables based on parameters for constructor
+   public GridSquare(String name, String path, boolean passable){
+	   _name = name; // Set the variables based on parameters for constructor
+	   _path = path;
       _passable = passable;
       _visible = false;
       
-      if(!s.equals("void"))
-    	  _gridImageLabel = createImageLabel(s);
+      _gridImageLabel = createImageLabel();
    }
 
    public BufferedImage getImage(){
 	   return _gridImageLabel;
    }
    
-   public BufferedImage createImageLabel(String s){
+   public BufferedImage createImageLabel(){
 	   BufferedImage bufImage = null;
-	   String imageName = "";
-	   
-	   if(s.equals("woodFloorDark"))
-		   imageName = "Images/32x32WoodFloor.png";
-	   else if(s.equals("character"))
-		   imageName = "Images/CHARACTER-Armor.png";
-	   else if(s.equals("stoneWall"))
-		   imageName = "Images/32x32StoneWall.png";
-	   else if(s.equals("table"))
-		   imageName = "Images/table.png";
-	   else if(s.equals("door"))
-		   imageName = "Images/Door.png";
-	   else if(s.equals("chest"))
-		   imageName = "Images/Chest.png";
-	   else if(s.equals("girl"))
-		   imageName = "Images/GIRL.png";
-	   else if(s.equals("rightchair"))
-		   imageName = "Images/chairleft.png";
-	   else if(s.equals("leftchair"))
-		   imageName = "Images/chairright.png";
-	   else if(s.equals("enemy"))
-		   imageName = "Images/Enemy.png";
-	   else if(s.equals("dirtFloor"))
-		   imageName = "Images/dirt.png";
-	   else if(s.equals("void"))
-		   imageName = "Images/Void.png";
-	   else if(s.equals("grassFloor"))
-		   imageName = "Images/grass.png";
-	   else if(s.equals("woodFloorLight"))
-		   imageName = "Images/woodfloor.png";
-	   else if(s.equals("tableFood"))
-		   imageName = "Images/TallTablewithfood.png";
 
-	   InputStream input = this.getClass().getClassLoader().getResourceAsStream(imageName);
+	   InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + _path);
 	   try{
 		   bufImage = ImageIO.read(input);
 	   }catch (IOException e){System.err.println("Failed to load image for grid square.");}
