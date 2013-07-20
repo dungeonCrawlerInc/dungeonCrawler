@@ -16,14 +16,11 @@ TO DO:
     
     Need to add in enemy and create path finding towards character
     
-    Write method to read saved levels from level designer and load into the game
-    
     Switch over from grid square types to gridType interface - branch out different classes of objects
     Give doors information that will allow them to load new levels
     
     LEVEL DESIGNER
     Add in save button instead of saving in combo box
-    Add in all image options
     Add in fill method
     Add in load method to load saved levels to edit
     
