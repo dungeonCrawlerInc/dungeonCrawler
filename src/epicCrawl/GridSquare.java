@@ -28,11 +28,11 @@ public class GridSquare{
 	   BufferedImage bufImage = null;
 	   String imageName = "";
 	   
-	   if(s.equals("woodfloor"))
+	   if(s.equals("woodFloorDark"))
 		   imageName = "Images/32x32WoodFloor.png";
 	   else if(s.equals("character"))
 		   imageName = "Images/CHARACTER-Armor.png";
-	   else if(s.equals("wall"))
+	   else if(s.equals("stoneWall"))
 		   imageName = "Images/32x32StoneWall.png";
 	   else if(s.equals("table"))
 		   imageName = "Images/table.png";
@@ -43,11 +43,21 @@ public class GridSquare{
 	   else if(s.equals("girl"))
 		   imageName = "Images/GIRL.png";
 	   else if(s.equals("rightchair"))
-		   imageName = "Images/chair left.png";
+		   imageName = "Images/chairleft.png";
 	   else if(s.equals("leftchair"))
-		   imageName = "Images/chair right.png";
+		   imageName = "Images/chairright.png";
 	   else if(s.equals("enemy"))
 		   imageName = "Images/Enemy.png";
+	   else if(s.equals("dirtFloor"))
+		   imageName = "Images/dirt.png";
+	   else if(s.equals("void"))
+		   imageName = "Images/Void.png";
+	   else if(s.equals("grassFloor"))
+		   imageName = "Images/grass.png";
+	   else if(s.equals("woodFloorLight"))
+		   imageName = "Images/woodfloor.png";
+	   else if(s.equals("tableFood"))
+		   imageName = "Images/TallTablewithfood.png";
 
 	   InputStream input = this.getClass().getClassLoader().getResourceAsStream(imageName);
 	   try{

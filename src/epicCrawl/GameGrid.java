@@ -6,7 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 //maybe instead of setting town or house could create them at start up and store them into list of levels..
 
@@ -19,7 +21,7 @@ public class GameGrid extends JPanel{
 	
 	private ArrayList<GridSquare> gridSquares;
 
-	private int _maxRows = 30, _maxColumns = 30; // Size of the available grid
+	private int _maxRows = 50, _maxColumns = 50; // Size of the available grid
 	private int _rows = 15, _columns = 15;
 	
 	private Action leftAction, rightAction, upAction, downAction;
@@ -36,50 +38,71 @@ public class GameGrid extends JPanel{
 		
 		setUpKeyBindings();
 
-		// change to load in saved spot..??
-		_grid = new GridSquare[_maxRows][_maxColumns]; // Initialize the grid
-
-		// Populate the grid with all floor objects, can be changed later
-		for(int i = 0; i < _maxRows; ++i){
-			for(int j = 0; j < _maxColumns; ++j)
-				_grid[i][j] = GridSquareTypes.WOODFLOOR;
-		}
+		_grid = new GridSquare[_maxRows][_maxColumns];
 		
-		for(int i = 0; i < _maxRows; ++i){
-			_grid[i][0] = GridSquareTypes.WALL;
-			_grid[i][_maxRows - 1] = GridSquareTypes.WALL;
-		}
-		
-		for(int i = 0; i < _maxRows; ++i){
-			_grid[0][i] = GridSquareTypes.WALL;
-			_grid[_maxColumns - 1][i] = GridSquareTypes.WALL;
-		}
+		loadLevel("Levels/newLevel.txt");
 	}
 	
-	public void setHome(){
-		for(int i = 3; i < 13; ++i)
-			_grid[3][i] = _grid[12][i] = GridSquareTypes.WALL;
+	public void loadLevel(String levelFileName){
+		InputStream inStream = getClass().getClassLoader().getResourceAsStream(levelFileName);
+		Scanner lineScanner = new Scanner(inStream);
+		Scanner wordScanner = null;
 		
-		for(int j = 4; j < 12; ++j)
-			_grid[j][3] = _grid[j][12] = GridSquareTypes.WALL;
-		
-		for(int i = 4; i < 12; ++i){
-			for(int j = 4; j < 12; ++j)
-				_grid[i][j] = GridSquareTypes.WOODFLOOR;
+		int curRow = 0, curCol = 0;
+		String cur = "";
+		boolean headerInfo = true;
+
+		while(lineScanner.hasNextLine()){
+			wordScanner = new Scanner(lineScanner.nextLine());
+
+			while(wordScanner.hasNext()){
+				cur = wordScanner.next();
+				
+				if(cur.equals("dirt.png"))
+					_grid[curCol][curRow] = GridSquareTypes.DIRTFLOOR;
+				else if(cur.equals("grass.png"))
+					_grid[curCol][curRow] = GridSquareTypes.GRASSFLOOR;
+				else if(cur.equals("Door.png"))
+					_grid[curCol][curRow] = GridSquareTypes.DOOR;
+				else if(cur.equals("woodfloor.png"))
+					_grid[curCol][curRow] = GridSquareTypes.WOODFLOORLIGHT;
+				else if(cur.equals("32x32WoodFloor.png"))
+					_grid[curCol][curRow] = GridSquareTypes.WOODFLOORDARK;
+				else if(cur.equals("32x32StoneWall.png"))
+					_grid[curCol][curRow] = GridSquareTypes.STONEWALL;
+				else if(cur.equals("chairleft.png"))
+					_grid[curCol][curRow] = GridSquareTypes.LCHAIR;
+				else if(cur.equals("chairright.png"))
+					_grid[curCol][curRow] = GridSquareTypes.RCHAIR;
+				else if(cur.equals("Chest.png"))
+					_grid[curCol][curRow] = GridSquareTypes.CHEST;
+				else if(cur.equals("Enemy.png"))
+					_grid[curCol][curRow] = GridSquareTypes.ENEMY;
+				else if(cur.equals("GIRL.png"))
+					_grid[curCol][curRow] = GridSquareTypes.GIRL;
+				else if(cur.equals("TallTablewithfood.png"))
+					_grid[curCol][curRow] = GridSquareTypes.TABLEFOOD;
+				else if(cur.equals("Void.png"))
+					_grid[curCol][curRow] = GridSquareTypes.VOID;
+				else if(cur.equals("table.png"))
+					_grid[curCol][curRow] = GridSquareTypes.TABLE;
+
+				++curCol;
+
+			}
+			
+			curCol = 0;
+			++curRow;
 		}
 		
-		_grid[7][6] = GridSquareTypes.LCHAIR;
-		_grid[8][6] = GridSquareTypes.TABLE;
-		_grid[9][6] = GridSquareTypes.RCHAIR;
-		_grid[7][12] = GridSquareTypes.DOOR;
-		_grid[20][20] = GridSquareTypes.CHEST;
-		_grid[20][5] = GridSquareTypes.GIRL;
-		_grid[10][20] = GridSquareTypes.ENEMY;
 		
-		playerX = 15;
-		playerY = 15;
+		playerX = 3;
+		playerY = 24;
 		gridSquareUnderPlayer = _grid[playerX][playerY];
 		_grid[playerX][playerY] = GridSquareTypes.CHARACTER;
+		
+		lineScanner.close();
+		wordScanner.close();
 	}
 	
 	private void movePlayer(String direction){
@@ -158,11 +181,13 @@ public class GameGrid extends JPanel{
 					}
 
 					if(_grid[viewX][viewY] != GridSquareTypes.VOID){
-						g.drawImage(GridSquareTypes.WOODFLOOR.getImage(), xCord, yCord, recW, recH, null);
-						
-						
-						if(_grid[viewX][viewY] != GridSquareTypes.WOODFLOOR)
-							g.drawImage(_grid[viewX][viewY].getImage(), xCord, yCord, recW, recH, null);
+							g.drawImage(GridSquareTypes.WOODFLOORDARK.getImage(), xCord, yCord, recW, recH, null);
+							
+							if(_grid[viewX][viewY] == GridSquareTypes.CHARACTER)
+								g.drawImage(gridSquareUnderPlayer.getImage(), xCord, yCord, recW, recH, null);
+							
+							if(_grid[i][j] != GridSquareTypes.WOODFLOORDARK)
+								g.drawImage(_grid[viewX][viewY].getImage(), xCord, yCord, recW, recH, null);
 					}
 				}
 			}
@@ -183,10 +208,12 @@ public class GameGrid extends JPanel{
 					}
 					
 					if(_grid[i][j] != GridSquareTypes.VOID){
-						g.drawImage(GridSquareTypes.WOODFLOOR.getImage(), xCord, yCord, recW, recH, null);
+						g.drawImage(GridSquareTypes.WOODFLOORDARK.getImage(), xCord, yCord, recW, recH, null);
 						
+						if(_grid[i][j] == GridSquareTypes.CHARACTER)
+							g.drawImage(gridSquareUnderPlayer.getImage(), xCord, yCord, recW, recH, null);
 						
-						if(_grid[i][j] != GridSquareTypes.WOODFLOOR)
+						if(_grid[i][j] != GridSquareTypes.WOODFLOORDARK)
 							g.drawImage(_grid[i][j].getImage(), xCord, yCord, recW, recH, null);
 					}
 				}
@@ -196,57 +223,41 @@ public class GameGrid extends JPanel{
 
 	private void setUpKeyBindings(){
 		leftAction = new LeftAction();
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke( 'a' ), "doLeftAction");  
+		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('a'), "doLeftAction");  
 		getActionMap().put( "doLeftAction", leftAction );
 		
 		upAction = new UpAction();
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke( 'w' ), "doUpAction");  
+		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('w'), "doUpAction");  
 		getActionMap().put( "doUpAction", upAction );
 		
 		rightAction = new RightAction();
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke( 'd' ), "doRightAction");  
+		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('d'), "doRightAction");  
 		getActionMap().put( "doRightAction", rightAction );
 		
 		downAction = new DownAction();
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke( 's' ), "doDownAction");  
+		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('s'), "doDownAction");  
 		getActionMap().put( "doDownAction", downAction );
 	}
 	
 	class LeftAction extends AbstractAction{
-
-		public void actionPerformed( ActionEvent ae ){
-			movePlayer("left");
-		}
+		public void actionPerformed( ActionEvent ae ){movePlayer("left");}
 	}
 	
 	class UpAction extends AbstractAction{
-
-		public void actionPerformed( ActionEvent ae ){
-			movePlayer("up");
-		}
+		public void actionPerformed( ActionEvent ae ){movePlayer("up");}
 	}
 	
 	class RightAction extends AbstractAction{
-
-		public void actionPerformed( ActionEvent ae ){
-			movePlayer("right");
-		}
+		public void actionPerformed( ActionEvent ae ){movePlayer("right");}
 	}
 	
 	class DownAction extends AbstractAction{
-
-		public void actionPerformed( ActionEvent ae ){
-			movePlayer("down");
-		}
+		public void actionPerformed( ActionEvent ae ){movePlayer("down");}
 	}
 
-	public void setViewMode(boolean x){
-		_viewMode = x;
-	}
+	public void setViewMode(boolean x){_viewMode = x;}
 	
-	public boolean getViewMode(){
-		return _viewMode;
-	}
+	public boolean getViewMode(){return _viewMode;}
 	
 	public static void main(java.lang.String[] args){
 		JFrame frame = new JFrame();
@@ -254,7 +265,6 @@ public class GameGrid extends JPanel{
 		
 		final GameGrid grid = new GameGrid();
 		grid.setVisible(true);
-		grid.setHome();
 		grid.repaint();
 		
 		JPanel mainPanel = new JPanel();

@@ -56,7 +56,6 @@ public class GamePanel extends JPanel{
 		GridSquareTypes gridSquareTypes = new GridSquareTypes();
 
 		gameGrid = new GameGrid();
-		gameGrid.setHome(); // -------------------
 
 		gameGrid.setBackground(Color.BLACK);
 		gameGrid.setVisible(true);

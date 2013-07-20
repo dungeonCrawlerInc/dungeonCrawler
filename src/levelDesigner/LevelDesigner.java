@@ -33,10 +33,10 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 	private int rows, cols;
 	private JPanel gridPanel;
 	private JFrame frame;
-	String[] test = {"dirt.png", "grass.png", "Door.png", "wood floor.png", "32x32WoodFloor.png", 
-			"32x32StoneWall.png", "chair left.png", "chair right.png", "CHARACTER - No Armor.png", 
-			"CHARACTER - Weapon.png", "CHARACTER-Armor.png", "Chest.png", "Enemy.png", "GIRL.png", 
-			"TallTable with food.png", "table.png", "Void.png", "++Save Level++"};
+	String[] test = {"dirt.png", "grass.png", "Door.png", "woodfloor.png", "32x32WoodFloor.png", 
+			"32x32StoneWall.png", "chairleft.png", "chairright.png", "CHARACTER-NoArmor.png", 
+			"CHARACTER-Weapon.png", "CHARACTER-Armor.png", "Chest.png", "Enemy.png", "GIRL.png", 
+			"TallTablewithfood.png", "table.png", "Void.png", "++Save Level++"};
 
 	public LevelDesigner(int r, int c){
 		frame = new JFrame();
@@ -67,7 +67,6 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 			}
 		}
 
-		
 		bp =  new ButtonPanel(test, this);
 
 		this.add(bp, BorderLayout.SOUTH);
@@ -106,7 +105,7 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		});
 
 		Dimension dim = new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
-				(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 60);
+				(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 30);
 		frame.setPreferredSize(dim);
 		frame.setVisible(true);
 		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);

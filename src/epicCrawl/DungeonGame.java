@@ -204,7 +204,7 @@ public class DungeonGame{
 		gameInfo.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent event){
-				InputStream inStream = getClass().getClassLoader().getResourceAsStream("GameInfo.txt");
+				InputStream inStream = getClass().getClassLoader().getResourceAsStream("Files/GameInfo.txt");
 				Scanner inScanner = new Scanner(inStream);
 				StringBuffer strBuf = new StringBuffer("");
 				
