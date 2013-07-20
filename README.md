@@ -21,11 +21,11 @@ TO DO:
     Switch over from grid square types to gridType interface - branch out different classes of objects
     Give doors information that will allow them to load new levels
     
-    Add in save button to level designer
-    Fix level designer open width/height
-    Add in all options to level designer and all other files
-    Add in fill method to level designer
-    Possibly change how things are saved in level designer files
+    LEVEL DESIGNER
+    Add in save button instead of saving in combo box
+    Add in all image options
+    Add in fill method
+    Add in load method to load saved levels to edit
     
 Minor Fixes Needed:
 
