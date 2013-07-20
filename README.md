@@ -25,6 +25,8 @@ TO DO:
     Add in line method
     Add in load method to load saved levels to edit
     
+    Have grid hold arrayLists of grid squares - draw them in order (floor, table...) so correct floor tiles show beneath
+    
 Minor Fixes Needed:
 
 
