@@ -22,6 +22,7 @@ TO DO:
     LEVEL DESIGNER
     Add in save button instead of saving in combo box
     Add in fill method
+    Add in line method
     Add in load method to load saved levels to edit
     
 Minor Fixes Needed:
