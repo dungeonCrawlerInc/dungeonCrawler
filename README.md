@@ -25,7 +25,9 @@ TO DO:
     Add in line method
     Add in load method to load saved levels to edit
     
-    Have grid hold arrayLists of grid squares - draw them in order (floor, table...) so correct floor tiles show beneath
+    Level Deigner need to be able to store multiple images in each square
+    Level Designer save level needs to show multiple images "Grass.png""Chest.png" etc.
+    GameGrid load level needs to read in all images for one square
     
 Minor Fixes Needed:
 
