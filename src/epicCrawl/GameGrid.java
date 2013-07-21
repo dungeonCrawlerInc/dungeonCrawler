@@ -10,11 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 //
+@SuppressWarnings("serial")
 public class GameGrid extends JPanel{
-	private static final long serialVersionUID = 6942355989519710021L;
 	private boolean _viewMode = false;
 
 	private int _maxRows = 50, _maxColumns = 50; // Size of the available grid
@@ -22,7 +23,7 @@ public class GameGrid extends JPanel{
 	
 	private Action leftAction, rightAction, upAction, downAction;
 	
-	private GridSquare[][] _grid; // Grid for current map
+	private  ArrayList<GridSquare>[][] _grid; // Grid for current map
 	
 	private int playerX, playerY, newX, newY; // --------------------------------------------------
 
@@ -32,6 +33,7 @@ public class GameGrid extends JPanel{
 	BufferedImage playerImage;
 	
 	// Room constructor
+	@SuppressWarnings("unchecked")
 	public GameGrid(){
 		grassSquare = new GridSquare("grassFloor", "grass.png", true);
 		dirtSquare = new GridSquare("dirtFloor", "dirt.png", true);
@@ -43,7 +45,13 @@ public class GameGrid extends JPanel{
 		setFocusable(true); // Not needed?
 		setUpKeyBindings();
 
-		_grid = new GridSquare[_maxRows][_maxColumns];
+		_grid = (ArrayList<GridSquare>[][])new ArrayList[_maxRows][_maxColumns]; // new ArrayList<GridSquare>()[_maxRows][_maxColumns];
+		
+		for(int i = 0; i < _maxRows; ++i){
+			for(int j = 0; j < _maxColumns; ++j){
+				_grid[i][j] = new ArrayList<GridSquare>(); 
+			}
+		}
 		loadLevel("Levels/newLevel.txt");
 	}
 	
@@ -61,35 +69,35 @@ public class GameGrid extends JPanel{
 				cur = wordScanner.next();
 				
 				if(cur.equals("dirt.png"))
-					_grid[curCol][curRow] = dirtSquare;
+					_grid[curCol][curRow].add(dirtSquare);
 				else if(cur.equals("grass.png"))
-					_grid[curCol][curRow] = grassSquare;
+					_grid[curCol][curRow].add(grassSquare);
 				else if(cur.equals("Door.png"))
-					_grid[curCol][curRow] = new GridSquare("door", "Door.png", true);
+					_grid[curCol][curRow].add(new GridSquare("door", "Door.png", true));
 				else if(cur.equals("woodfloor.png"))
-					_grid[curCol][curRow] = lightWoodFloorSquare;
+					_grid[curCol][curRow].add(lightWoodFloorSquare);
 				else if(cur.equals("32x32WoodFloor.png"))
-					_grid[curCol][curRow] = darkWoodFloorSquare;
+					_grid[curCol][curRow].add(darkWoodFloorSquare);
 				else if(cur.equals("32x32StoneWall.png"))
-					_grid[curCol][curRow] = stoneWallSquare;
+					_grid[curCol][curRow].add(stoneWallSquare);
 				else if(cur.equals("chairleft.png"))
-					_grid[curCol][curRow] = new GridSquare("leftchair", "chairleft.png", false);
+					_grid[curCol][curRow].add(new GridSquare("leftchair", "chairleft.png", false));
 				else if(cur.equals("chairright.png"))
-					_grid[curCol][curRow] = new GridSquare("rightchair", "chairright.png", false);
+					_grid[curCol][curRow].add(new GridSquare("rightchair", "chairright.png", false));
 				else if(cur.equals("Chest.png"))
-					_grid[curCol][curRow] = new GridSquare("chest", "Chest.png", false);
+					_grid[curCol][curRow].add(new GridSquare("chest", "Chest.png", false));
 				else if(cur.equals("Enemy.png"))
-					_grid[curCol][curRow] = new GridSquare("enemy", "Enemy.png", false);
+					_grid[curCol][curRow].add(new GridSquare("enemy", "Enemy.png", false));
 				else if(cur.equals("GIRL.png"))
-					_grid[curCol][curRow] = new GridSquare("girl", "GIRL.png", false);
+					_grid[curCol][curRow].add(new GridSquare("girl", "GIRL.png", false));
 				else if(cur.equals("TallTablewithfood.png"))
-					_grid[curCol][curRow] = new GridSquare("tableFood", "TallTablewithfood.png", false);
+					_grid[curCol][curRow].add(new GridSquare("tableFood", "TallTablewithfood.png", false));
 				else if(cur.equals("Void.png"))
-					_grid[curCol][curRow] = voidSquare;
+					_grid[curCol][curRow].add(voidSquare);
 				else if(cur.equals("table.png"))
-					_grid[curCol][curRow] = new GridSquare("table", "table.png", false);
+					_grid[curCol][curRow].add(new GridSquare("table", "table.png", false));
 				else if(cur.equals("Portal.png"))
-					_grid[curCol][curRow] = new GridSquare("portal", "Portal.png", true);
+					_grid[curCol][curRow].add(new GridSquare("portal", "Portal.png", true));
 
 				++curCol;
 			}
@@ -140,7 +148,7 @@ public class GameGrid extends JPanel{
 			return;
 		}
 		
-		GridSquare nextSquare = _grid[newX][newY]; // grab square type 
+		GridSquare nextSquare = _grid[newX][newY].get(_grid[newX][newY].size() - 1); // grab square type 
 		
 		if(!nextSquare.isPassable()){ // Check if trying to move through solid object
 			return;
@@ -178,16 +186,14 @@ public class GameGrid extends JPanel{
 					if(playerY > _maxRows - 8)
 						viewY = _maxRows - _rows + j;
 
-					if(_grid[viewX][viewY] == voidSquare){ // Paint black grid for void space
+					if(_grid[viewX][viewY].get(0) == voidSquare){ // Paint black grid for void space
 						g.setColor(Color.BLACK); // All void space is black
 						g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
 					}
 
-					if(_grid[viewX][viewY] != voidSquare){
-							g.drawImage(darkWoodFloorSquare.getImage(), xCord, yCord, recW, recH, null);
-							
-							if(_grid[i][j] != darkWoodFloorSquare)
-								g.drawImage(_grid[viewX][viewY].getImage(), xCord, yCord, recW, recH, null);
+					if(_grid[viewX][viewY].get(0) != voidSquare){
+						for(int z = 0; z < _grid[viewX][viewY].size(); ++z)
+								g.drawImage(_grid[viewX][viewY].get(z).getImage(), xCord, yCord, recW, recH, null);
 					}
 				}
 			}
@@ -215,16 +221,14 @@ public class GameGrid extends JPanel{
 				for (int j = 0; j < _maxColumns; j++){
 					int yCord = j * recH;
 					
-					if(_grid[i][j] == voidSquare){ // Paint black grid for void space
+					if(_grid[i][j].get(0) == voidSquare){ // Paint black grid for void space
 						g.setColor(Color.BLACK); // All void space is black
 						g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
 					}
 					
-					if(_grid[i][j] != voidSquare){
-						g.drawImage(darkWoodFloorSquare.getImage(), xCord, yCord, recW, recH, null);
-						
-						if(_grid[i][j] != darkWoodFloorSquare)
-							g.drawImage(_grid[i][j].getImage(), xCord, yCord, recW, recH, null);
+					if(_grid[i][j].get(0) != voidSquare){
+						for(int z = 0; z < _grid[i][j].size(); ++z)
+							g.drawImage(_grid[i][j].get(z).getImage(), xCord, yCord, recW, recH, null);
 					}
 				}
 			}
@@ -251,22 +255,18 @@ public class GameGrid extends JPanel{
 		getActionMap().put( "doDownAction", downAction );
 	}
 	
-	@SuppressWarnings("serial")
 	class LeftAction extends AbstractAction{
 		public void actionPerformed( ActionEvent ae ){movePlayer("left");}
 	}
 	
-	@SuppressWarnings("serial")
 	class UpAction extends AbstractAction{
 		public void actionPerformed( ActionEvent ae ){movePlayer("up");}
 	}
 	
-	@SuppressWarnings("serial")
 	class RightAction extends AbstractAction{
 		public void actionPerformed( ActionEvent ae ){movePlayer("right");}
 	}
 	
-	@SuppressWarnings("serial")
 	class DownAction extends AbstractAction{
 		public void actionPerformed( ActionEvent ae ){movePlayer("down");}
 	}
