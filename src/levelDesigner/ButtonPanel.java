@@ -14,7 +14,7 @@ public class ButtonPanel extends JPanel{
 	private String[] labels;
 	JComboBox comboBox;
 	JList imageList;
-	private Button saveLevel, loadLevel;
+	private Button saveLevel, loadLevel, iconPaintSize;
 
 	public ButtonPanel(String[] args, ButtonListener bl){
 		client = bl;
@@ -32,9 +32,13 @@ public class ButtonPanel extends JPanel{
 		
 		loadLevel = new Button("Load Level", -2, client);
 		loadLevel.setVisible(true);
+
+        iconPaintSize = new Button("Paint Brush Size", -3, client); //Square of size n by n TODO: Include other brush shapes
+        iconPaintSize.setVisible(true);
 		
 		this.add(saveLevel);
 		this.add(loadLevel);
+        this.add(iconPaintSize);
 	}
 	
 	public void makeComboBox(){
