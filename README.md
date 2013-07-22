@@ -35,6 +35,12 @@ Minor Fixes Needed:
     Have character names text file be a resource so it doesn't get created on user's desktop
     Need to create arraylist of images at each location in order that they should be painted.
 
+Tasking [Small tasks that can be accomplished in an appropiate amount of time]:
+    Greg
+        Epic Crawl developement environment VM
+        Fill feature in Level Editor
+        Change "Increase Brush Size" button to an editable field
+
 Development:
   
     Eclipse Java EE IDE for Web Developers.
