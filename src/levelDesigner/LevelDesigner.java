@@ -38,24 +38,25 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 	private JPanel gridPanel;
 	private JFrame frame;
 	private ImageIcon optionPaneIcon;
-	String[] test = {"dirt.png", "grass.png", "Door.png", "woodfloor.png", "32x32WoodFloor.png", 
+	String[] selectedTilesToPaint = {"dirt.png", "grass.png", "Door.png", "woodfloor.png", "32x32WoodFloor.png",
 			"32x32StoneWall.png", "chairleft.png", "chairright.png", "CHARACTER-NoArmor.png", 
 			"CHARACTER-Weapon.png", "CHARACTER-Armor.png", "Chest.png", "Enemy.png", "GIRL.png", 
 			"TallTablewithfood.png", "table.png", "Portal.png", "Void.png", "++Save Level++"};
+    private int paintBrushSize = 0; //0 Indicates one tile to be painted
 
 	public LevelDesigner(int r, int c){
 		frame = new JFrame();
 		setVisible(true);
 		setLayout(new BorderLayout());
 
-		BufferedImage tmpImage = null;
+		BufferedImage imageToPaint = null;
 		InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/64x64EpicCrawler.png");
 		try{
-			tmpImage = ImageIO.read(input);
+			imageToPaint = ImageIO.read(input);
 		}catch(IOException e){
 			System.err.println("Failed to load main screen image");
 		}
-		optionPaneIcon = new ImageIcon(tmpImage);
+		optionPaneIcon = new ImageIcon(imageToPaint);
 
 		rows = r;
 		cols = c;
@@ -73,12 +74,12 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 		for(int i = 0; i < r; i++){
 			for(int j = 0; j < c; j++){
-				theView[i][j] = new Grid(i, j, SIZE, test);
+				theView[i][j] = new Grid(i, j, SIZE, selectedTilesToPaint);
 				gridPanel.add(theView[i][j]);
 			}
 		}
 
-		bp =  new ButtonPanel(test, this);
+		bp =  new ButtonPanel(selectedTilesToPaint, this);
 
 		this.add(bp, BorderLayout.SOUTH);
 		this.add(gridPanel, BorderLayout.CENTER);
@@ -88,10 +89,19 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 				for(int i = 0; i < rows; ++i){
 					for(int j = 0; j < cols; ++j){
-						Point p = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
-
-						if (theView[i][j].contains(p)){
-							theView[i][j].actionPerformed(null);
+						Point pointOfClick = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);  //Top left of square
+						if (theView[i][j].contains(pointOfClick))
+                        {
+                            for(int colClick = 0; colClick <= paintBrushSize; colClick++)
+                            {
+							    for(int rowClick = 0; rowClick <= paintBrushSize; rowClick++)
+                                {
+                                    if((i+rowClick < rows) && (j+colClick < cols))
+                                    {
+                                        theView[i+rowClick][j+colClick].actionPerformed(null);
+                                    }
+                                }
+                            }
 							return;
 						}
 					}
@@ -104,11 +114,20 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 				for(int i = 0; i < rows; ++i){
 					for(int j = 0; j < cols; ++j){
-						Point p = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
+						Point pointOfClickDrag = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
 
-						if (theView[i][j].contains(p)){
-							theView[i][j].actionPerformed(null);
-							return;
+						if (theView[i][j].contains(pointOfClickDrag)){
+                            for(int colClick = 0; colClick <= paintBrushSize; colClick++)
+                            {
+                                for(int rowClick = 0; rowClick <= paintBrushSize; rowClick++)
+                                {
+                                    if((i+rowClick < rows) && (j+colClick < cols))
+                                    {
+                                        theView[i+rowClick][j+colClick].actionPerformed(null);
+                                    }
+                                }
+                            }
+                            return;
 						}
 					}
 				}
@@ -127,6 +146,23 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		frame.repaint();
 		frame.add(this);
 	}
+
+    //Increases the paintBrushSize by 1
+    //Resetting it to 1, if it gets bigger than 10...
+    public void increasePaintBrushSize()
+    {
+        this.paintBrushSize += 1;
+
+        if(this.getPaintBrushSize() > 10)
+        {
+            this.paintBrushSize = 0;
+        }
+    }
+
+    public int getPaintBrushSize()
+    {
+        return this.paintBrushSize;
+    }
 
 	public String toString(){
 		String s= "";
@@ -233,6 +269,14 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		repaint();
 	}
 
+    //Increases the length of the square paint brush size by 1
+    //If The size of the brush will reset back to 0, once it hits 10
+    public int changePaintBrushSize()
+    {
+        increasePaintBrushSize();
+        return this.getPaintBrushSize();
+    }
+
 	public void buttonPressed(int id){
 		System.out.println("buttonPressed");
 
@@ -240,6 +284,8 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 			saveGame();
 		else if(id == -2) // Load
 			loadGame();
+        else if(id == -3) //Change paint brush size
+            changePaintBrushSize();
 		else
 			val = id;
 	}
