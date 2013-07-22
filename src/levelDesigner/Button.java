@@ -19,6 +19,8 @@ public class Button extends JButton{
 		this.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
+				System.out.println("Pressed button");
+				
 				if(listener != null)
 					listener.buttonPressed(identifier);
 				else

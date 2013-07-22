@@ -11,16 +11,14 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Grid extends JPanel implements ActionListener{
-   LevelDesigner grid;
    int myI, myJ;
    private String[] imageNames;
    BufferedImage gridImage;
    String imageName;
    
-   public Grid(int i, int j, int size, LevelDesigner m, String[] strs){
+   public Grid(int i, int j, int size, String[] strs){
 	  imageNames = strs;
 	  imageName = "null";
-      grid = m;
       myI = i;
       myJ = j;
       setBackground(Color.RED);
@@ -31,8 +29,6 @@ public class Grid extends JPanel implements ActionListener{
       
    @Override
    public void actionPerformed(ActionEvent ae){
-	   grid.notify(myI, myJ);
-	   
 	   imageName = imageNames[LevelDesigner.val];
 	   
 	   gridImage = null;

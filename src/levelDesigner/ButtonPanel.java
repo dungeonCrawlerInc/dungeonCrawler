@@ -1,5 +1,6 @@
 package levelDesigner;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,12 +14,33 @@ public class ButtonPanel extends JPanel{
 	private String[] labels;
 	JComboBox comboBox;
 	JList imageList;
+	private Button saveLevel, loadLevel;
 
 	public ButtonPanel(String[] args, ButtonListener bl){
 		client = bl;
 		labels = args;
 
+		this.setLayout(new FlowLayout());
+		
+		makeComboBox();
 		makeButtons();
+	}
+	
+	public void makeButtons(){
+		saveLevel = new Button("Save Level", -1, client);
+		saveLevel.setVisible(true);
+		
+		loadLevel = new Button("Load Level", -2, client);
+		loadLevel.setVisible(true);
+		
+		this.add(saveLevel);
+		this.add(loadLevel);
+	}
+	
+	public void makeComboBox(){
+		comboBox = new JComboBox(labels);
+		comboBox.setVisible(true);
+		this.add(comboBox);
 		
 		comboBox.addActionListener(new ActionListener() {
 
@@ -32,11 +54,5 @@ public class ButtonPanel extends JPanel{
 					System.out.println("No Client: mouseReleased");
 			}
 		});
-	}
-
-	private void makeButtons(){
-		comboBox = new JComboBox(labels);
-		comboBox.setVisible(true);
-		this.add(comboBox);
 	}
 }

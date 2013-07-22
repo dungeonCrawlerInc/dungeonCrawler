@@ -3,7 +3,6 @@ package epicCrawl;
 //Imports
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,7 +51,7 @@ public class GameGrid extends JPanel{
 				_grid[i][j] = new ArrayList<GridSquare>(); 
 			}
 		}
-		loadLevel("Levels/newLevel.txt");
+		loadLevel("Levels/TempLevel.txt");
 	}
 	
 	public void loadLevel(String levelFileName){
@@ -106,8 +105,8 @@ public class GameGrid extends JPanel{
 			++curRow;
 		}
 		
-		playerX = 3;
-		playerY = 24;
+		playerX = 1;
+		playerY = 48	;
 		
 		BufferedImage bufImage = null;
 
@@ -157,6 +156,15 @@ public class GameGrid extends JPanel{
 		playerX = newX;
 		playerY = newY;
 		
+		if(playerX == 48 && playerY == 47){ // Temporary portal jump
+			playerX = 38;
+			playerY = 16;
+		}
+		else if(playerX == 38 && playerY == 16){
+			playerX = 48;
+			playerY = 47;
+		}
+		
 		repaint();
 	}
 	
@@ -186,15 +194,8 @@ public class GameGrid extends JPanel{
 					if(playerY > _maxRows - 8)
 						viewY = _maxRows - _rows + j;
 
-					if(_grid[viewX][viewY].get(0) == voidSquare){ // Paint black grid for void space
-						g.setColor(Color.BLACK); // All void space is black
-						g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
-					}
-
-					if(_grid[viewX][viewY].get(0) != voidSquare){
-						for(int z = 0; z < _grid[viewX][viewY].size(); ++z)
-								g.drawImage(_grid[viewX][viewY].get(z).getImage(), xCord, yCord, recW, recH, null);
-					}
+					for(int z = 0; z < _grid[viewX][viewY].size(); ++z)
+						g.drawImage(_grid[viewX][viewY].get(z).getImage(), xCord, yCord, recW, recH, null);
 				}
 			}
 			
@@ -221,15 +222,8 @@ public class GameGrid extends JPanel{
 				for (int j = 0; j < _maxColumns; j++){
 					int yCord = j * recH;
 					
-					if(_grid[i][j].get(0) == voidSquare){ // Paint black grid for void space
-						g.setColor(Color.BLACK); // All void space is black
-						g.fillRect(xCord, yCord, recW, recH); // Fill in the square with black
-					}
-					
-					if(_grid[i][j].get(0) != voidSquare){
-						for(int z = 0; z < _grid[i][j].size(); ++z)
-							g.drawImage(_grid[i][j].get(z).getImage(), xCord, yCord, recW, recH, null);
-					}
+					for(int z = 0; z < _grid[i][j].size(); ++z)
+						g.drawImage(_grid[i][j].get(z).getImage(), xCord, yCord, recW, recH, null);
 				}
 			}
 			

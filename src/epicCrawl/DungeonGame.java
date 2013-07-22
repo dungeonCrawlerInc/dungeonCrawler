@@ -131,8 +131,7 @@ public class DungeonGame{
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				String newCharacterName = (String)JOptionPane.showInputDialog(gameFrame, "Enter character name.", "New Character", JOptionPane.INFORMATION_MESSAGE, newAndLoadGameIcon, null, null); // ("Enter character name.");
-				if (newCharacterName == null) {
-				    System.out.println("The user canceled");
+				if(newCharacterName == null){
 				    backToMainScreen();
 				}
 				else{
