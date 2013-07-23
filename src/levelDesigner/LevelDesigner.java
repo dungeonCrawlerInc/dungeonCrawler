@@ -90,14 +90,10 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 				for(int i = 0; i < rows; ++i){
 					for(int j = 0; j < cols; ++j){
 						Point pointOfClick = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);  //Top left of square
-						if (theView[i][j].contains(pointOfClick))
-                        {
-                            for(int colClick = 0; colClick <= paintBrushSize; colClick++)
-                            {
-							    for(int rowClick = 0; rowClick <= paintBrushSize; rowClick++)
-                                {
-                                    if((i+rowClick < rows) && (j+colClick < cols))
-                                    {
+						if (theView[i][j].contains(pointOfClick)){
+                            for(int colClick = 0; colClick <= paintBrushSize; colClick++){
+							    for(int rowClick = 0; rowClick <= paintBrushSize; rowClick++){
+                                    if((i+rowClick < rows) && (j+colClick < cols)){
                                         theView[i+rowClick][j+colClick].actionPerformed(null);
                                     }
                                 }
@@ -117,12 +113,9 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 						Point pointOfClickDrag = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
 
 						if (theView[i][j].contains(pointOfClickDrag)){
-                            for(int colClick = 0; colClick <= paintBrushSize; colClick++)
-                            {
-                                for(int rowClick = 0; rowClick <= paintBrushSize; rowClick++)
-                                {
-                                    if((i+rowClick < rows) && (j+colClick < cols))
-                                    {
+                            for(int colClick = 0; colClick <= paintBrushSize; colClick++){
+                                for(int rowClick = 0; rowClick <= paintBrushSize; rowClick++){
+                                    if((i+rowClick < rows) && (j+colClick < cols)){
                                         theView[i+rowClick][j+colClick].actionPerformed(null);
                                     }
                                 }

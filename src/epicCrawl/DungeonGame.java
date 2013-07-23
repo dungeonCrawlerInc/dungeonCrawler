@@ -88,7 +88,6 @@ public class DungeonGame{
 		mainFrameOptions.add(loadGame);
 		mainFrameOptions.add(gameInfo);
 		
-		
 		gameLabel = new JLabel("Epic Crawl");
 		gameLabel.setFont(new Font("Serif", Font.BOLD, 48));
 		gameLabel.setHorizontalAlignment(JLabel.CENTER);

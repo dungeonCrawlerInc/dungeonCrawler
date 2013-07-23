@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 //
@@ -19,16 +20,12 @@ public class GameGrid extends JPanel{
 
 	private int _maxRows = 50, _maxColumns = 50; // Size of the available grid
 	private int _rows = 15, _columns = 15;
+	private int playerX, playerY, newX, newY;
 	
 	private Action leftAction, rightAction, upAction, downAction;
-	
 	private  ArrayList<GridSquare>[][] _grid; // Grid for current map
-	
-	private int playerX, playerY, newX, newY; // --------------------------------------------------
-
 	GridSquare grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
 		voidSquare;
-	
 	BufferedImage playerImage;
 	
 	// Room constructor
@@ -57,47 +54,52 @@ public class GameGrid extends JPanel{
 	public void loadLevel(String levelFileName){
 		InputStream inStream = getClass().getClassLoader().getResourceAsStream(levelFileName);
 		Scanner lineScanner = new Scanner(inStream);
-		Scanner wordScanner = null;
+		Scanner stringScanner = null;
 		int curRow = 0, curCol = 0;
-		String cur = "";
+		String curString = "";
 
 		while(lineScanner.hasNextLine()){
-			wordScanner = new Scanner(lineScanner.nextLine());
+			stringScanner = new Scanner(lineScanner.nextLine());
 			
-			while(wordScanner.hasNext()){
-				cur = wordScanner.next();
+			while(stringScanner.hasNext()){
+				curString = stringScanner.next();
 				
-				if(cur.equals("dirt.png"))
-					_grid[curCol][curRow].add(dirtSquare);
-				else if(cur.equals("grass.png"))
-					_grid[curCol][curRow].add(grassSquare);
-				else if(cur.equals("Door.png"))
-					_grid[curCol][curRow].add(new GridSquare("door", "Door.png", true));
-				else if(cur.equals("woodfloor.png"))
-					_grid[curCol][curRow].add(lightWoodFloorSquare);
-				else if(cur.equals("32x32WoodFloor.png"))
-					_grid[curCol][curRow].add(darkWoodFloorSquare);
-				else if(cur.equals("32x32StoneWall.png"))
-					_grid[curCol][curRow].add(stoneWallSquare);
-				else if(cur.equals("chairleft.png"))
-					_grid[curCol][curRow].add(new GridSquare("leftchair", "chairleft.png", false));
-				else if(cur.equals("chairright.png"))
-					_grid[curCol][curRow].add(new GridSquare("rightchair", "chairright.png", false));
-				else if(cur.equals("Chest.png"))
-					_grid[curCol][curRow].add(new GridSquare("chest", "Chest.png", false));
-				else if(cur.equals("Enemy.png"))
-					_grid[curCol][curRow].add(new GridSquare("enemy", "Enemy.png", false));
-				else if(cur.equals("GIRL.png"))
-					_grid[curCol][curRow].add(new GridSquare("girl", "GIRL.png", false));
-				else if(cur.equals("TallTablewithfood.png"))
-					_grid[curCol][curRow].add(new GridSquare("tableFood", "TallTablewithfood.png", false));
-				else if(cur.equals("Void.png"))
-					_grid[curCol][curRow].add(voidSquare);
-				else if(cur.equals("table.png"))
-					_grid[curCol][curRow].add(new GridSquare("table", "table.png", false));
-				else if(cur.equals("Portal.png"))
-					_grid[curCol][curRow].add(new GridSquare("portal", "Portal.png", true));
-
+				// Inner while loop if there are multiple images in string ex: Dirt.png,Chest.png
+				ArrayList<String> wordList = new ArrayList<String>(Arrays.asList(curString.split(",")));
+				
+				for(String cur: wordList){
+					if(cur.equals("dirt.png"))
+						_grid[curCol][curRow].add(dirtSquare);
+					else if(cur.equals("grass.png"))
+						_grid[curCol][curRow].add(grassSquare);
+					else if(cur.equals("Door.png"))
+						_grid[curCol][curRow].add(new GridSquare("door", "Door.png", true));
+					else if(cur.equals("woodfloor.png"))
+						_grid[curCol][curRow].add(lightWoodFloorSquare);
+					else if(cur.equals("32x32WoodFloor.png"))
+						_grid[curCol][curRow].add(darkWoodFloorSquare);
+					else if(cur.equals("32x32StoneWall.png"))
+						_grid[curCol][curRow].add(stoneWallSquare);
+					else if(cur.equals("chairleft.png"))
+						_grid[curCol][curRow].add(new GridSquare("leftchair", "chairleft.png", false));
+					else if(cur.equals("chairright.png"))
+						_grid[curCol][curRow].add(new GridSquare("rightchair", "chairright.png", false));
+					else if(cur.equals("Chest.png"))
+						_grid[curCol][curRow].add(new GridSquare("chest", "Chest.png", false));
+					else if(cur.equals("Enemy.png"))
+						_grid[curCol][curRow].add(new GridSquare("enemy", "Enemy.png", false));
+					else if(cur.equals("GIRL.png"))
+						_grid[curCol][curRow].add(new GridSquare("girl", "GIRL.png", false));
+					else if(cur.equals("TallTablewithfood.png"))
+						_grid[curCol][curRow].add(new GridSquare("tableFood", "TallTablewithfood.png", false));
+					else if(cur.equals("Void.png"))
+						_grid[curCol][curRow].add(voidSquare);
+					else if(cur.equals("table.png"))
+						_grid[curCol][curRow].add(new GridSquare("table", "table.png", false));
+					else if(cur.equals("Portal.png"))
+						_grid[curCol][curRow].add(new GridSquare("portal", "Portal.png", true));
+				}
+				
 				++curCol;
 			}
 			
@@ -118,7 +120,7 @@ public class GameGrid extends JPanel{
 		   playerImage = bufImage;
 		
 		lineScanner.close();
-		wordScanner.close();
+		stringScanner.close();
 	}
 	
 	private void movePlayer(String direction){
@@ -250,19 +252,19 @@ public class GameGrid extends JPanel{
 	}
 	
 	class LeftAction extends AbstractAction{
-		public void actionPerformed( ActionEvent ae ){movePlayer("left");}
+		public void actionPerformed(ActionEvent ae){movePlayer("left");}
 	}
 	
 	class UpAction extends AbstractAction{
-		public void actionPerformed( ActionEvent ae ){movePlayer("up");}
+		public void actionPerformed(ActionEvent ae){movePlayer("up");}
 	}
 	
 	class RightAction extends AbstractAction{
-		public void actionPerformed( ActionEvent ae ){movePlayer("right");}
+		public void actionPerformed(ActionEvent ae){movePlayer("right");}
 	}
 	
 	class DownAction extends AbstractAction{
-		public void actionPerformed( ActionEvent ae ){movePlayer("down");}
+		public void actionPerformed(ActionEvent ae){movePlayer("down");}
 	}
 
 	public void setViewMode(boolean x){_viewMode = x;}
@@ -288,7 +290,7 @@ public class GameGrid extends JPanel{
 		
 		viewModeButton.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent ae) {
+			public void actionPerformed(ActionEvent ae){
 				if(grid.getViewMode())
 					grid.setViewMode(false);
 				else
