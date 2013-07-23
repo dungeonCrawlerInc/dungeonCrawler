@@ -24,6 +24,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -232,21 +233,28 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		Scanner lineScanner = new Scanner(fileReader);
 		Scanner wordScanner = null;
 		int curRow = 0, curCol = 0;
-		String cur = "";
+		String curString = "";
 
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
+		
 		while(lineScanner.hasNextLine()){
 			wordScanner = new Scanner(lineScanner.nextLine());
 
 			while(wordScanner.hasNext()){
-				cur = wordScanner.next();
+				curString = wordScanner.next();
 
-				InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + cur);
-				try{
-					theView[curRow][curCol].gridImage = ImageIO.read(input);
-					theView[curRow][curCol].imageName = cur;
-				}catch(Exception e){System.err.println("Failed to load image");}
+				// Inner while loop if there are multiple images in string ex: Dirt.png,Chest.png
+				ArrayList<String> wordList = new ArrayList<String>(Arrays.asList(curString.split(",")));
+
+				for(String cur: wordList){ // Temporary... need to add these to array list at the spot in 2d array instead of just painting really quick.
+
+					InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + cur);
+					try{
+						theView[curRow][curCol].gridImage = ImageIO.read(input); 
+						theView[curRow][curCol].imageName = cur;
+					}catch(Exception e){System.err.println("Failed to load image");}
+
+				}
 
 				++curCol;
 			}
