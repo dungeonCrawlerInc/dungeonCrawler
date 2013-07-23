@@ -5,35 +5,30 @@ For fun project by Gregory Hilston and Andrew Boutin.
 
 TO DO:
     
-    Items/Inventory/Character Stats - Need to set up areas to display items 
-       being worn, inventory slots, character name/lvl/etc.
+    Items/Inventory/Character Stats
+        Need to set up areas to display items being worn
+        Set up inventory slots
+        Display character name/lvl/etc.
        
-    Combat Dialogue - Need to figure out how we're going to display messages, update them, etc.
+    Combat Dialogue Area
+        Write methods to display out messages and cycle through messages correctly
+        Add in panes (combat/dialogue), combat, and dialogue.
     
-    (IMPORTANT) Need to develope game loop for moving all movable objects on grid
-    
-    Need to add in NPC and randomized movement
-    
-    Need to add in enemy and create path finding towards character
-    
-    Switch over from grid square types to gridType interface - branch out different classes of objects
-    Give doors information that will allow them to load new levels
+    Game
+        (IMPORTANT) Need to develope game loop for moving all movable objects on grid
+        Probably have to make a moveable interface
+        Need to add in NPC and randomized movement
+        Need to add in enemy and create path finding towards character
+        Give doors information that will allow them to load new levels
     
     LEVEL DESIGNER
-    Add in save button instead of saving in combo box
-    Add in fill method
-    Add in line method
-    Add in load method to load saved levels to edit
-    
-    Level Deigner need to be able to store multiple images in each square
-    Level Designer save level needs to show multiple images "Grass.png""Chest.png" etc.
-    GameGrid load level needs to read in all images for one square
+        Add in line method
     
 Minor Fixes Needed:
 
 
-    Have character names text file be a resource so it doesn't get created on user's desktop
-    Need to create arraylist of images at each location in order that they should be painted.
+    Figure out what to do with LevelsList.txt and CharacterNames.txt
+    Remove load game button from main GUI and rename New Game to Start Game
 
 Tasks:
     
@@ -41,6 +36,12 @@ Tasks:
         Epic Crawl developement environment VM
         Fill feature in Level Editor
         Change "Increase Brush Size" button to an editable field
+
+
+    Andrew
+        Create GridSquare Interface for all grid objects to implement
+        Make LevelDesigner support placing multiple images per square
+        Change load/save methods (Designer and Game) to support multiple images per square
 
 Development:
   
