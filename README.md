@@ -41,7 +41,9 @@ Tasks:
     Andrew
         Create GridSquare Interface for all grid objects to implement
         Make LevelDesigner support placing multiple images per square
-        Change load/save methods of LevelDesigner to support multiple images per square format - dirt.png,Chest.png
+        Change load/save methods of LevelDesigner to support multiple images per square, format - dirt.png,Chest.png
+            (Using commas to seperate multiple images in square)
+            (Load method of game will still load levels created by level designer)
 
 Development:
   
