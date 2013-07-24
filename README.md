@@ -6,7 +6,6 @@ For fun project by Gregory Hilston and Andrew Boutin.
 TO DO:
     
     Items/Inventory/Character Stats
-        Need to set up areas to display items being worn
         Set up inventory slots
         Display character name/lvl/etc.
        
@@ -22,7 +21,7 @@ TO DO:
         Give doors information that will allow them to load new levels
     
     LEVEL DESIGNER
-        Add in line method
+        Add in line method (Draw a line and any grid square the line touches will get filled in)
     
 Minor Fixes Needed:
 
@@ -39,11 +38,9 @@ Tasks:
 
 
     Andrew
-        Create GridSquare Interface for all grid objects to implement
-        Make LevelDesigner support placing multiple images per square
-        Change load/save methods of LevelDesigner to support multiple images per square, format - dirt.png,Chest.png
-            (Using commas to seperate multiple images in square)
-            (Load method of game will still load levels created by level designer)
+        Create GridSquare Interface for all grid objects to implement 
+            (Will allow different types - living things, non living things, etc.)
+        Start to set up areas to display items being worn
 
 Development:
   
