@@ -27,6 +27,7 @@ public class GameGrid extends JPanel{
 	GridSquare grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
 		voidSquare;
 	BufferedImage playerImage;
+	private String curLevel;
 	
 	// Room constructor
 	@SuppressWarnings("unchecked")
@@ -48,10 +49,24 @@ public class GameGrid extends JPanel{
 				_grid[i][j] = new ArrayList<GridSquare>(); 
 			}
 		}
-		loadLevel("Levels/TempLevel.txt");
+		loadLevel("NewStartingArea.txt");
+		curLevel = "NewStartingArea.txt";
+
+		playerX = 1;
+		playerY = 48;
+
+		BufferedImage bufImage = null;
+
+		InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + "CHARACTER-Armor.png");
+		try{
+			bufImage = ImageIO.read(input);
+		}catch (IOException e){System.err.println("Failed to load image for grid square.");}
+
+		playerImage = bufImage;
 	}
 	
 	public void loadLevel(String levelFileName){
+		levelFileName = "Levels/" + levelFileName;
 		InputStream inStream = getClass().getClassLoader().getResourceAsStream(levelFileName);
 		Scanner lineScanner = new Scanner(inStream);
 		Scanner stringScanner = null;
@@ -107,18 +122,6 @@ public class GameGrid extends JPanel{
 			++curRow;
 		}
 		
-		playerX = 1;
-		playerY = 48	;
-		
-		BufferedImage bufImage = null;
-
-		   InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + "CHARACTER-Armor.png");
-		   try{
-			   bufImage = ImageIO.read(input);
-		   }catch (IOException e){System.err.println("Failed to load image for grid square.");}
-			
-		   playerImage = bufImage;
-		
 		lineScanner.close();
 		stringScanner.close();
 	}
@@ -158,14 +161,21 @@ public class GameGrid extends JPanel{
 		playerX = newX;
 		playerY = newY;
 		
-		if(playerX == 48 && playerY == 47){ // Temporary portal jump
+		if(curLevel.equals("NewStartingArea.txt") && playerX == 38 && playerY == 3){ // Temporary portal jump
+			loadLevel("Dungeon2.txt");
+			playerX = 4;
+			playerY = 4;
+			curLevel = "Dungeon2.txt";
+		}
+		else if(curLevel.equals("Dungeon2.txt") && playerX == 32 && playerY == 43){
+			loadLevel("NewStartingArea.txt");
 			playerX = 38;
-			playerY = 16;
+			playerY = 8;
+			curLevel = "NewStartingArea.txt";
 		}
-		else if(playerX == 38 && playerY == 16){
-			playerX = 48;
-			playerY = 47;
-		}
+		
+		
+		
 		
 		repaint();
 	}

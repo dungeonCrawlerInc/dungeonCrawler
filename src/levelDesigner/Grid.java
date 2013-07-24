@@ -34,7 +34,7 @@ public class Grid extends JPanel implements ActionListener{
       
    @Override
    public void actionPerformed(ActionEvent ae){
-	   if(LevelDesigner.val >= 0 && LevelDesigner.val <= 4){ // Floor space
+	   if(LevelDesigner.val >= 0 && LevelDesigner.val <= 5){ // Floor space or wall
 		   gridImages.clear();
 		   gridImageNames.clear();
 	   }
