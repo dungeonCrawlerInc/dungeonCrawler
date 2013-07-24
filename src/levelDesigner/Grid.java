@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -13,12 +15,15 @@ import javax.swing.JPanel;
 public class Grid extends JPanel implements ActionListener{
    int myI, myJ;
    private String[] imageNames;
-   BufferedImage gridImage;
-   String imageName;
+   ArrayList<BufferedImage> gridImages;
+   ArrayList<String> gridImageNames;
    
    public Grid(int i, int j, int size, String[] strs){
 	  imageNames = strs;
-	  imageName = "null";
+	  
+	  gridImages = new ArrayList<BufferedImage>();
+	  gridImageNames = new ArrayList<String>();
+	  
       myI = i;
       myJ = j;
       setBackground(Color.RED);
@@ -29,20 +34,38 @@ public class Grid extends JPanel implements ActionListener{
       
    @Override
    public void actionPerformed(ActionEvent ae){
-	   imageName = imageNames[LevelDesigner.val];
+	   if(LevelDesigner.val >= 0 && LevelDesigner.val <= 4){ // Floor space
+		   gridImages.clear();
+		   gridImageNames.clear();
+	   }
+	   else if(gridImages.size() == 0){ // Not a floor space and there isn't a floor space
+		   return;
+	   }
+	   else if(gridImages.size() > 1){ // Floor space and something else
+		   gridImages.remove(1);
+		   gridImageNames.remove(1);
+	   }
 	   
-	   gridImage = null;
-		InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + imageName);
-		try{
-			gridImage = ImageIO.read(input);
-		}catch(Exception e){System.err.println("Failed to load image");}
-		
-		repaint();
+	   if(gridImageNames.size() > 0 && gridImageNames.get(0) == "Void.png") // Don't put things on top of void spaces
+		   return;
+	   
+	   String imageName = imageNames[LevelDesigner.val];
+
+	   InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + imageName);
+	   try{
+		   gridImages.add(ImageIO.read(input));
+		   gridImageNames.add(imageName);
+	   }
+	   catch(Exception e){System.err.println("Failed to load image");}
+	   
+	   repaint();
    }
    
    public void paintComponent(Graphics g){
 		super.paintComponent(g); // Important to call super class method
 		g.clearRect(0, 0, getWidth(), getHeight()); // Clear the board
-		g.drawImage(gridImage, 0, 0, getWidth(), getHeight(), null);
+		
+		for(BufferedImage curImage: gridImages)
+			g.drawImage(curImage, 0, 0, getWidth(), getHeight(), null);
 	}
 }

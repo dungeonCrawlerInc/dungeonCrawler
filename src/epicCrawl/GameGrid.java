@@ -23,7 +23,7 @@ public class GameGrid extends JPanel{
 	private int playerX, playerY, newX, newY;
 	
 	private Action leftAction, rightAction, upAction, downAction;
-	private  ArrayList<GridSquare>[][] _grid; // Grid for current map
+	private ArrayList<GridSquare>[][] _grid; // Grid for current map
 	GridSquare grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
 		voidSquare;
 	BufferedImage playerImage;

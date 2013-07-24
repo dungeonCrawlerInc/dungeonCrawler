@@ -32,18 +32,18 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class LevelDesigner extends JPanel implements ButtonListener{
 	private final int SIZE = 12;
-	private Grid [][] theView;
+	private Grid[][] theView;
 	private ButtonPanel bp;
 	public static int val;
 	private int rows, cols;
 	private JPanel gridPanel;
 	private JFrame frame;
 	private ImageIcon optionPaneIcon;
-	String[] selectedTilesToPaint = {"dirt.png", "grass.png", "Door.png", "woodfloor.png", "32x32WoodFloor.png",
+	String[] selectedTilesToPaint = {"dirt.png", "grass.png", "woodfloor.png", "32x32WoodFloor.png", "Void.png", 
 			"32x32StoneWall.png", "chairleft.png", "chairright.png", "CHARACTER-NoArmor.png", 
 			"CHARACTER-Weapon.png", "CHARACTER-Armor.png", "Chest.png", "Enemy.png", "GIRL.png", 
-			"TallTablewithfood.png", "table.png", "Portal.png", "Void.png", "++Save Level++"};
-    private int paintBrushSize = 0; //0 Indicates one tile to be painted
+			"TallTablewithfood.png", "table.png", "Portal.png", "Door.png", "++Save Level++"};
+    private int paintBrushSize = 0; // 0 Indicates one tile to be painted
 
 	public LevelDesigner(int r, int c){
 		frame = new JFrame();
@@ -54,9 +54,8 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/64x64EpicCrawler.png");
 		try{
 			imageToPaint = ImageIO.read(input);
-		}catch(IOException e){
-			System.err.println("Failed to load main screen image");
 		}
+		catch(IOException e){System.err.println("Failed to load main screen image");}
 		optionPaneIcon = new ImageIcon(imageToPaint);
 
 		rows = r;
@@ -140,32 +139,36 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		frame.repaint();
 		frame.add(this);
 	}
+	
 
     //Increases the paintBrushSize by 1
     //Resetting it to 1, if it gets bigger than 10...
-    public void increasePaintBrushSize()
-    {
+    public void increasePaintBrushSize(){
         this.paintBrushSize += 1;
 
-        if(this.getPaintBrushSize() > 10)
-        {
+        if(this.getPaintBrushSize() > 10){
             this.paintBrushSize = 0;
         }
     }
+    
 
-    public int getPaintBrushSize()
-    {
+    public int getPaintBrushSize(){
         return this.paintBrushSize;
     }
+    
 
 	public String toString(){
-		String s= "";
+		String s = "";
 		for(int r = 0; r < rows; r++){
 			for(int c = 0; c < cols; c++){
-				if(theView[r][c].imageName.equals("null"))
-					s = s + "Void.png ";
-				else
-					s = s + theView[r][c].imageName + " ";
+				for(String imageName: theView[r][c].gridImageNames){
+					if(imageName.equals("null"))
+						s = s + "Void.png,";
+					else
+						s = s + imageName + ",";
+				}
+				
+				s = s.substring(0, s.length() - 1) + " ";
 			}
 
 			s = s + "\n";
@@ -173,6 +176,7 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 		return s;
 	}
+	
 
 	public void saveGame(){
 		String levelName = (String)JOptionPane.showInputDialog(this, 
@@ -189,13 +193,12 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 		try{
 			BufferedWriter bufWriter = new BufferedWriter(new FileWriter("LevelsList.txt", true));
-			bufWriter.write("\n" + levelName); // System.out.println(newCharacterName);
+			bufWriter.write("\n" + levelName);
 			bufWriter.newLine();
 			bufWriter.flush();
 			bufWriter.close();
-		}catch(IOException e){
-			System.out.println("Error saving level to LevelsList.txt");
 		}
+		catch(IOException e){System.out.println("Error saving level to LevelsList.txt");}
 	}
 
 	public void loadGame(){
@@ -222,13 +225,12 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 		String levelFileName = (String)JOptionPane.showInputDialog(this,
 				"Select level to load", "Load Level", JOptionPane.INFORMATION_MESSAGE, optionPaneIcon, savedLevels, null);
-
-		System.out.println(levelFileName);
-
+		
 		FileReader fileReader = null;
 		try{
 			fileReader = new FileReader(levelFileName);
-		} catch (FileNotFoundException e1){}
+		} 
+		catch(FileNotFoundException e1){}
 
 		Scanner lineScanner = new Scanner(fileReader);
 		Scanner wordScanner = null;
@@ -243,16 +245,16 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 			while(wordScanner.hasNext()){
 				curString = wordScanner.next();
 
-				// Inner while loop if there are multiple images in string ex: Dirt.png,Chest.png
 				ArrayList<String> wordList = new ArrayList<String>(Arrays.asList(curString.split(",")));
 
-				for(String cur: wordList){ // Temporary... need to add these to array list at the spot in 2d array instead of just painting really quick.
+				for(String cur: wordList){
 
 					InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + cur);
 					try{
-						theView[curRow][curCol].gridImage = ImageIO.read(input); 
-						theView[curRow][curCol].imageName = cur;
-					}catch(Exception e){System.err.println("Failed to load image");}
+						theView[curRow][curCol].gridImages.add(ImageIO.read(input));
+						theView[curRow][curCol].gridImageNames.add(cur);
+					}
+					catch(Exception e){System.err.println("Failed to load image");}
 
 				}
 
@@ -272,15 +274,12 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
     //Increases the length of the square paint brush size by 1
     //If The size of the brush will reset back to 0, once it hits 10
-    public int changePaintBrushSize()
-    {
+    public int changePaintBrushSize(){
         increasePaintBrushSize();
         return this.getPaintBrushSize();
     }
 
 	public void buttonPressed(int id){
-		System.out.println("buttonPressed");
-
 		if(id == -1) // Save
 			saveGame();
 		else if(id == -2) // Load
