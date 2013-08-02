@@ -1,3 +1,4 @@
+
 We need to download git
   Open a terminal and run " sudo apt-get install git-core"
   
@@ -15,3 +16,22 @@ Go back to the quick start
   Create a folder "IdeaProjects" in the home folder
   Leave everything else as default
   Click clone
+
+Go to project structure -> SDKS
+  Click the plus sign and the second one down Java 7 Open JDK AMD 64 (second one down)
+  Add that and click applu
+  
+Go to modules, click on "No Project SDK" and select Java 1.7
+  Click apply and wait as all the red goes away
+  
+Under the run bar, theres a downward facing arrow. click that
+  Click the green plus sign on the run/debug configurations and click application
+  On the main class bar, go to the three "...'s" and click 
+    DungeonGame
+    GameGrid
+    GamePanel
+    LevelDesigner
+  Leave everything else as defaults
+  
+If it still says "Project SDK is not defined" 
+  Click Setup SDK and select 1.7
