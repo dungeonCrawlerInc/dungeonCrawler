@@ -35,5 +35,7 @@ Under the run bar, theres a downward facing arrow. click that
 If it still says "Project SDK is not defined" 
   Click Setup SDK and select 1.7
 
+~I suggest creating a file called "Delete Me" and try to push it to get prompted about the next two things~
+
 Note: Upon first commit/push you'll be prompted to enter your name and email. I suggest checking the "Set properties globally"
   You will be given the choice of rebasing or merging. I suggest rebasing. It will inform you that you can reload the project, I suggest you do.
