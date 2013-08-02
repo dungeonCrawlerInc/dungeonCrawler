@@ -1,0 +1,17 @@
+We need to download git
+  Open a terminal and run " sudo apt-get install git-core"
+  
+Open settings -> version control -> Github 
+  Enter your username (which is your email address used on github) and password
+  Test it an ensure it works
+  Click apply and set a master password (I used my guthub password)
+  
+Open settings -> version control -> Git
+  Ensure the test passes
+  
+Go back to the quick start
+  Go to version control
+  This is the repo url "https://github.com/dungeonCrawlerInc/epicCrawl.git"
+  Create a folder "IdeaProjects" in the home folder
+  Leave everything else as default
+  Click clone
