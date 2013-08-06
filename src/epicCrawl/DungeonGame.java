@@ -9,13 +9,13 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+//import java.io.BufferedReader;
+//import java.io.BufferedWriter;
+//import java.io.FileReader;
+//import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -28,10 +28,8 @@ import javax.swing.JPanel;
 
 public class DungeonGame{
 	private JFrame gameFrame;
-	private JPanel mainScreenPanel, mainFrameOptions, mainScreenImageAndOptionsPanel;
-	private JButton newGame, loadGame, gameInfo, mainMenu;
-	private JLabel gameLabel;
-	private BufferedImage mainScreenImage;
+	private JPanel mainScreenPanel;
+	private JButton startGame, gameInfo, mainMenu;
 	private GamePanel gamePanel;
 	private ImageIcon newAndLoadGameIcon;
 
@@ -74,29 +72,29 @@ public class DungeonGame{
 								(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 60);
 		mainScreenPanel.setPreferredSize(dim);
 
-		mainFrameOptions = new JPanel(); // Will hold the three buttons
+        JPanel mainFrameOptions = new JPanel(); // Will hold the three buttons
 		mainFrameOptions.setLayout(new FlowLayout()); // Get rid of layout manager
 		mainFrameOptions.setBackground(Color.BLACK);
 
 		// Button to start the game when clicked, later add in conditions where either not visible/grayed out/pop up until new or load is selected
-		newGame = new JButton("New Game");
-		loadGame = new JButton("Load Game");
+		startGame = new JButton("New Game");
+	//	loadGame = new JButton("Load Game");
 		gameInfo = new JButton("Game Info");
 
 		// Add to border layout manager and add to frame
-		mainFrameOptions.add(newGame);
-		mainFrameOptions.add(loadGame);
+		mainFrameOptions.add(startGame);
+	//	mainFrameOptions.add(loadGame);
 		mainFrameOptions.add(gameInfo);
-		
-		gameLabel = new JLabel("Epic Crawl");
+
+        JLabel gameLabel = new JLabel("Epic Crawl");
 		gameLabel.setFont(new Font("Serif", Font.BOLD, 48));
 		gameLabel.setHorizontalAlignment(JLabel.CENTER);
 		gameLabel.setBackground(Color.BLACK);
 		gameLabel.setForeground(Color.RED);
 		mainScreenPanel.add(gameLabel, BorderLayout.NORTH);
 		mainScreenPanel.setBackground(Color.BLACK);
-		
-		mainScreenImage = null;
+
+        BufferedImage mainScreenImage = null;
 		
 		input = this.getClass().getClassLoader().getResourceAsStream("Images/EpicCrawlTitle.png");
 		try {
@@ -104,8 +102,8 @@ public class DungeonGame{
 		} catch (IOException e) {
 			System.err.println("Failed to load main screen image");
 		}
-		
-		mainScreenImageAndOptionsPanel = new JPanel();
+
+        JPanel mainScreenImageAndOptionsPanel = new JPanel();
 		mainScreenImageAndOptionsPanel.setBackground(Color.BLACK);
 		mainScreenImageAndOptionsPanel.setLayout(new BorderLayout());
 		mainScreenImageAndOptionsPanel.add(mainFrameOptions, BorderLayout.NORTH);
@@ -125,7 +123,7 @@ public class DungeonGame{
 
 	private void setUpButtonActionListeners(){
 		//Handle creating new character, later need to add in name input, file generation, etc.
-		newGame.addActionListener(new ActionListener(){
+		startGame.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -136,7 +134,7 @@ public class DungeonGame{
 				else{
 					// check if name already exists...
 					// ask if want to overwrite...
-					
+					/*
 					try{
 					    BufferedWriter bufWriter = new BufferedWriter(new FileWriter("CharacterNames.txt", true));
 					    bufWriter.write("\n" + newCharacterName); // System.out.println(newCharacterName);
@@ -146,16 +144,15 @@ public class DungeonGame{
 					}catch(IOException e){
 					    System.out.println("Error saving new character name to CharacterNames.txt");
 					}
-					
+					*/
+
 					gameFrame.setTitle("Epic Crawl - " + newCharacterName);
 					startGame();
 				}
-				
-				System.out.println("End of new game clicked");
 			}
 		});
 
-
+        /* // For now saving/loading games isn't supported
 		loadGame.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent event){
@@ -167,7 +164,7 @@ public class DungeonGame{
 				
 				try{
 					BufferedReader bufReader = new BufferedReader(new FileReader("CharacterNames.txt"));
-					String curLine = "";
+					String curLine;
 				
 					while((curLine = bufReader.readLine()) != null){
 						if(!curLine.equals(""))
@@ -198,13 +195,14 @@ public class DungeonGame{
 				gameFrame.repaint();
 			}
 		});
+		*/
 
 		gameInfo.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent event){
 				InputStream inStream = getClass().getClassLoader().getResourceAsStream("Files/GameInfo.txt");
 				Scanner inScanner = new Scanner(inStream);
-				StringBuffer strBuf = new StringBuffer("");
+				StringBuilder strBuf = new StringBuilder("");
 				
 				while(inScanner.hasNextLine()){
 					strBuf.append(inScanner.nextLine());

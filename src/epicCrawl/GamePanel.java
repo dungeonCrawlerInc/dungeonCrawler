@@ -19,10 +19,6 @@ public class GamePanel extends JPanel{
 
 	private static final long serialVersionUID = -2089981632801905548L;
 	private JButton mainMenu;
-	private GameGrid gameGrid;
-	private JPanel gameInfoPanel, gameTextPanel, gridAndTextPanel;
-	@SuppressWarnings("rawtypes")
-	private JList textList;
 
 	public GamePanel(JButton _mainMenu){
 		setFocusable(true);
@@ -34,7 +30,7 @@ public class GamePanel extends JPanel{
 	}
 
 	private void setUpGameInfoPanel(){
-		gameInfoPanel = new JPanel();
+        JPanel gameInfoPanel = new JPanel();
 		gameInfoPanel.setLayout(new FlowLayout());
 		gameInfoPanel.setBackground(Color.BLUE);
 		gameInfoPanel.add(mainMenu);
@@ -51,21 +47,21 @@ public class GamePanel extends JPanel{
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void setUpGridAreaAndTextArea(){ // Fix the panel and list...............
-		gridAndTextPanel = new JPanel();
+        JPanel gridAndTextPanel = new JPanel();
 		gridAndTextPanel.setLayout(new BorderLayout());
 
-		gameGrid = new GameGrid();
+        GameGrid gameGrid = new GameGrid();
 		gameGrid.setBackground(Color.BLACK);
 		gameGrid.setVisible(true);
-		
-		gameTextPanel = new JPanel();
+
+		JPanel gameTextPanel = new JPanel();
 		gameTextPanel.setBackground(Color.GRAY);
 		gameTextPanel.setVisible(true);
 		gameTextPanel.setLayout( new BorderLayout() );
 		
 		DefaultListModel model = new DefaultListModel();
-		
-		textList = new JList(model);
+
+        JList textList = new JList(model);
 		textList.setBackground(Color.GRAY);
 		textList.setVisibleRowCount(4);
 		

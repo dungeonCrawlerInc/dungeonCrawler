@@ -21,10 +21,9 @@ public class GameGrid extends JPanel{
 	private int _maxRows = 50, _maxColumns = 50; // Size of the available grid
 	private int _rows = 15, _columns = 15;
 	private int playerX, playerY, newX, newY;
-	
-	private Action leftAction, rightAction, upAction, downAction;
-	private ArrayList<GridSquare>[][] _grid; // Grid for current map
-	GridSquare grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
+
+	private ArrayList<GridObject>[][] _grid; // Grid for current map
+	GridObject grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
 		voidSquare;
 	BufferedImage playerImage;
 	private String curLevel;
@@ -32,21 +31,21 @@ public class GameGrid extends JPanel{
 	// Room constructor
 	@SuppressWarnings("unchecked")
 	public GameGrid(){
-		grassSquare = new GridSquare("grassFloor", "grass.png", true);
-		dirtSquare = new GridSquare("dirtFloor", "dirt.png", true);
-		darkWoodFloorSquare = new GridSquare("woodFloorDark", "32x32WoodFloor.png", true);
-		lightWoodFloorSquare = new GridSquare("woodFloorLight", "woodfloor.png", true);
-		stoneWallSquare = new GridSquare("stoneWall", "32x32StoneWall.png", false);
-		voidSquare = new GridSquare("void", "Void.png", false);
+		grassSquare = new GridObject("grass", true);
+		dirtSquare = new GridObject("dirt", true);
+		darkWoodFloorSquare = new GridObject("32x32WoodFloor", true);
+		lightWoodFloorSquare = new GridObject("woodfloor", true);
+		stoneWallSquare = new GridObject("32x32StoneWall", false);
+		voidSquare = new GridObject("Void", false);
 		
 		setFocusable(true); // Not needed?
 		setUpKeyBindings();
 
-		_grid = (ArrayList<GridSquare>[][])new ArrayList[_maxRows][_maxColumns]; // new ArrayList<GridSquare>()[_maxRows][_maxColumns];
+		_grid = (ArrayList<GridObject>[][])new ArrayList[_maxRows][_maxColumns]; // new ArrayList<GridObject>()[_maxRows][_maxColumns];
 		
 		for(int i = 0; i < _maxRows; ++i){
 			for(int j = 0; j < _maxColumns; ++j){
-				_grid[i][j] = new ArrayList<GridSquare>(); 
+				_grid[i][j] = new ArrayList<GridObject>();
 			}
 		}
 		loadLevel("NewStartingArea.txt");
@@ -71,7 +70,7 @@ public class GameGrid extends JPanel{
 		Scanner lineScanner = new Scanner(inStream);
 		Scanner stringScanner = null;
 		int curRow = 0, curCol = 0;
-		String curString = "";
+		String curString;
 
 		while(lineScanner.hasNextLine()){
 			stringScanner = new Scanner(lineScanner.nextLine());
@@ -88,7 +87,7 @@ public class GameGrid extends JPanel{
 					else if(cur.equals("grass.png"))
 						_grid[curCol][curRow].add(grassSquare);
 					else if(cur.equals("Door.png"))
-						_grid[curCol][curRow].add(new GridSquare("door", "Door.png", true));
+						_grid[curCol][curRow].add(new GridObject("Door", true));
 					else if(cur.equals("woodfloor.png"))
 						_grid[curCol][curRow].add(lightWoodFloorSquare);
 					else if(cur.equals("32x32WoodFloor.png"))
@@ -96,23 +95,23 @@ public class GameGrid extends JPanel{
 					else if(cur.equals("32x32StoneWall.png"))
 						_grid[curCol][curRow].add(stoneWallSquare);
 					else if(cur.equals("chairleft.png"))
-						_grid[curCol][curRow].add(new GridSquare("leftchair", "chairleft.png", false));
+						_grid[curCol][curRow].add(new GridObject("chairleft", false));
 					else if(cur.equals("chairright.png"))
-						_grid[curCol][curRow].add(new GridSquare("rightchair", "chairright.png", false));
+						_grid[curCol][curRow].add(new GridObject("chairright", false));
 					else if(cur.equals("Chest.png"))
-						_grid[curCol][curRow].add(new GridSquare("chest", "Chest.png", false));
+						_grid[curCol][curRow].add(new GridObject("Chest", false));
 					else if(cur.equals("Enemy.png"))
-						_grid[curCol][curRow].add(new GridSquare("enemy", "Enemy.png", false));
+						_grid[curCol][curRow].add(new GridObject("Enemy", false));
 					else if(cur.equals("GIRL.png"))
-						_grid[curCol][curRow].add(new GridSquare("girl", "GIRL.png", false));
+						_grid[curCol][curRow].add(new GridObject("GIRL", false));
 					else if(cur.equals("TallTablewithfood.png"))
-						_grid[curCol][curRow].add(new GridSquare("tableFood", "TallTablewithfood.png", false));
+						_grid[curCol][curRow].add(new GridObject("TallTablewithfood", false));
 					else if(cur.equals("Void.png"))
 						_grid[curCol][curRow].add(voidSquare);
 					else if(cur.equals("table.png"))
-						_grid[curCol][curRow].add(new GridSquare("table", "table.png", false));
+						_grid[curCol][curRow].add(new GridObject("table", false));
 					else if(cur.equals("Portal.png"))
-						_grid[curCol][curRow].add(new GridSquare("portal", "Portal.png", true));
+						_grid[curCol][curRow].add(new GridObject("Portal", true));
 				}
 				
 				++curCol;
@@ -152,7 +151,7 @@ public class GameGrid extends JPanel{
 			return;
 		}
 		
-		GridSquare nextSquare = _grid[newX][newY].get(_grid[newX][newY].size() - 1); // grab square type 
+		GridObject nextSquare = _grid[newX][newY].get(_grid[newX][newY].size() - 1); // grab square type
 		
 		if(!nextSquare.isPassable()){ // Check if trying to move through solid object
 			return;
@@ -218,7 +217,7 @@ public class GameGrid extends JPanel{
 			if(playerY < 8)
 				drawPlayerY = playerY;
 			if(playerX > _maxColumns - 8)
-				drawPlayerX = playerX - (_maxRows- _rows);
+				drawPlayerX = playerX - (_maxRows - _rows);
 			if(playerY > _maxRows - 8)
 				drawPlayerY = playerY - (_maxColumns - _columns);
 	
@@ -244,19 +243,19 @@ public class GameGrid extends JPanel{
 	}
 
 	private void setUpKeyBindings(){
-		leftAction = new LeftAction();
+        Action leftAction = new LeftAction();
 		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('a'), "doLeftAction");  
 		getActionMap().put( "doLeftAction", leftAction );
-		
-		upAction = new UpAction();
+
+        Action upAction = new UpAction();
 		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('w'), "doUpAction");  
 		getActionMap().put( "doUpAction", upAction );
-		
-		rightAction = new RightAction();
+
+        Action rightAction = new RightAction();
 		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('d'), "doRightAction");  
 		getActionMap().put( "doRightAction", rightAction );
-		
-		downAction = new DownAction();
+
+        Action downAction = new DownAction();
 		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('s'), "doDownAction");  
 		getActionMap().put( "doDownAction", downAction );
 	}
