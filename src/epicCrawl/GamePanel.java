@@ -2,86 +2,154 @@ package epicCrawl;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
+import java.awt.GridLayout;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
-import javax.swing.border.Border;
+import javax.swing.JButton;
+import javax.swing.BoxLayout;
+import javax.swing.JList;
+import javax.swing.JLabel;
+import javax.swing.BorderFactory;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 public class GamePanel extends JPanel{
+    private GameGrid _gameGrid;
+	private JButton _mainMenu;
+    private String _characterName;
+    private JPanel _infoPanel, _inventoryPanel, _itemPanel, _gridAndTextPanel;
+    private JTabbedPane _dialogueTabbedPane;
+    private JScrollPane _allMessagesScrollPane, _combatScrollPane, _dialogueScrollPane;
+    private JLabel _infoLabel;
 
-	private static final long serialVersionUID = -2089981632801905548L;
-	private JButton mainMenu;
-
-	public GamePanel(JButton _mainMenu){
+	public GamePanel(JButton mainMenu){
 		setFocusable(true);
-		mainMenu = _mainMenu;
+		_mainMenu = mainMenu;
 		setLayout(new BorderLayout());
 		setBackground(Color.GREEN);
-		setUpGameInfoPanel();
+
 		setUpGridAreaAndTextArea();
+        add(_gridAndTextPanel, BorderLayout.CENTER);
+
+        setUpInfoPanel();
+        add(_infoPanel, BorderLayout.EAST);
 	}
 
-	private void setUpGameInfoPanel(){
-        JPanel gameInfoPanel = new JPanel();
-		gameInfoPanel.setLayout(new FlowLayout());
-		gameInfoPanel.setBackground(Color.BLUE);
-		gameInfoPanel.add(mainMenu);
-		gameInfoPanel.setVisible(true);
-		Dimension x = new Dimension(300, 200);
-		gameInfoPanel.setPreferredSize(x);
+    private void setUpItemPanel(){
+       _itemPanel = new JPanel();
+       _itemPanel.setLayout(new FlowLayout());
+       _itemPanel.setVisible(true);
+       _itemPanel.setBackground(Color.DARK_GRAY);
 
-		Border gameInfoPanelBorder = BorderFactory.createTitledBorder("Character Stats/Items/Inventory");
-		// createTitledBorder(Border border, String title, int titleJustification, int titlePosition, Font titleFont, Color titleColor) 
-		
-		gameInfoPanel.setBorder(gameInfoPanelBorder);
-		add(gameInfoPanel, BorderLayout.EAST);
+        LineBorder lineBorder = (LineBorder)BorderFactory.createLineBorder(Color.black, 3);
+        TitledBorder titledBorder = BorderFactory.createTitledBorder(lineBorder, "Items");
+        titledBorder.setTitleJustification(TitledBorder.CENTER);
+        titledBorder.setTitleColor(Color.BLACK);
+        _itemPanel.setBorder(titledBorder);
+    }
+
+    private void setUpInventoryPanel(){
+        _inventoryPanel = new JPanel();
+        _inventoryPanel.setLayout(new GridLayout());
+        _inventoryPanel.setVisible(true);
+        _inventoryPanel.setBackground(Color.DARK_GRAY);
+
+        LineBorder lineBorder = (LineBorder)BorderFactory.createLineBorder(Color.black, 3);
+        TitledBorder titledBorder = BorderFactory.createTitledBorder(lineBorder, "Inventory");
+        titledBorder.setTitleJustification(TitledBorder.CENTER);
+        titledBorder.setTitleColor(Color.BLACK);
+        _inventoryPanel.setBorder(titledBorder);
+    }
+
+    private void setUpInfoLabel(){
+        _infoLabel = new JLabel();
+        _infoLabel.setVisible(true);
+        _infoLabel.setBackground(Color.GREEN);
+
+        updateInfoLabel();
+    }
+
+	private void setUpInfoPanel(){
+        _infoPanel = new JPanel();
+        _infoPanel.setLayout(new BoxLayout(_infoPanel, BoxLayout.PAGE_AXIS));
+
+        setUpItemPanel();
+        setUpInventoryPanel();
+        setUpInfoLabel();
+
+        _infoPanel.add(_mainMenu);
+        _infoPanel.add(_infoLabel);
+        _infoPanel.add(_itemPanel);
+        _infoPanel.add(_inventoryPanel);
 	}
+
+    @SuppressWarnings({"unchecked" })
+    private void setUpScrollPanes(){
+        String[] data1 = {"1:", "2:", "3:", "4:", "5:", "6:", "7:", "8:", "9:", "10:"};
+        JList dataList1 = new JList(data1);
+        dataList1.setBackground(Color.DARK_GRAY);
+        //dataList1.setVisibleRowCount(4);
+        _allMessagesScrollPane = new JScrollPane(dataList1);
+
+        String[] data2 = {"1:", "2:", "3:", "4:", "5:", "6:", "7:", "8:", "9:", "10:"};
+        JList dataList2 = new JList(data2);
+        dataList2.setBackground(Color.DARK_GRAY);
+        //dataList2.setVisibleRowCount(4);
+        _combatScrollPane = new JScrollPane(dataList2);
+
+        String[] data3 = {"1:", "2:", "3:", "4:", "5:", "6:", "7:", "8:", "9:", "10:"};
+        JList dataList3 = new JList(data3);
+        dataList3.setBackground(Color.DARK_GRAY);
+        //dataList3.setVisibleRowCount(4);
+        _dialogueScrollPane = new JScrollPane(dataList3);
+    }
+
+    private void setUpDialogueArea(){
+        setUpScrollPanes();
+
+        _dialogueTabbedPane = new JTabbedPane();
+
+        _dialogueTabbedPane.addTab("All Messages", null, _allMessagesScrollPane,
+                "Does nothing");
+
+        _dialogueTabbedPane.addTab("Combat Only", null, _combatScrollPane,
+                "Does nothing");
+
+        _dialogueTabbedPane.addTab("Dialogue Only", null, _dialogueScrollPane,
+                "Does nothing");
+
+        _dialogueTabbedPane.setBackground(Color.BLACK);
+        _dialogueTabbedPane.setVisible(true);
+    }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void setUpGridAreaAndTextArea(){ // Fix the panel and list...............
-        JPanel gridAndTextPanel = new JPanel();
-		gridAndTextPanel.setLayout(new BorderLayout());
+	private void setUpGridAreaAndTextArea(){
+        _gridAndTextPanel = new JPanel();
+		_gridAndTextPanel.setLayout(new BorderLayout());
 
-        GameGrid gameGrid = new GameGrid();
-		gameGrid.setBackground(Color.BLACK);
-		gameGrid.setVisible(true);
+        _gameGrid = new GameGrid();
+        _gameGrid.setCharacterName(_characterName);
+		_gameGrid.setBackground(Color.BLACK);
+		_gameGrid.setVisible(true);
 
-		JPanel gameTextPanel = new JPanel();
-		gameTextPanel.setBackground(Color.GRAY);
-		gameTextPanel.setVisible(true);
-		gameTextPanel.setLayout( new BorderLayout() );
-		
-		DefaultListModel model = new DefaultListModel();
+		setUpDialogueArea();
 
-        JList textList = new JList(model);
-		textList.setBackground(Color.GRAY);
-		textList.setVisibleRowCount(4);
-		
-		Border textListBorder = BorderFactory.createTitledBorder("Game Messages/Combat Dialogue");
-		// createTitledBorder(Border border, String title, int titleJustification, int titlePosition, Font titleFont, Color titleColor) 
-		
-		textList.setBorder(textListBorder);
-		
-		 for (int i = 0; i < 4; i++)
-			model.addElement(" ");
-		
-		JScrollPane pane = new JScrollPane(textList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		pane.getVerticalScrollBar().setValue(pane.getVerticalScrollBar().getMinimum());
-
-		gameTextPanel.add(pane, BorderLayout.CENTER);
-
-		gridAndTextPanel.add(gameGrid, BorderLayout.CENTER);
-		gridAndTextPanel.add(gameTextPanel, BorderLayout.SOUTH);
-		add(gridAndTextPanel, BorderLayout.CENTER);
+		_gridAndTextPanel.add(_gameGrid, BorderLayout.CENTER);
+		_gridAndTextPanel.add(_dialogueTabbedPane, BorderLayout.SOUTH);
 	}
+
+    public void setCharacterName(String characterName){
+        _characterName = characterName;
+    }
+
+    public void updateInfoLabel(){
+        _infoLabel.setText("<html>Hero : " + _characterName + "<br>" +
+                "Level: " + _gameGrid._characterLevel + "</html>");
+    }
 
 	@Override
 	public void paintComponent(Graphics g){

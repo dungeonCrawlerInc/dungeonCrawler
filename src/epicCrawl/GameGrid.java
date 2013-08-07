@@ -2,8 +2,15 @@ package epicCrawl;
 
 //Imports
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.KeyStroke;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -21,6 +28,8 @@ public class GameGrid extends JPanel{
 	private int _maxRows = 50, _maxColumns = 50; // Size of the available grid
 	private int _rows = 15, _columns = 15;
 	private int playerX, playerY, newX, newY;
+    public int _characterLevel;
+    public String _characterName;
 
 	private ArrayList<GridObject>[][] _grid; // Grid for current map
 	GridObject grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
@@ -31,7 +40,9 @@ public class GameGrid extends JPanel{
 	// Room constructor
 	@SuppressWarnings("unchecked")
 	public GameGrid(){
-		grassSquare = new GridObject("grass", true);
+        _characterLevel = 1;
+
+        grassSquare = new GridObject("grass", true);
 		dirtSquare = new GridObject("dirt", true);
 		darkWoodFloorSquare = new GridObject("32x32WoodFloor", true);
 		lightWoodFloorSquare = new GridObject("woodfloor", true);
@@ -279,11 +290,16 @@ public class GameGrid extends JPanel{
 	public void setViewMode(boolean x){_viewMode = x;}
 	
 	public boolean getViewMode(){return _viewMode;}
+
+    public void setCharacterName(String characterName){
+        _characterName = characterName;
+    }
 	
 	public static void main(java.lang.String[] args){
 		JFrame frame = new JFrame();
 		
 		final GameGrid grid = new GameGrid();
+        grid.setCharacterName("Hero");
 		grid.setVisible(true);
 		grid.repaint();
 		

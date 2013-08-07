@@ -9,15 +9,9 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-//import java.io.BufferedReader;
-//import java.io.BufferedWriter;
-//import java.io.FileReader;
-//import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-//import java.util.ArrayList;
 import java.util.Scanner;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,6 +26,7 @@ public class DungeonGame{
 	private JButton startGame, gameInfo, mainMenu;
 	private GamePanel gamePanel;
 	private ImageIcon newAndLoadGameIcon;
+    private String _characterName;
 
 	public DungeonGame(){
 		setUpGameFrame();
@@ -86,7 +81,7 @@ public class DungeonGame{
 	//	mainFrameOptions.add(loadGame);
 		mainFrameOptions.add(gameInfo);
 
-        JLabel gameLabel = new JLabel("Epic Crawl");
+        JLabel gameLabel = new JLabel("Dungeon Crawler Inc.");
 		gameLabel.setFont(new Font("Serif", Font.BOLD, 48));
 		gameLabel.setHorizontalAlignment(JLabel.CENTER);
 		gameLabel.setBackground(Color.BLACK);
@@ -127,6 +122,7 @@ public class DungeonGame{
 
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+                _characterName = "Hero";
 				String newCharacterName = (String)JOptionPane.showInputDialog(gameFrame, "Enter character name.", "New Character", JOptionPane.INFORMATION_MESSAGE, newAndLoadGameIcon, null, null); // ("Enter character name.");
 				if(newCharacterName == null){
 				    backToMainScreen();
@@ -146,7 +142,9 @@ public class DungeonGame{
 					}
 					*/
 
+                    gamePanel.setCharacterName(newCharacterName);
 					gameFrame.setTitle("Epic Crawl - " + newCharacterName);
+                    _characterName = newCharacterName;
 					startGame();
 				}
 			}
@@ -239,6 +237,8 @@ public class DungeonGame{
 	}
 	
 	private void startGame(){
+        gamePanel.setCharacterName(_characterName);
+        gamePanel.updateInfoLabel();
 		mainScreenPanel.setVisible(false);
 		gameFrame.remove(mainScreenPanel);
 		gameFrame.add(gamePanel);
