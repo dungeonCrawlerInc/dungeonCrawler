@@ -43,9 +43,9 @@ public class LevelDesigner extends JPanel implements ButtonListener{
             "woodFloorLight.png", "woodFloorMedium.png", "woodFloorRed.png", "bed.png", "bedWithCat.png",
             "chairLeftFacing.png", "chairRightFacing.png", "characterArmor.png", "characterNoArmor.png",
             "characterSwordAndShield.png", "Chest.png", "doorInsideToInside.png", "doorInsideToOutside.png",
-            "doorOutsideToInside.png", "Enemy.png", "epicCrawlerIcon.png", "EpicCrawlTitle.png", "Girl.png",
+            "doorOutsideToInside.png", "Enemy.png", "epicCrawlerIcon.png", "EpicCrawlTitle.png", "GIRL.png",
             "Portal.png", "rock.png", "table.png", "tableLong.png", "Tablewithfood.png", "tree.png",
-            "treeAndShrubNorSBorder", "++Save Level++"};
+            "treeAndShrubNorSBorder.png", "++Save Level++"};
     private int paintBrushSize = 0; // 0 Indicates one tile to be painted
 
 	public LevelDesigner(int r, int c){
