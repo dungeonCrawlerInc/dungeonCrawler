@@ -53,10 +53,10 @@ public class DungeonGame{
 
 	private void setUpMainScreen(){
 		BufferedImage tmpImage = null;
-		InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/64x64EpicCrawler.png");
+		InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/epicCrawlerIcon.png");
 		try{
 			tmpImage = ImageIO.read(input);
-		}catch(IOException e){
+		}catch(Exception e){
 			System.err.println("Failed to load main screen image");
 		}
 		newAndLoadGameIcon = new ImageIcon(tmpImage);

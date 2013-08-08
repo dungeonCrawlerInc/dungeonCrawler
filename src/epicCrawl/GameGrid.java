@@ -33,7 +33,7 @@ public class GameGrid extends JPanel{
 
 	private ArrayList<GridObject>[][] _grid; // Grid for current map
 	GridObject grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
-		voidSquare;
+		voidSquare, mediumWoodFloorSqurae, redWoodFloorSquare;
 	BufferedImage playerImage;
 	private String curLevel;
 	
@@ -44,9 +44,11 @@ public class GameGrid extends JPanel{
 
         grassSquare = new GridObject("grass", true);
 		dirtSquare = new GridObject("dirt", true);
-		darkWoodFloorSquare = new GridObject("32x32WoodFloor", true);
-		lightWoodFloorSquare = new GridObject("woodfloor", true);
-		stoneWallSquare = new GridObject("32x32StoneWall", false);
+		darkWoodFloorSquare = new GridObject("woodFloorDark", true);
+        mediumWoodFloorSqurae = new GridObject("woodFloorMedium", true);
+        redWoodFloorSquare = new GridObject("woodFloorRed", true);
+		lightWoodFloorSquare = new GridObject("woodFloorLight", true);
+		stoneWallSquare = new GridObject("stoneWall", false);
 		voidSquare = new GridObject("Void", false);
 		
 		setFocusable(true); // Not needed?
@@ -91,38 +93,58 @@ public class GameGrid extends JPanel{
 				
 				// Inner while loop if there are multiple images in string ex: Dirt.png,Chest.png
 				ArrayList<String> wordList = new ArrayList<String>(Arrays.asList(curString.split(",")));
-				
+
 				for(String cur: wordList){
 					if(cur.equals("dirt.png"))
 						_grid[curCol][curRow].add(dirtSquare);
+
+                    else if(cur.equals("bed.png"))
+                        _grid[curCol][curRow].add(new GridObject("bed", false));
+                    else if(cur.equals("rock.png"))
+                        _grid[curCol][curRow].add(new GridObject("rock", false));
+                    else if(cur.equals("bedWithCat.png"))
+                        _grid[curCol][curRow].add(new GridObject("bedWithCat", false));
 					else if(cur.equals("grass.png"))
 						_grid[curCol][curRow].add(grassSquare);
-					else if(cur.equals("Door.png"))
-						_grid[curCol][curRow].add(new GridObject("Door", true));
-					else if(cur.equals("woodfloor.png"))
+                    else if(cur.equals("woodFloorMedium.png"))
+                        _grid[curCol][curRow].add(mediumWoodFloorSqurae);
+                    else if(cur.equals("woodFloorRed.png"))
+                        _grid[curCol][curRow].add(redWoodFloorSquare);
+					else if(cur.equals("doorInsideToInside.png"))
+						_grid[curCol][curRow].add(new GridObject("doorInsideToInside", true));
+                    else if(cur.equals("doorInsideToOutside.png"))
+                        _grid[curCol][curRow].add(new GridObject("doorInsideToOutside", true));
+					else if(cur.equals("woodFloorLight.png"))
 						_grid[curCol][curRow].add(lightWoodFloorSquare);
-					else if(cur.equals("32x32WoodFloor.png"))
+					else if(cur.equals("woodFloorDark.png"))
 						_grid[curCol][curRow].add(darkWoodFloorSquare);
-					else if(cur.equals("32x32StoneWall.png"))
+					else if(cur.equals("stoneWall.png"))
 						_grid[curCol][curRow].add(stoneWallSquare);
-					else if(cur.equals("chairleft.png"))
-						_grid[curCol][curRow].add(new GridObject("chairleft", false));
-					else if(cur.equals("chairright.png"))
-						_grid[curCol][curRow].add(new GridObject("chairright", false));
+					else if(cur.equals("chairLeftFacing.png"))
+						_grid[curCol][curRow].add(new GridObject("chairLeftFacing", false));
+					else if(cur.equals("chairRightFacing.png"))
+						_grid[curCol][curRow].add(new GridObject("chairRightFacing", false));
 					else if(cur.equals("Chest.png"))
 						_grid[curCol][curRow].add(new GridObject("Chest", false));
 					else if(cur.equals("Enemy.png"))
 						_grid[curCol][curRow].add(new GridObject("Enemy", false));
-					else if(cur.equals("GIRL.png"))
-						_grid[curCol][curRow].add(new GridObject("GIRL", false));
-					else if(cur.equals("TallTablewithfood.png"))
-						_grid[curCol][curRow].add(new GridObject("TallTablewithfood", false));
+					else if(cur.equals("Girl.png"))
+						_grid[curCol][curRow].add(new GridObject("Girl", false));
+					else if(cur.equals("Tablewithfood.png"))
+						_grid[curCol][curRow].add(new GridObject("Tablewithfood", false));
 					else if(cur.equals("Void.png"))
 						_grid[curCol][curRow].add(voidSquare);
 					else if(cur.equals("table.png"))
 						_grid[curCol][curRow].add(new GridObject("table", false));
 					else if(cur.equals("Portal.png"))
 						_grid[curCol][curRow].add(new GridObject("Portal", true));
+                    else if(cur.equals("tableLong.png"))
+                        _grid[curCol][curRow].add(new GridObject("tableLong", false));
+                    else if(cur.equals("tree.png"))
+                        _grid[curCol][curRow].add(new GridObject("tree", false));
+                    else if(cur.equals("treeAndShrubNorSBorder.png"))
+                        _grid[curCol][curRow].add(new GridObject("treeAndShrubNorSBorder", false));
+
 				}
 				
 				++curCol;
