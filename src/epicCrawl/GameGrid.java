@@ -33,7 +33,7 @@ public class GameGrid extends JPanel{
 
 	private ArrayList<GridObject>[][] _grid; // Grid for current map
 	GridObject grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
-		voidSquare, mediumWoodFloorSqurae, redWoodFloorSquare;
+		voidSquare, mediumWoodFloorSqurae, redWoodFloorSquare, treeAndShrubNorSBorderSquare, treeSquare;
 	BufferedImage playerImage;
 	private String curLevel;
 	
@@ -50,6 +50,8 @@ public class GameGrid extends JPanel{
 		lightWoodFloorSquare = new GridObject("woodFloorLight", true);
 		stoneWallSquare = new GridObject("stoneWall", false);
 		voidSquare = new GridObject("void", false);
+        treeAndShrubNorSBorderSquare = new GridObject("treeAndShrubNorSBorder", false);
+        treeSquare = new GridObject("tree", false);
 		
 		setFocusable(true); // Not needed?
 		setUpKeyBindings();
@@ -61,15 +63,16 @@ public class GameGrid extends JPanel{
 				_grid[i][j] = new ArrayList<GridObject>();
 			}
 		}
-		loadLevel("NewStartingArea.txt");
-		curLevel = "NewStartingArea.txt";
 
-		playerX = 1;
-		playerY = 48;
+        curLevel = "Town.txt";
+		loadLevel(curLevel);
+
+		playerX = 45;
+		playerY = 1;
 
 		BufferedImage bufImage = null;
 
-		InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + "CHARACTER-Armor.png");
+		InputStream input = this.getClass().getClassLoader().getResourceAsStream("Images/" + "characterArmor.png");
 		try{
 			bufImage = ImageIO.read(input);
 		}catch (IOException e){System.err.println("Failed to load image for grid square.");}
@@ -114,6 +117,8 @@ public class GameGrid extends JPanel{
 						_grid[curCol][curRow].add(new GridObject("doorInsideToInside", true));
                     else if(cur.equals("doorInsideToOutside.png"))
                         _grid[curCol][curRow].add(new GridObject("doorInsideToOutside", true));
+                    else if(cur.equals("doorOutsideToInside.png"))
+                        _grid[curCol][curRow].add(new GridObject("doorOutsideToInside", true));
 					else if(cur.equals("woodFloorLight.png"))
 						_grid[curCol][curRow].add(lightWoodFloorSquare);
 					else if(cur.equals("woodFloorDark.png"))
@@ -141,10 +146,39 @@ public class GameGrid extends JPanel{
                     else if(cur.equals("tableLong.png"))
                         _grid[curCol][curRow].add(new GridObject("tableLong", false));
                     else if(cur.equals("tree.png"))
-                        _grid[curCol][curRow].add(new GridObject("tree", false));
+                        _grid[curCol][curRow].add(treeSquare);
                     else if(cur.equals("treeAndShrubNorSBorder.png"))
-                        _grid[curCol][curRow].add(new GridObject("treeAndShrubNorSBorder", false));
-
+                        _grid[curCol][curRow].add(treeAndShrubNorSBorderSquare);
+                    else if(cur.equals("houser0c0.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser0c0", false));
+                    else if(cur.equals("houser0c1.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser0c1", false));
+                    else if(cur.equals("houser0c2.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser0c2", false));
+                    else if(cur.equals("houser0c3.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser0c3", false));
+                    else if(cur.equals("houser0c4.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser0c4", false));
+                    else if(cur.equals("houser1c0.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser1c0", false));
+                    else if(cur.equals("houser1c1.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser1c1", false));
+                    else if(cur.equals("houser1c2.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser1c2", false));
+                    else if(cur.equals("houser1c3.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser1c3", false));
+                    else if(cur.equals("houser1c4.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser1c4", false));
+                    else if(cur.equals("houser2c0.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser2c0", false));
+                    else if(cur.equals("houser2c1.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser2c1", false));
+                    else if(cur.equals("houser2c3.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser2c3", false));
+                    else if(cur.equals("houser2c4.png"))
+                        _grid[curCol][curRow].add(new GridObject("houser2c4", false));
+                    else if(cur.equals("villager1.png"))
+                        _grid[curCol][curRow].add(new GridObject("villager1", false));
 				}
 				
 				++curCol;
@@ -193,18 +227,42 @@ public class GameGrid extends JPanel{
 		playerX = newX;
 		playerY = newY;
 		
-		if(curLevel.equals("NewStartingArea.txt") && playerX == 38 && playerY == 3){ // Temporary portal jump
-			loadLevel("Dungeon2.txt");
-			playerX = 4;
-			playerY = 4;
-			curLevel = "Dungeon2.txt";
+		if(curLevel.equals("Town.txt") && playerX == 7 && playerY == 7){ // Temporary portal jump
+            curLevel = "House1.txt";
+            loadLevel(curLevel);
+			playerX = 19;
+			playerY = 27;
 		}
-		else if(curLevel.equals("Dungeon2.txt") && playerX == 32 && playerY == 43){
-			loadLevel("NewStartingArea.txt");
-			playerX = 38;
+		else if(curLevel.equals("House1.txt") && playerX == 19 && playerY == 28){
+            curLevel = "Town.txt";
+            loadLevel(curLevel);
+			playerX = 7;
 			playerY = 8;
-			curLevel = "NewStartingArea.txt";
 		}
+        else if(curLevel.equals("Town.txt") && playerX == 25 && playerY == 7){
+            curLevel = "House2.txt";
+            loadLevel(curLevel);
+            playerX = 19;
+            playerY = 27;
+        }
+        else if(curLevel.equals("House2.txt") && playerX == 19 && playerY == 28){
+            curLevel = "Town.txt";
+            loadLevel(curLevel);
+            playerX = 25;
+            playerY = 8;
+        }
+        else if(curLevel.equals("Town.txt") && playerX == 9 && playerY == 42){
+            curLevel = "Dungeon.txt";
+            loadLevel(curLevel);
+            playerX = 4;
+            playerY = 4;
+        }
+        else if(curLevel.equals("Dungeon.txt") && playerX == 43 && playerY == 42){
+            curLevel = "Town.txt";
+            loadLevel(curLevel);
+            playerX = 24;
+            playerY = 42;
+        }
 		
 		
 		

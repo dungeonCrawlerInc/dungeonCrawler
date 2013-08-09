@@ -1,5 +1,7 @@
+Town.txt
 
-Dungeon1.txt
+House1.txt
 
-NewStartingArea.txt
-Dungeon2.txt
+House2.txt
+
+Dungeon.txt
