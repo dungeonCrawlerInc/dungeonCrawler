@@ -39,12 +39,12 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 	private JPanel gridPanel;
 	private JFrame frame;
 	private ImageIcon optionPaneIcon;
-	String[] selectedTilesToPaint = {"dirt.png", "grass.png", "stoneWall.png", "Void.png", "woodFloorDark.png",
+	String[] selectedTilesToPaint = {"dirt.png", "grass.png", "stoneWall.png", "void.png", "woodFloorDark.png",
             "woodFloorLight.png", "woodFloorMedium.png", "woodFloorRed.png", "bed.png", "bedWithCat.png",
             "chairLeftFacing.png", "chairRightFacing.png", "characterArmor.png", "characterNoArmor.png",
-            "characterSwordAndShield.png", "Chest.png", "doorInsideToInside.png", "doorInsideToOutside.png",
-            "doorOutsideToInside.png", "Enemy.png", "epicCrawlerIcon.png", "EpicCrawlTitle.png", "GIRL.png",
-            "Portal.png", "rock.png", "table.png", "tableLong.png", "Tablewithfood.png", "tree.png",
+            "characterSwordAndShield.png", "chest.png", "doorInsideToInside.png", "doorInsideToOutside.png",
+            "doorOutsideToInside.png", "enemy.png", "epicCrawlerIcon.png", "EpicCrawlTitle.png", "girl.png",
+            "portal.png", "rock.png", "table.png", "tableLong.png", "tablewithfood.png", "tree.png",
             "treeAndShrubNorSBorder.png", "++Save Level++"};
     private int paintBrushSize = 0; // 0 Indicates one tile to be painted
 
@@ -166,7 +166,7 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 			for(int c = 0; c < cols; c++){
 				for(String imageName: theView[r][c].gridImageNames){
 					if(imageName.equals("null"))
-						s = s + "Void.png,";
+						s = s + "void.png,";
 					else
 						s = s + imageName + ",";
 				}

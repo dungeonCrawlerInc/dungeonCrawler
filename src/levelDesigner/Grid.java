@@ -46,7 +46,7 @@ public class Grid extends JPanel implements ActionListener{
 		   gridImageNames.remove(1);
 	   }
 	   
-	   if(gridImageNames.size() > 0 && gridImageNames.get(0) == "Void.png") // Don't put things on top of void spaces
+	   if(gridImageNames.size() > 0 && gridImageNames.get(0) == "void.png") // Don't put things on top of void spaces
 		   return;
 	   
 	   String imageName = imageNames[LevelDesigner.val];

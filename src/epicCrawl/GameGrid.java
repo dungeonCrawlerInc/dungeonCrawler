@@ -49,7 +49,7 @@ public class GameGrid extends JPanel{
         redWoodFloorSquare = new GridObject("woodFloorRed", true);
 		lightWoodFloorSquare = new GridObject("woodFloorLight", true);
 		stoneWallSquare = new GridObject("stoneWall", false);
-		voidSquare = new GridObject("Void", false);
+		voidSquare = new GridObject("void", false);
 		
 		setFocusable(true); // Not needed?
 		setUpKeyBindings();
@@ -91,7 +91,7 @@ public class GameGrid extends JPanel{
 			while(stringScanner.hasNext()){
 				curString = stringScanner.next();
 				
-				// Inner while loop if there are multiple images in string ex: Dirt.png,Chest.png
+				// Inner while loop if there are multiple images in string ex: Dirt.png,chest.png
 				ArrayList<String> wordList = new ArrayList<String>(Arrays.asList(curString.split(",")));
 
 				for(String cur: wordList){
@@ -124,20 +124,20 @@ public class GameGrid extends JPanel{
 						_grid[curCol][curRow].add(new GridObject("chairLeftFacing", false));
 					else if(cur.equals("chairRightFacing.png"))
 						_grid[curCol][curRow].add(new GridObject("chairRightFacing", false));
-					else if(cur.equals("Chest.png"))
-						_grid[curCol][curRow].add(new GridObject("Chest", false));
-					else if(cur.equals("Enemy.png"))
-						_grid[curCol][curRow].add(new GridObject("Enemy", false));
-					else if(cur.equals("GIRL.png"))
-						_grid[curCol][curRow].add(new GridObject("GIRL", false));
-					else if(cur.equals("Tablewithfood.png"))
-						_grid[curCol][curRow].add(new GridObject("Tablewithfood", false));
-					else if(cur.equals("Void.png"))
+					else if(cur.equals("chest.png"))
+						_grid[curCol][curRow].add(new GridObject("chest", false));
+					else if(cur.equals("enemy.png"))
+						_grid[curCol][curRow].add(new GridObject("enemy", false));
+					else if(cur.equals("girl.png"))
+						_grid[curCol][curRow].add(new GridObject("girl", false));
+					else if(cur.equals("tablewithfood.png"))
+						_grid[curCol][curRow].add(new GridObject("tablewithfood", false));
+					else if(cur.equals("void.png"))
 						_grid[curCol][curRow].add(voidSquare);
 					else if(cur.equals("table.png"))
 						_grid[curCol][curRow].add(new GridObject("table", false));
-					else if(cur.equals("Portal.png"))
-						_grid[curCol][curRow].add(new GridObject("Portal", true));
+					else if(cur.equals("portal.png"))
+						_grid[curCol][curRow].add(new GridObject("portal", true));
                     else if(cur.equals("tableLong.png"))
                         _grid[curCol][curRow].add(new GridObject("tableLong", false));
                     else if(cur.equals("tree.png"))
