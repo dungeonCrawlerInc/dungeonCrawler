@@ -1,10 +1,6 @@
 package epicCrawl;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -19,6 +15,7 @@ import javax.swing.border.TitledBorder;
 
 public class GamePanel extends JPanel{
     private GameGrid _gameGrid;
+    private JFrame _gameFrame;
 	private JButton _mainMenu;
     private String _characterName;
     private JPanel _infoPanel, _inventoryPanel, _itemPanel, _gridAndTextPanel;
@@ -26,9 +23,12 @@ public class GamePanel extends JPanel{
     private JScrollPane _allMessagesScrollPane, _combatScrollPane, _dialogueScrollPane;
     private JLabel _infoLabel;
 
-	public GamePanel(JButton mainMenu){
+	public GamePanel(JFrame gameFrame, JButton mainMenu){
 		setFocusable(true);
+
+        _gameFrame = gameFrame;
 		_mainMenu = mainMenu;
+
 		setLayout(new BorderLayout());
 		setBackground(Color.GREEN);
 
@@ -54,9 +54,28 @@ public class GamePanel extends JPanel{
 
     private void setUpInventoryPanel(){
         _inventoryPanel = new JPanel();
-        _inventoryPanel.setLayout(new GridLayout());
+
+        int numInvRows = 4;
+        int numInvCols = 4;
+
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.setColumns(numInvCols);
+        gridLayout.setRows(numInvRows);
+
+        _inventoryPanel.setLayout(gridLayout);
         _inventoryPanel.setVisible(true);
         _inventoryPanel.setBackground(Color.DARK_GRAY);
+
+        for(int row = 0; row < numInvRows; ++row){
+            for(int col = 0; col < numInvCols; ++col){
+                JPanel tmpPanel = new JPanel();
+                tmpPanel.setBackground(Color.BLUE);
+                tmpPanel.setBorder((LineBorder)BorderFactory.createLineBorder(Color.BLACK, 2));
+                tmpPanel.setVisible(true);
+
+                _inventoryPanel.add(tmpPanel);
+            }
+        }
 
         LineBorder lineBorder = (LineBorder)BorderFactory.createLineBorder(Color.black, 3);
         TitledBorder titledBorder = BorderFactory.createTitledBorder(lineBorder, "Inventory");
@@ -75,6 +94,7 @@ public class GamePanel extends JPanel{
 
 	private void setUpInfoPanel(){
         _infoPanel = new JPanel();
+        _infoPanel.setSize(_gameFrame.getWidth() / 4, _gameFrame.getHeight());
         _infoPanel.setLayout(new BoxLayout(_infoPanel, BoxLayout.PAGE_AXIS));
 
         setUpItemPanel();
@@ -162,7 +182,7 @@ public class GamePanel extends JPanel{
 		JButton mainMenu = new JButton("Main Menu");
 		mainMenu.setBackground(Color.RED);
 
-		GamePanel gamePanel = new GamePanel(mainMenu);
+		GamePanel gamePanel = new GamePanel(frame, mainMenu);
 		gamePanel.setVisible(true);
 		gamePanel.repaint();
 

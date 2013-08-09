@@ -112,7 +112,7 @@ public class DungeonGame{
 	private void setUpGamePanel(){
 		mainMenu = new JButton("Main Menu"); // Button to return to main menu when in games
 		mainMenu.setBackground(Color.RED);
-		gamePanel = new GamePanel(mainMenu);
+		gamePanel = new GamePanel(gameFrame, mainMenu);
 		gamePanel.setBackground(Color.GREEN);
 	}
 

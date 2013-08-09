@@ -131,8 +131,10 @@ public class GameGrid extends JPanel{
 						_grid[curCol][curRow].add(new GridObject("chairRightFacing", false));
 					else if(cur.equals("chest.png"))
 						_grid[curCol][curRow].add(new GridObject("chest", false));
-					else if(cur.equals("enemy.png"))
-						_grid[curCol][curRow].add(new GridObject("enemy", false));
+					else if(cur.equals("enemyBull.png"))
+						_grid[curCol][curRow].add(new GridObject("enemyBull", false));
+                    else if(cur.equals("enemySkeleton.png"))
+                        _grid[curCol][curRow].add(new GridObject("enemySkeleton", false));
 					else if(cur.equals("girl.png"))
 						_grid[curCol][curRow].add(new GridObject("girl", false));
 					else if(cur.equals("tablewithfood.png"))
