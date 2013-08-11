@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Random;
 
 //
 @SuppressWarnings("serial")
@@ -32,8 +33,10 @@ public class GameGrid extends JPanel{
     public String _characterName;
 
 	private ArrayList<GridObject>[][] _grid; // Grid for current map
-	GridObject grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
-		voidSquare, mediumWoodFloorSqurae, redWoodFloorSquare, treeAndShrubNorSBorderSquare, treeSquare;
+    private ArrayList<LivingObject> _livingObjects; // All living objects on a map
+    GridObject grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
+		voidSquare, mediumWoodFloorSquare, redWoodFloorSquare, treeAndShrubNorSBorderSquare,
+        treeSquare, floorStone, wallStoneTorch, woodWallSquare;
 	BufferedImage playerImage;
 	private String curLevel;
 	
@@ -41,17 +44,21 @@ public class GameGrid extends JPanel{
 	@SuppressWarnings("unchecked")
 	public GameGrid(){
         _characterLevel = 1;
+        _livingObjects = new ArrayList<LivingObject>();
 
         grassSquare = new GridObject("grass", true);
 		dirtSquare = new GridObject("dirt", true);
 		darkWoodFloorSquare = new GridObject("woodFloorDark", true);
-        mediumWoodFloorSqurae = new GridObject("woodFloorMedium", true);
+        mediumWoodFloorSquare = new GridObject("woodFloorMedium", true);
         redWoodFloorSquare = new GridObject("woodFloorRed", true);
 		lightWoodFloorSquare = new GridObject("woodFloorLight", true);
-		stoneWallSquare = new GridObject("stoneWall", false);
+		stoneWallSquare = new GridObject("wallStone", false);
 		voidSquare = new GridObject("void", false);
         treeAndShrubNorSBorderSquare = new GridObject("treeAndShrubNorSBorder", false);
         treeSquare = new GridObject("tree", false);
+        floorStone = new GridObject("floorStone", true);
+        wallStoneTorch = new GridObject("wallStoneTorch", false);
+        woodWallSquare = new GridObject("wallWood", false);
 		
 		setFocusable(true); // Not needed?
 		setUpKeyBindings();
@@ -87,6 +94,7 @@ public class GameGrid extends JPanel{
 		Scanner stringScanner = null;
 		int curRow = 0, curCol = 0;
 		String curString;
+        _livingObjects.clear(); // Get rid of all previous living objects from last level
 
 		while(lineScanner.hasNextLine()){
 			stringScanner = new Scanner(lineScanner.nextLine());
@@ -110,7 +118,7 @@ public class GameGrid extends JPanel{
 					else if(cur.equals("grass.png"))
 						_grid[curCol][curRow].add(grassSquare);
                     else if(cur.equals("woodFloorMedium.png"))
-                        _grid[curCol][curRow].add(mediumWoodFloorSqurae);
+                        _grid[curCol][curRow].add(mediumWoodFloorSquare);
                     else if(cur.equals("woodFloorRed.png"))
                         _grid[curCol][curRow].add(redWoodFloorSquare);
 					else if(cur.equals("doorInsideToInside.png"))
@@ -123,20 +131,16 @@ public class GameGrid extends JPanel{
 						_grid[curCol][curRow].add(lightWoodFloorSquare);
 					else if(cur.equals("woodFloorDark.png"))
 						_grid[curCol][curRow].add(darkWoodFloorSquare);
-					else if(cur.equals("stoneWall.png"))
+					else if(cur.equals("wallStone.png"))
 						_grid[curCol][curRow].add(stoneWallSquare);
+                    else if(cur.equals("wallWood.png"))
+                        _grid[curCol][curRow].add(woodWallSquare);
 					else if(cur.equals("chairLeftFacing.png"))
 						_grid[curCol][curRow].add(new GridObject("chairLeftFacing", false));
 					else if(cur.equals("chairRightFacing.png"))
 						_grid[curCol][curRow].add(new GridObject("chairRightFacing", false));
 					else if(cur.equals("chest.png"))
 						_grid[curCol][curRow].add(new GridObject("chest", false));
-					else if(cur.equals("enemyBull.png"))
-						_grid[curCol][curRow].add(new GridObject("enemyBull", false));
-                    else if(cur.equals("enemySkeleton.png"))
-                        _grid[curCol][curRow].add(new GridObject("enemySkeleton", false));
-					else if(cur.equals("girl.png"))
-						_grid[curCol][curRow].add(new GridObject("girl", false));
 					else if(cur.equals("tablewithfood.png"))
 						_grid[curCol][curRow].add(new GridObject("tablewithfood", false));
 					else if(cur.equals("void.png"))
@@ -179,8 +183,21 @@ public class GameGrid extends JPanel{
                         _grid[curCol][curRow].add(new GridObject("houser2c3", false));
                     else if(cur.equals("houser2c4.png"))
                         _grid[curCol][curRow].add(new GridObject("houser2c4", false));
+                    else if(cur.equals("floorStone.png"))
+                        _grid[curCol][curRow].add(floorStone);
+                    else if(cur.equals("wallStoneTorch.png"))
+                        _grid[curCol][curRow].add(wallStoneTorch);
+                    else if(cur.equals("enemyBull.png"))
+                        _livingObjects.add(new LivingObject("enemyBull", curCol, curRow));
+                    else if(cur.equals("enemySkeleton.png"))
+                        _livingObjects.add(new LivingObject("enemySkeleton", curCol, curRow));
+                    else if(cur.equals("girl.png"))
+                        _livingObjects.add(new LivingObject("girl", curCol, curRow));
                     else if(cur.equals("villager1.png"))
-                        _grid[curCol][curRow].add(new GridObject("villager1", false));
+                        _livingObjects.add(new LivingObject("villager1", curCol, curRow));
+                    else if(cur.equals("enemyRat.png"))
+                        _livingObjects.add(new LivingObject("enemyRat", curCol, curRow));
+
 				}
 				
 				++curCol;
@@ -193,7 +210,55 @@ public class GameGrid extends JPanel{
 		lineScanner.close();
 		stringScanner.close();
 	}
-	
+
+    private boolean isMovableSpace(int x, int y){
+        if(x < 0 || x > _maxRows -1 || y < 0 || y > _maxColumns - 1)
+            return false;
+
+        for(LivingObject curLiving: _livingObjects){
+            if(x == curLiving.getXLoc() && y == curLiving.getYLoc())
+                return false;
+        }
+
+        if(!(_grid[x][y].get(_grid[x][y].size() - 1).isPassable())) return false;
+
+        return true;
+    }
+
+    private void preLoadLevel(String str, int x, int y){
+        curLevel = str;
+        loadLevel(curLevel);
+        playerX = x;
+        playerY = y;
+        repaint();
+    }
+
+    private void moveLivingObjects(){
+        boolean validMove;
+        Random rand = new Random();
+        int newLivingX, newLivingY;
+        // Move all living objects...
+        for(LivingObject curLiving: _livingObjects){
+            validMove = false;
+            while(validMove == false){
+                newLivingY = 0;
+                newLivingX = rand.nextInt(3) - 1;
+
+                if(newLivingX == 0){
+                    newLivingY = rand.nextInt(3) - 1;
+                }
+
+                newLivingX += curLiving.getXLoc();
+                newLivingY += curLiving.getYLoc();
+
+                if((newLivingX != playerX || newLivingY != playerY) && isMovableSpace(newLivingX, newLivingY)){                     validMove = true;
+
+                    curLiving.setLoc(newLivingX, newLivingY);
+                }
+            }
+        }
+    }
+
 	private void movePlayer(String direction){
 		
 		if(direction.equals("left")){
@@ -214,61 +279,39 @@ public class GameGrid extends JPanel{
 		}
 		else
 			System.out.println("wtf");
-		
-		// Check if move is out of bounds
-		if(newX < 0 || newX > _maxRows -1 || newY < 0 || newY > _maxColumns - 1){
-			return;
-		}
-		
-		GridObject nextSquare = _grid[newX][newY].get(_grid[newX][newY].size() - 1); // grab square type
-		
-		if(!nextSquare.isPassable()){ // Check if trying to move through solid object
-			return;
-		}
+
+        if(!isMovableSpace(newX, newY)) return;
 		
 		playerX = newX;
 		playerY = newY;
 		
-		if(curLevel.equals("Town.txt") && playerX == 7 && playerY == 7){ // Temporary portal jump
-            curLevel = "House1.txt";
-            loadLevel(curLevel);
-			playerX = 19;
-			playerY = 27;
+		if(curLevel.equals("Town.txt") && playerX == 9 && playerY == 9){ // Temporary portal jump
+            preLoadLevel("House1.txt", 22, 24);
+            return;
 		}
-		else if(curLevel.equals("House1.txt") && playerX == 19 && playerY == 28){
-            curLevel = "Town.txt";
-            loadLevel(curLevel);
-			playerX = 7;
-			playerY = 8;
+		else if(curLevel.equals("House1.txt") && playerX == 22 && playerY == 25){
+            preLoadLevel("Town.txt", 9, 10);
+            return;
 		}
-        else if(curLevel.equals("Town.txt") && playerX == 25 && playerY == 7){
-            curLevel = "House2.txt";
-            loadLevel(curLevel);
-            playerX = 19;
-            playerY = 27;
+        else if(curLevel.equals("Town.txt") && playerX == 29 && playerY == 7){
+            preLoadLevel("House2.txt", 22, 24);
+            return;
         }
-        else if(curLevel.equals("House2.txt") && playerX == 19 && playerY == 28){
-            curLevel = "Town.txt";
-            loadLevel(curLevel);
-            playerX = 25;
-            playerY = 8;
+        else if(curLevel.equals("House2.txt") && playerX == 22 && playerY == 25){
+            preLoadLevel("Town.txt", 29, 8);
+            return;
         }
-        else if(curLevel.equals("Town.txt") && playerX == 9 && playerY == 42){
-            curLevel = "Dungeon.txt";
-            loadLevel(curLevel);
-            playerX = 4;
-            playerY = 4;
+        else if(curLevel.equals("Town.txt") && playerX == 9 && playerY == 39){
+            preLoadLevel("Dungeon1.txt", 4, 4);
+            return;
         }
-        else if(curLevel.equals("Dungeon.txt") && playerX == 43 && playerY == 42){
-            curLevel = "Town.txt";
-            loadLevel(curLevel);
-            playerX = 24;
-            playerY = 42;
+        else if(curLevel.equals("Dungeon1.txt") && playerX == 32 && playerY == 44){
+            preLoadLevel("Town.txt", 22, 47);
+            return;
         }
-		
-		
-		
-		
+
+        moveLivingObjects();
+
 		repaint();
 	}
 	
@@ -281,11 +324,11 @@ public class GameGrid extends JPanel{
 			int recW = getWidth() / _rows; // Draw the grid
 			int recH = getHeight() / _columns;
 
-			for (int i = 0; i <  _rows; i++){ // Determine what to draw for each grid square on grid
+			for(int i = 0; i <  _rows; i++){ // Determine what to draw for each grid square on grid
 				int viewX = (playerX - (7) + i);
 				int xCord = i * recW; // Upper left corner of this terrain rect
 
-				for (int j = 0; j < _columns; j++){
+				for(int j = 0; j < _columns; j++){
 					int yCord = j * recH;
 					int viewY = (playerY - (7) + j);
 
@@ -315,23 +358,37 @@ public class GameGrid extends JPanel{
 				drawPlayerY = playerY - (_maxColumns - _columns);
 	
 			g.drawImage(playerImage, drawPlayerX * recW, drawPlayerY * recH, recW, recH, null);
+
+            int drawLivingX, drawLivingY;
+            for(LivingObject curLiving: _livingObjects){
+                drawLivingX = (drawPlayerX + curLiving.getXLoc() - playerX);
+                drawLivingY = (drawPlayerY + curLiving.getYLoc() - playerY);
+
+                if(drawLivingX >= 0 && drawLivingX < 16 && drawLivingY >= 0 && drawLivingY < 16){
+                    g.drawImage(curLiving.getImage(), drawLivingX * recW, drawLivingY * recH, recW, recH, null);
+                }
+            }
 		}
 		else{ // Full view mode
 			int recW = getWidth() / _maxRows; // Draw the grid
 			int recH = getHeight() / _maxColumns;
-			
-			for (int i = 0; i <  _maxRows; i++){ // Determine what to draw for each grid square on grid
+
+			for(int i = 0; i <  _maxRows; i++){ // Determine what to draw for each grid square on grid
 				int xCord = i * recW; // Upper left corner of this terrain rect
-				
-				for (int j = 0; j < _maxColumns; j++){
+
+				for(int j = 0; j < _maxColumns; j++){
 					int yCord = j * recH;
-					
+
 					for(int z = 0; z < _grid[i][j].size(); ++z)
 						g.drawImage(_grid[i][j].get(z).getImage(), xCord, yCord, recW, recH, null);
 				}
 			}
-			
+
 			g.drawImage(playerImage, playerX * recW, playerY * recH, recW, recH, null);
+
+            for(LivingObject curLiving: _livingObjects){
+                g.drawImage(curLiving.getImage(), curLiving.getXLoc() * recW, curLiving.getYLoc() * recH, recW, recH, null);
+            }
 		}
 	}
 
@@ -373,9 +430,7 @@ public class GameGrid extends JPanel{
 	
 	public boolean getViewMode(){return _viewMode;}
 
-    public void setCharacterName(String characterName){
-        _characterName = characterName;
-    }
+    public void setCharacterName(String characterName){_characterName = characterName;}
 	
 	public static void main(java.lang.String[] args){
 		JFrame frame = new JFrame();

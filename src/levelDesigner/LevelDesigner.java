@@ -41,16 +41,19 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 	private JPanel gridPanel;
 	private JFrame frame;
 	private ImageIcon optionPaneIcon;
-	String[] selectedTilesToPaint = {"dirt.png", "grass.png", "stoneWall.png", "void.png", "woodFloorDark.png",
-            "woodFloorLight.png", "woodFloorMedium.png", "woodFloorRed.png", "houser0c0.png", "houser0c1.png",
-            "houser0c2.png", "houser0c3.png" , "houser0c4.png", "houser1c0.png", "houser1c1.png",
-            "houser1c2.png", "houser1c3.png", "houser1c4.png", "houser2c0.png", "houser2c1.png",
-            "houser2c3.png", "houser2c4.png", "bed.png", "bedWithCat.png", "chairLeftFacing.png",
-            "chairRightFacing.png", "characterArmor.png", "characterNoArmor.png",
-            "characterSwordAndShield.png", "chest.png", "doorInsideToInside.png", "doorInsideToOutside.png",
-            "doorOutsideToInside.png", "enemyBull.png", "enemySkeleton.png", "girl.png",
-            "portal.png", "rock.png", "table.png", "tableLong.png", "tablewithfood.png", "tree.png",
-            "treeAndShrubNorSBorder.png", "villager1.png"};
+	String[] selectedTilesToPaint = {"void.png", "dirt.png", "grass.png", "floorStone.png",
+            "woodFloorDark.png","woodFloorLight.png", "woodFloorMedium.png",
+            "woodFloorRed.png", "wallStone.png", "wallStoneTorch.png", "wallWood.png",
+            "houser0c0.png", "houser0c1.png", "houser0c2.png", "houser0c3.png",
+            "houser0c4.png", "houser1c0.png", "houser1c1.png", "houser1c2.png",
+            "houser1c3.png", "houser1c4.png", "houser2c0.png", "houser2c1.png",
+            "houser2c3.png", "houser2c4.png", "doorInsideToInside.png",
+            "doorInsideToOutside.png", "doorOutsideToInside.png", "portal.png",
+            "bed.png", "bedWithCat.png", "chairLeftFacing.png", "chairRightFacing.png",
+            "chest.png", "rock.png", "table.png", "tableLong.png", "tablewithfood.png",
+            "tree.png", "treeAndShrubNorSBorder.png", "characterArmor.png",
+            "characterNoArmor.png", "characterSwordAndShield.png", "girl.png",
+            "villager1.png", "enemyBull.png", "enemySkeleton.png", "enemyRat.png"};
     private int paintBrushSize = 0; // 0 Indicates one tile to be painted
 
 	public LevelDesigner(int r, int c){
@@ -189,6 +192,9 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 	public void saveGame(){
 		String levelName = (String)JOptionPane.showInputDialog(this, 
 				"Enter level name.", "Save level", JOptionPane.INFORMATION_MESSAGE, optionPaneIcon, null, null);
+
+        if(levelName.equals("null"))
+            return;
 
 		levelName += ".txt";
 

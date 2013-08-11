@@ -10,6 +10,7 @@ public class GridObject{
    private String _name, _path;
    private boolean _passable, _visible;
    private BufferedImage _gridImageLabel;
+   private int _xLoc, _yLoc;
    
    public GridObject(String name, boolean passable){
 	   _name = name; // Set the variables based on parameters for constructor
