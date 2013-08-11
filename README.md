@@ -7,7 +7,7 @@ TO DO:
     
     Items/Inventory/Character Stats
         Set up inventory slots
-        Display character name/lvl/etc.
+        Set up item panels
        
     Combat Dialogue Area
         Write methods to display out messages and cycle through messages correctly
@@ -15,9 +15,7 @@ TO DO:
     
     Game
         (IMPORTANT) Need to develope game loop for moving all movable objects on grid
-        Probably have to make a moveable interface
-        Need to add in NPC and randomized movement
-        Need to add in enemy and create path finding towards character
+        Create enemy path finding towards character
         Give doors information that will allow them to load new levels
     
     LEVEL DESIGNER
@@ -27,7 +25,6 @@ Minor Fixes Needed:
 
 
     Figure out what to do with LevelsList.txt and CharacterNames.txt
-    Remove load game button from main GUI and rename New Game to Start Game
 
 Tasks:
     
