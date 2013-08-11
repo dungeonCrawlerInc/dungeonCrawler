@@ -193,8 +193,16 @@ public class GameGrid extends JPanel{
                         _livingObjects.add(new LivingObject("enemySkeleton", curCol, curRow));
                     else if(cur.equals("girl.png"))
                         _livingObjects.add(new LivingObject("girl", curCol, curRow));
+		    else if(cur.equals("girl0.png"))
+                        _livingObjects.add(new LivingObject("girl0", curCol, curRow));
+		    else if(cur.equals("girl1.png"))
+                        _livingObjects.add(new LivingObject("girl1", curCol, curRow));
+		    else if(cur.equals("girl2.png"))
+                        _livingObjects.add(new LivingObject("girl2", curCol, curRow));
                     else if(cur.equals("villager1.png"))
                         _livingObjects.add(new LivingObject("villager1", curCol, curRow));
+		    else if(cur.equals("barkeep.png"))
+                        _livingObjects.add(new LivingObject("barkeep", curCol, curRow));
                     else if(cur.equals("enemyRat.png"))
                         _livingObjects.add(new LivingObject("enemyRat", curCol, curRow));
 
