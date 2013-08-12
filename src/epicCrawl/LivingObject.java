@@ -45,4 +45,7 @@ public class LivingObject extends GridObject implements ClickableObject{
     public int getYLoc(){
         return _yLoc;
     }
+
+    // Needed temporarily
+    public void click(int playerX, int playerY){}
 }
