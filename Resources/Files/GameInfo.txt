@@ -1,4 +1,14 @@
-Epic Crawl
+Game Controls
+
+A           - Move left
+W           - Move up
+S           - Move down
+D           - Move right
+Left click  - Attack
+
+Can only attack enemies when next to them.
+
+==================================================
 
 This game is a programming project.
 
@@ -12,9 +22,3 @@ Also Like our Facebook page to see game updates in
 your newsfeed!
 
 https://www.facebook.com/EpicCrawl
-
-Game Controls
-A - Move left
-W - Move up
-S - Move down
-D - Move right

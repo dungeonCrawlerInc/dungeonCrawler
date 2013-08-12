@@ -70,7 +70,7 @@ public class GamePanel extends JPanel{
             for(int col = 0; col < numInvCols; ++col){
                 JPanel tmpPanel = new JPanel();
                 tmpPanel.setBackground(Color.BLUE);
-                tmpPanel.setBorder((LineBorder)BorderFactory.createLineBorder(Color.BLACK, 2));
+                tmpPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
                 tmpPanel.setVisible(true);
 
                 _inventoryPanel.add(tmpPanel);

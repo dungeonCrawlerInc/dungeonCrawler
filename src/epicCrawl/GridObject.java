@@ -8,15 +8,13 @@ import javax.imageio.ImageIO;
 // Base class for anything added into the game.
 public class GridObject{
    private String _name, _path;
-   private boolean _passable, _visible;
+   private boolean _passable;
    private BufferedImage _gridImageLabel;
-   private int _xLoc, _yLoc;
    
    public GridObject(String name, boolean passable){
 	   _name = name; // Set the variables based on parameters for constructor
 	   _path = "Images/" + name + ".png";
       _passable = passable;
-      _visible = false;
       _gridImageLabel = createImageLabel();
    }
 
@@ -40,19 +38,7 @@ public class GridObject{
       return _name;
    }
 
-   public void setPassable(boolean passable){
-	   _passable = passable;
-   }
-
    public boolean isPassable(){
 	   return _passable;
-   }
-   
-   public boolean isVisible(){
-	   return _visible;
-   }
-   
-   public void setVisible(boolean v){
-	   _visible = v;
    }
 } // End of file

@@ -2,12 +2,14 @@ package epicCrawl;
 
 public class Enemy extends LivingObject implements ClickableObject{
     private int _health, _level;
+    private boolean _wasAttacked;
 
     public Enemy(String name, int xLoc, int yLoc, int level, int health){
         super(name, xLoc, yLoc);
 
         _health = health;
         _level = level;
+        _wasAttacked = false;
     }
 
     public void attacked(){
@@ -20,11 +22,18 @@ public class Enemy extends LivingObject implements ClickableObject{
             setAlive(false);
             setMoving(false);
         }
+
+        _wasAttacked = true;
     }
 
-    //public void attack(){
-    //
-    //}
+    public boolean wasAttacked(){
+        if(_wasAttacked){
+            _wasAttacked = false;
+            return true;
+        }
+
+        return false;
+    }
 
     public void click(int playerX, int playerY) {
         System.out.println("Clicked: " + getName());

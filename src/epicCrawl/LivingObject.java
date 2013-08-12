@@ -5,7 +5,7 @@ package epicCrawl;
 
 // Any object in the game that is alive is derived from this class.
 public class LivingObject extends GridObject implements ClickableObject{
-    private boolean _isAlive, _isMoving;
+    private boolean _isAlive;
     private int _xLoc, _yLoc;
 
     public LivingObject(String name, int xLoc, int yLoc){
@@ -14,7 +14,6 @@ public class LivingObject extends GridObject implements ClickableObject{
         _xLoc = xLoc;
         _yLoc = yLoc;
         _isAlive = true;
-        _isMoving = true;
     }
 
     public boolean isAlive(){
@@ -23,14 +22,6 @@ public class LivingObject extends GridObject implements ClickableObject{
 
     public void setAlive(boolean bool){
         _isAlive = bool;
-    }
-
-    public boolean isMoving(){
-        return _isMoving;
-    }
-
-    public void setMoving(boolean bool){
-        _isMoving = bool;
     }
 
     public void setLoc(int xLoc, int yLoc){

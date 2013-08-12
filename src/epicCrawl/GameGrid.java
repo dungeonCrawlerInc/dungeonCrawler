@@ -16,8 +16,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
 
-//
-@SuppressWarnings("serial")
 public class GameGrid extends JPanel{
 	private boolean _viewMode = false;
 
@@ -113,11 +111,10 @@ public class GameGrid extends JPanel{
                     for(int i = 0; i < _livingObjects.size(); ++i){
                         LivingObject curLiving = _livingObjects.get(i);
                         if(curLiving.getXLoc() == newX && curLiving.getYLoc() == newY){
-                            //if(curLiving instanceof Enemy){ // Attacking
-                            //    _soundManager.playSound();
-                            //}
-
                             curLiving.click(playerX, playerY);
+
+                            if(curLiving instanceof Enemy && ((Enemy)curLiving).wasAttacked())
+                                _soundManager.playSound();
 
                            if(!curLiving.isAlive()){
                                _livingObjects.remove(curLiving);
