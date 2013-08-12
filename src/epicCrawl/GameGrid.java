@@ -69,8 +69,8 @@ public class GameGrid extends JPanel{
         curLevel = "Town.txt";
 		loadLevel(curLevel);
 
-		playerX = 45;
-		playerY = 1;
+		playerX = 3;
+		playerY = 2;
 
 		BufferedImage bufImage = null;
 
@@ -101,22 +101,18 @@ public class GameGrid extends JPanel{
                 if(playerY > _maxRows - 8)
                     drawPlayerY = playerY - (_maxColumns - _columns);
 
-                int xDelta = xLoc - drawPlayerX, yDelta = yLoc -drawPlayerY;
-                int newX = playerX + xDelta, newY = playerY + yDelta;
+                int newX = playerX + xLoc - drawPlayerX, newY = playerY + yLoc -drawPlayerY;
 
-                System.out.println("xDelta: " + xDelta + " yDelta: " + yDelta);
-                System.out.println("x: " + newX + " Y: " + newY);
 
-                //if(_grid[newY][newX].get() x y is clickable      -----------------------------------
                 if(_grid[newY][newX].get(_grid[newY][newX].size() - 1) instanceof ClickableObject)
-                    return;
-                    // handle click
-                else
-                    return;
-                    // loop through living objects
-                        // if x and y match
-                            // handle click
-                            // return
+                    ((ClickableObject) _grid[newY][newX].get(_grid[newY][newX].size() - 1)).click(playerX, playerY);
+                else{  // Will get rid of this, get rid of _livingObjects and have objects in _grid.
+                    for(LivingObject curLiving: _livingObjects){
+                        if(curLiving.getXLoc() == newX && curLiving.getYLoc() == newY){
+                            curLiving.click(playerX, playerY);
+                        }
+                    }
+                }
             }
         });
     }
@@ -221,24 +217,28 @@ public class GameGrid extends JPanel{
                         _grid[curCol][curRow].add(floorStone);
                     else if(cur.equals("wallStoneTorch.png"))
                         _grid[curCol][curRow].add(wallStoneTorch);
-                    else if(cur.equals("enemyBull.png"))
-                        _livingObjects.add(new LivingObject("enemyBull", curCol, curRow));
-                    else if(cur.equals("enemySkeleton.png"))
-                        _livingObjects.add(new LivingObject("enemySkeleton", curCol, curRow));
-                    else if(cur.equals("girl.png"))
-                        _livingObjects.add(new LivingObject("girl", curCol, curRow));
-		    else if(cur.equals("girl0.png"))
-                        _livingObjects.add(new LivingObject("girl0", curCol, curRow));
-		    else if(cur.equals("girl1.png"))
-                        _livingObjects.add(new LivingObject("girl1", curCol, curRow));
-		    else if(cur.equals("girl2.png"))
-                        _livingObjects.add(new LivingObject("girl2", curCol, curRow));
-                    else if(cur.equals("villager1.png"))
-                        _livingObjects.add(new LivingObject("villager1", curCol, curRow));
-		    else if(cur.equals("barkeep.png"))
-                        _livingObjects.add(new LivingObject("barkeep", curCol, curRow));
+                    // Enemies
                     else if(cur.equals("enemyRat.png"))
-                        _livingObjects.add(new LivingObject("enemyRat", curCol, curRow));
+                        _livingObjects.add(new Enemy("enemyRat", curCol, curRow, 0, 10));
+                    else if(cur.equals("enemySkeleton.png"))
+                        _livingObjects.add(new Enemy("enemySkeleton", curCol, curRow, 1, 20));
+                    else if(cur.equals("enemyBull.png"))
+                        _livingObjects.add(new Enemy("enemyBull", curCol, curRow, 2, 30));
+
+                    // NPCs
+                    else if(cur.equals("girl.png"))
+                        _livingObjects.add(new NPC("girl", curCol, curRow));
+		            else if(cur.equals("girl0.png"))
+                        _livingObjects.add(new NPC("girl0", curCol, curRow));
+		            else if(cur.equals("girl1.png"))
+                        _livingObjects.add(new NPC("girl1", curCol, curRow));
+		            else if(cur.equals("girl2.png"))
+                        _livingObjects.add(new NPC("girl2", curCol, curRow));
+                    else if(cur.equals("villager1.png"))
+                        _livingObjects.add(new NPC("villager1", curCol, curRow));
+		            else if(cur.equals("barkeep.png"))
+                        _livingObjects.add(new NPC("barkeep", curCol, curRow));
+
 
 				}
 				
@@ -295,8 +295,10 @@ public class GameGrid extends JPanel{
                 newLivingY += curLiving.getYLoc();
 
                 if((newLivingX != playerX || newLivingY != playerY) && isMovableSpace(newLivingX, newLivingY)){
-                    validMove = true;
-                    curLiving.setLoc(newLivingX, newLivingY);
+                    if(newLivingX == curLiving.getXLoc() || newLivingY == curLiving.getYLoc()){
+                        validMove = true;
+                        curLiving.setLoc(newLivingX, newLivingY);
+                    }
                 }
                 ++counter;
             }
@@ -329,28 +331,28 @@ public class GameGrid extends JPanel{
 		playerX = newX;
 		playerY = newY;
 		
-		if(curLevel.equals("Town.txt") && playerX == 9 && playerY == 9){ // Temporary portal jump
-            preLoadLevel("House1.txt", 22, 24);
+		if(curLevel.equals("Town.txt") && playerX == 25 && playerY == 11){ // Temporary portal jump
+            preLoadLevel("House1.txt", 20, 24);
             return;
 		}
-		else if(curLevel.equals("House1.txt") && playerX == 22 && playerY == 25){
-            preLoadLevel("Town.txt", 9, 10);
+		else if(curLevel.equals("House1.txt") && playerX == 20 && playerY == 25){
+            preLoadLevel("Town.txt", 25, 12);
             return;
 		}
-        else if(curLevel.equals("Town.txt") && playerX == 29 && playerY == 7){
-            preLoadLevel("House2.txt", 22, 24);
+        else if(curLevel.equals("Town.txt") && playerX == 43 && playerY == 14){
+            preLoadLevel("House2.txt", 20, 24);
             return;
         }
-        else if(curLevel.equals("House2.txt") && playerX == 22 && playerY == 25){
-            preLoadLevel("Town.txt", 29, 8);
+        else if(curLevel.equals("House2.txt") && playerX == 20 && playerY == 25){
+            preLoadLevel("Town.txt", 43, 15);
             return;
         }
-        else if(curLevel.equals("Town.txt") && playerX == 9 && playerY == 39){
-            preLoadLevel("Dungeon1.txt", 4, 4);
+        else if(curLevel.equals("Town.txt") && playerX == 39 && playerY == 37){
+            preLoadLevel("Dungeon1.txt", 3, 5);
             return;
         }
-        else if(curLevel.equals("Dungeon1.txt") && playerX == 32 && playerY == 44){
-            preLoadLevel("Town.txt", 22, 47);
+        else if(curLevel.equals("Dungeon1.txt") && playerX == 45 && playerY == 4){
+            preLoadLevel("Town.txt", 27, 46);
             return;
         }
 
