@@ -4,7 +4,7 @@ package epicCrawl;
 // This would allow enemies to know the players current location, valid move directions, etc.
 
 // Any object in the game that is alive is derived from this class.
-public class LivingObject extends GridObject{
+public class LivingObject extends GridObject implements ClickableObject{
     private boolean _isAlive, _isMoving;
     private int _xLoc, _yLoc;
 

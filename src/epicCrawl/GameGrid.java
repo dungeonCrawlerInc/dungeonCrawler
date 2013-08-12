@@ -2,17 +2,12 @@ package epicCrawl;
 
 //Imports
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.KeyStroke;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +24,7 @@ public class GameGrid extends JPanel{
 	private int _maxRows = 50, _maxColumns = 50; // Size of the available grid
 	private int _rows = 15, _columns = 15;
 	private int playerX, playerY, newX, newY;
-    public int _characterLevel;
+    public int _characterLevel, recW, recH; // Draw the grid
     public String _characterName;
 
 	private ArrayList<GridObject>[][] _grid; // Grid for current map
@@ -85,7 +80,46 @@ public class GameGrid extends JPanel{
 		}catch (IOException e){System.err.println("Failed to load image for grid square.");}
 
 		playerImage = bufImage;
+
+        setUpMouseListener();
 	}
+
+    private void setUpMouseListener(){
+        this.addMouseListener(new MouseAdapter(){
+            public void mousePressed(MouseEvent me){
+                int xLoc = me.getX() / recW, yLoc = me.getY() / recH;
+                System.out.println("Clicked on x: " + xLoc + " y: " + yLoc);
+
+                int drawPlayerX = 7, drawPlayerY = 7;
+
+                if(playerX < 8)
+                    drawPlayerX = playerX;
+                if(playerY < 8)
+                    drawPlayerY = playerY;
+                if(playerX > _maxColumns - 8)
+                    drawPlayerX = playerX - (_maxRows - _rows);
+                if(playerY > _maxRows - 8)
+                    drawPlayerY = playerY - (_maxColumns - _columns);
+
+                int xDelta = xLoc - drawPlayerX, yDelta = yLoc -drawPlayerY;
+                int newX = playerX + xDelta, newY = playerY + yDelta;
+
+                System.out.println("xDelta: " + xDelta + " yDelta: " + yDelta);
+                System.out.println("x: " + newX + " Y: " + newY);
+
+                //if(_grid[newY][newX].get() x y is clickable      -----------------------------------
+                if(_grid[newY][newX].get(_grid[newY][newX].size() - 1) instanceof ClickableObject)
+                    return;
+                    // handle click
+                else
+                    return;
+                    // loop through living objects
+                        // if x and y match
+                            // handle click
+                            // return
+            }
+        });
+    }
 	
 	public void loadLevel(String levelFileName){
 		levelFileName = "Levels/" + levelFileName;
@@ -214,7 +248,7 @@ public class GameGrid extends JPanel{
 			curCol = 0;
 			++curRow;
 		}
-		
+
 		lineScanner.close();
 		stringScanner.close();
 	}
@@ -228,9 +262,8 @@ public class GameGrid extends JPanel{
                 return false;
         }
 
-        if(!(_grid[x][y].get(_grid[x][y].size() - 1).isPassable())) return false;
+        return _grid[x][y].get(_grid[x][y].size() - 1).isPassable();
 
-        return true;
     }
 
     private void preLoadLevel(String str, int x, int y){
@@ -244,11 +277,13 @@ public class GameGrid extends JPanel{
     private void moveLivingObjects(){
         boolean validMove;
         Random rand = new Random();
-        int newLivingX, newLivingY;
+        int newLivingX, newLivingY, counter;
         // Move all living objects...
+
         for(LivingObject curLiving: _livingObjects){
             validMove = false;
-            while(validMove == false){
+            counter = 0;
+            while(!validMove && counter < 10){
                 newLivingY = 0;
                 newLivingX = rand.nextInt(3) - 1;
 
@@ -259,10 +294,11 @@ public class GameGrid extends JPanel{
                 newLivingX += curLiving.getXLoc();
                 newLivingY += curLiving.getYLoc();
 
-                if((newLivingX != playerX || newLivingY != playerY) && isMovableSpace(newLivingX, newLivingY)){                     validMove = true;
-
+                if((newLivingX != playerX || newLivingY != playerY) && isMovableSpace(newLivingX, newLivingY)){
+                    validMove = true;
                     curLiving.setLoc(newLivingX, newLivingY);
                 }
+                ++counter;
             }
         }
     }
@@ -329,8 +365,8 @@ public class GameGrid extends JPanel{
 		g.clearRect(0, 0, getWidth(), getHeight()); // Clear the board
 
 		if(!_viewMode){ // 15x15 view mode
-			int recW = getWidth() / _rows; // Draw the grid
-			int recH = getHeight() / _columns;
+			recW = getWidth() / _columns; // Draw the grid
+			recH = getHeight() / _rows;
 
 			for(int i = 0; i <  _rows; i++){ // Determine what to draw for each grid square on grid
 				int viewX = (playerX - (7) + i);
