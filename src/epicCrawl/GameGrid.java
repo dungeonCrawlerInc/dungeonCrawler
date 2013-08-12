@@ -104,12 +104,19 @@ public class GameGrid extends JPanel{
                 int newX = playerX + xLoc - drawPlayerX, newY = playerY + yLoc -drawPlayerY;
 
 
-                if(_grid[newY][newX].get(_grid[newY][newX].size() - 1) instanceof ClickableObject)
-                    ((ClickableObject) _grid[newY][newX].get(_grid[newY][newX].size() - 1)).click(playerX, playerY);
+                if(getTopObject(newY, newX) instanceof ClickableObject)
+                    ((ClickableObject)getTopObject(newY, newX)).click(playerX, playerY);
                 else{  // Will get rid of this, get rid of _livingObjects and have objects in _grid.
-                    for(LivingObject curLiving: _livingObjects){
+                    for(int i = 0; i < _livingObjects.size(); ++i){
+                        LivingObject curLiving = _livingObjects.get(i);
                         if(curLiving.getXLoc() == newX && curLiving.getYLoc() == newY){
-                            curLiving.click(playerX, playerY);
+                           curLiving.click(playerX, playerY);
+
+                           if(!curLiving.isAlive()){
+                               _livingObjects.remove(curLiving);
+                               repaint();
+                               return;
+                           }
                         }
                     }
                 }
@@ -124,7 +131,16 @@ public class GameGrid extends JPanel{
 		Scanner stringScanner = null;
 		int curRow = 0, curCol = 0;
 		String curString;
+
+        for(int i = 0; i < _maxRows; ++i){
+            for(int j = 0; j < _maxColumns; ++j){
+                _grid[i][j].clear();
+            }
+        }
+
         _livingObjects.clear(); // Get rid of all previous living objects from last level
+
+        //System.out.println("Cleared living objects: " + _livingObjects.size());
 
 		while(lineScanner.hasNextLine()){
 			stringScanner = new Scanner(lineScanner.nextLine());
@@ -138,7 +154,6 @@ public class GameGrid extends JPanel{
 				for(String cur: wordList){
 					if(cur.equals("dirt.png"))
 						_grid[curCol][curRow].add(dirtSquare);
-
                     else if(cur.equals("bed.png"))
                         _grid[curCol][curRow].add(new GridObject("bed", false));
                     else if(cur.equals("rock.png"))
@@ -224,7 +239,6 @@ public class GameGrid extends JPanel{
                         _livingObjects.add(new Enemy("enemySkeleton", curCol, curRow, 1, 20));
                     else if(cur.equals("enemyBull.png"))
                         _livingObjects.add(new Enemy("enemyBull", curCol, curRow, 2, 30));
-
                     // NPCs
                     else if(cur.equals("girl.png"))
                         _livingObjects.add(new NPC("girl", curCol, curRow));
@@ -238,8 +252,6 @@ public class GameGrid extends JPanel{
                         _livingObjects.add(new NPC("villager1", curCol, curRow));
 		            else if(cur.equals("barkeep.png"))
                         _livingObjects.add(new NPC("barkeep", curCol, curRow));
-
-
 				}
 				
 				++curCol;
@@ -253,17 +265,16 @@ public class GameGrid extends JPanel{
 		stringScanner.close();
 	}
 
-    private boolean isMovableSpace(int x, int y){
-        if(x < 0 || x > _maxRows -1 || y < 0 || y > _maxColumns - 1)
+    private boolean isMovableSpace(int y, int x){
+        if(x < 0 || x > _maxColumns -1 || y < 0 || y > _maxRows - 1)
             return false;
 
         for(LivingObject curLiving: _livingObjects){
             if(x == curLiving.getXLoc() && y == curLiving.getYLoc())
-                return false;
+               return false;
         }
 
-        return _grid[x][y].get(_grid[x][y].size() - 1).isPassable();
-
+        return getTopObject(x, y).isPassable();
     }
 
     private void preLoadLevel(String str, int x, int y){
@@ -281,27 +292,28 @@ public class GameGrid extends JPanel{
         // Move all living objects...
 
         for(LivingObject curLiving: _livingObjects){
-            validMove = false;
-            counter = 0;
-            while(!validMove && counter < 10){
-                newLivingY = 0;
-                newLivingX = rand.nextInt(3) - 1;
 
-                if(newLivingX == 0){
-                    newLivingY = rand.nextInt(3) - 1;
-                }
+                    validMove = false;
+                    counter = 0;
+                    while(!validMove && counter < 3){
+                        newLivingY = 0;
+                        newLivingX = rand.nextInt(3) - 1;
 
-                newLivingX += curLiving.getXLoc();
-                newLivingY += curLiving.getYLoc();
+                        if(newLivingX == 0){
+                            newLivingY = rand.nextInt(3) - 1;
+                        }
 
-                if((newLivingX != playerX || newLivingY != playerY) && isMovableSpace(newLivingX, newLivingY)){
-                    if(newLivingX == curLiving.getXLoc() || newLivingY == curLiving.getYLoc()){
-                        validMove = true;
-                        curLiving.setLoc(newLivingX, newLivingY);
+                        newLivingX += curLiving.getXLoc();
+                        newLivingY += curLiving.getYLoc();
+
+                        if((newLivingX != playerX || newLivingY != playerY) && isMovableSpace(newLivingY, newLivingX)){
+                            if(newLivingX == curLiving.getXLoc() || newLivingY == curLiving.getYLoc()){
+                                validMove = true;
+                                curLiving.setLoc(newLivingX, newLivingY);
+                            }
+                        }
+                        ++counter;
                     }
-                }
-                ++counter;
-            }
         }
     }
 
@@ -326,7 +338,7 @@ public class GameGrid extends JPanel{
 		else
 			System.out.println("wtf");
 
-        if(!isMovableSpace(newX, newY)) return;
+        if(!isMovableSpace(newY, newX)) return;
 		
 		playerX = newX;
 		playerY = newY;
@@ -348,19 +360,23 @@ public class GameGrid extends JPanel{
             return;
         }
         else if(curLevel.equals("Town.txt") && playerX == 39 && playerY == 37){
-            preLoadLevel("Dungeon1.txt", 3, 5);
+            preLoadLevel("Dungeon1.txt", 3, 6);
             return;
         }
-        else if(curLevel.equals("Dungeon1.txt") && playerX == 45 && playerY == 4){
+        else if(curLevel.equals("Dungeon1.txt") && playerX == 45 && playerY == 7){
             preLoadLevel("Town.txt", 27, 46);
             return;
         }
 
         moveLivingObjects();
-
 		repaint();
 	}
-	
+
+    // Returns the object on top at the grid location passed in
+    private GridObject getTopObject(int row, int column){
+        return _grid[row][column].get(_grid[row][column].size() - 1);
+    }
+
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g); // Important to call super class method

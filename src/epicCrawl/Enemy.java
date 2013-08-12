@@ -13,6 +13,13 @@ public class Enemy extends LivingObject implements ClickableObject{
     public void attacked(){
         System.out.println("Attacked " + getName());
         System.out.println("Level: " + _level + " Health: " + _health);
+
+        _health -= 10;
+
+        if(_health <= 0){
+            setAlive(false);
+            setMoving(false);
+        }
     }
 
     //public void attack(){
