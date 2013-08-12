@@ -27,6 +27,8 @@ public class GameGrid extends JPanel{
     public int _characterLevel, recW, recH; // Draw the grid
     public String _characterName;
 
+    private SoundManager _soundManager;
+
 	private ArrayList<GridObject>[][] _grid; // Grid for current map
     private ArrayList<LivingObject> _livingObjects; // All living objects on a map
     GridObject grassSquare, dirtSquare, darkWoodFloorSquare, lightWoodFloorSquare, stoneWallSquare,
@@ -40,6 +42,7 @@ public class GameGrid extends JPanel{
 	public GameGrid(){
         _characterLevel = 1;
         _livingObjects = new ArrayList<LivingObject>();
+        _soundManager = new SoundManager();
 
         grassSquare = new GridObject("grass", true);
 		dirtSquare = new GridObject("dirt", true);
@@ -110,7 +113,11 @@ public class GameGrid extends JPanel{
                     for(int i = 0; i < _livingObjects.size(); ++i){
                         LivingObject curLiving = _livingObjects.get(i);
                         if(curLiving.getXLoc() == newX && curLiving.getYLoc() == newY){
-                           curLiving.click(playerX, playerY);
+                            //if(curLiving instanceof Enemy){ // Attacking
+                            //    _soundManager.playSound();
+                            //}
+
+                            curLiving.click(playerX, playerY);
 
                            if(!curLiving.isAlive()){
                                _livingObjects.remove(curLiving);
