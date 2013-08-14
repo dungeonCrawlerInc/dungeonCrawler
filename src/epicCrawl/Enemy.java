@@ -19,8 +19,8 @@ public class Enemy extends LivingObject implements ClickableObject{
         _health -= 10;
 
         if(_health <= 0){
-            setAlive(false);
-            setMoving(false);
+            //setAlive(false);
+            //setMoving(false);
         }
 
         _wasAttacked = true;
