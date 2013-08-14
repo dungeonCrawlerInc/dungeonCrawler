@@ -1,5 +1,8 @@
 //Commented out two lines in Enemy so I could compile
 //I believe there is an issue with the EpicCrawl package
+// ------ I think it's because I got rid of the setMoving method in LivingObject but didn't get rid of the call to it
+// ------ in enemy, that line should be deleted, I think setLiving should be fine uncommented.
+
 
 package characterDesigner;
 
