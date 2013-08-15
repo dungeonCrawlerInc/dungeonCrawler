@@ -8,7 +8,7 @@ Left click  - Attack
 
 Can only attack enemies when next to them.
 
-==================================================
+==============================================
 
 This game is a programming project.
 
