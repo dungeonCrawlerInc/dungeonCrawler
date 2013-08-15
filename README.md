@@ -11,7 +11,6 @@ TO DO:
        
     Combat Dialogue Area
         Write methods to display out messages and cycle through messages correctly
-        Add in panes (combat/dialogue), combat, and dialogue.
     
     Game
         (IMPORTANT) Need to develope game loop for moving all movable objects on grid
@@ -35,9 +34,10 @@ Tasks:
 
 
     Andrew
-        Create GridSquare Interface for all grid objects to implement 
-            (Will allow different types - living things, non living things, etc.)
-        Start to set up areas to display items being worn
+        Start to set up areas to display items being worn.
+        Make basic method for enemies to attack player if next to player.
+        Display message in dialogue area when attacking or being attacked.
+        Fix bugs in enemy path finding.
 
 Development:
   
