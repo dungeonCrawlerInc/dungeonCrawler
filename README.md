@@ -17,7 +17,7 @@ TO DO:
         Create enemy path finding towards character
         Give doors information that will allow them to load new levels
     
-    LEVEL DESIGNER
+    LEVEL 
         Add in line method (Draw a line and any grid square the line touches will get filled in)
     
 Minor Fixes Needed:
@@ -28,9 +28,30 @@ Minor Fixes Needed:
 Tasks:
     
     Greg
-        Epic Crawl developement environment VM
-        Fill feature in Level Editor
-        Change "Increase Brush Size" button to an editable field
+        Character Designer
+            New Feature - Add list of skills
+            New Feature - Add race bonuses
+            New Feature - Add race picture
+            * check for already existing .char file and prompt for overwrite or cancel
+            * close Character Designer on creation (somehow pass the newly created character name out)
+            
+        Living Object
+            * Consistentantly update, while I create, edit and remove features from a character
+            
+        Hero class (Does not exist yet) [Will be our playing character, AKA PC)
+            * Will extend Living Object
+        
+        Character Loader (Does Not Exist Yet)
+            * Will create an instance of the  Hero class
+            * Will load all the values from the .char file and put them into the Hero clas
+            
+        Non-Playing Character (Does not exist yet) [All the characters that have a proper name)
+            *Will extend Living Object
+            
+        Level Designer
+            New Feature - Fill check box
+            New Feature - Different shaped brushes
+            Edit Feature - Change "Increase Brush Size" button to a combo box
 
 
     Andrew
