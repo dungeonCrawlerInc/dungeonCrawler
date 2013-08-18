@@ -98,8 +98,11 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 		frame.addMouseListener(new MouseAdapter(){
 			public void mousePressed(MouseEvent me) {
+                //paintBrushSize = (int) bp.iconPaintSize.getSelectedItem();    //TODO: Set paintBrushSize to the int vlaue of the iconPaintSize combo box
 
-				for(int i = 0; i < rows; ++i){
+                System.out.println("paintBrushSize:" + paintBrushSize);
+
+                for(int i = 0; i < rows; ++i){
 					for(int j = 0; j < cols; ++j){
 						Point pointOfClick = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);  //Top left of square
 						if (theView[i][j].contains(pointOfClick)){
@@ -119,8 +122,10 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 		frame.addMouseMotionListener(new MouseMotionAdapter(){
 			public void mouseDragged(MouseEvent me) {
+                //paintBrushSize = (int) bp.iconPaintSize.getSelectedItem();    //TODO: Set paintBrushSize to the int vlaue of the iconPaintSize combo box
+                System.out.println("paintBrushSize:" + paintBrushSize);
 
-				for(int i = 0; i < rows; ++i){
+                for(int i = 0; i < rows; ++i){
 					for(int j = 0; j < cols; ++j){
 						Point pointOfClickDrag = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
 
@@ -299,8 +304,6 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 			saveGame();
 		else if(id == -2) // Load
 			loadGame();
-        else if(id == -3) //Change paint brush size
-            changePaintBrushSize();
 		else
 			val = id;
 	}
