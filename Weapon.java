@@ -1,41 +1,18 @@
-public class Weapon {
-        
-    // weapon class fields
-  private String name;
-    private int damage, goldValue;
-    
-    
-	// the weapon class has
-    // one constructor
-    public Weapon(String name, int damage, int goldValue) {
-        this.name = name;
-        this.damage = damage;
-        this.goldValue = goldValue;
+public class Weapon extends Item {
+    private int _damage;
+
+    public Weapon(String name, int goldValue, int weight, int damage) {
+        this._name = name;
+        this._goldValue = goldValue;
+        this._weight = weight;
+        this._damage = damage;
     }
 
-
-    //Methods
-    public String getName() {
-		return this.name;
-	}
-    
-    
     public int getDamage() {
-		return damage;
+		return _damage;
 	}
 
-
-	public void getDamage(int damage) {
-		this.damage = damage;
-	}
-
-
-	public int getValue() {
-		return goldValue;
-	}
-
-
-	public void setValue(int goldValue) {
-		this.goldValue = goldValue;
+	public void setDamage(int damage) {
+		this._damage = damage;
 	}
 }

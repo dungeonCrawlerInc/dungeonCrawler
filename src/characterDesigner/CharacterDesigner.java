@@ -54,7 +54,7 @@ public class CharacterDesigner extends JPanel implements ButtonListener, ActionL
         //Attributes
 
         //Strength
-        increaseStrengthButton = new JButton("+");
+        increaseStrengthButton = new JButton("-");
         panel.add(increaseStrengthButton);
         increaseStrengthButton.addActionListener(this);
 
@@ -63,13 +63,13 @@ public class CharacterDesigner extends JPanel implements ButtonListener, ActionL
         strength.setEditable(false);
         panel.add(strength);
 
-        decreaseStrengthButton = new JButton("-");
+        decreaseStrengthButton = new JButton("+");
         panel.add(decreaseStrengthButton);
         decreaseStrengthButton.addActionListener(this);
 
 
         //Dexterity
-        increaseDexterityButton = new JButton("+");
+        increaseDexterityButton = new JButton("-");
         panel.add(increaseDexterityButton);
         increaseDexterityButton.addActionListener(this);
 
@@ -78,12 +78,12 @@ public class CharacterDesigner extends JPanel implements ButtonListener, ActionL
         dexterity.setEditable(false);
         panel.add(dexterity);
 
-        decreaseDexterityButton = new JButton("-");
+        decreaseDexterityButton = new JButton("+");
         panel.add(decreaseDexterityButton);
         decreaseDexterityButton.addActionListener(this);
 
         //Intelligence
-        increaseIntelligenceButton = new JButton("+");
+        increaseIntelligenceButton = new JButton("-");
         panel.add(increaseIntelligenceButton);
         increaseIntelligenceButton.addActionListener(this);
 
@@ -92,7 +92,7 @@ public class CharacterDesigner extends JPanel implements ButtonListener, ActionL
         intelligence.setEditable(false);
         panel.add(intelligence);
 
-        decreaseIntelligenceButton = new JButton("-");
+        decreaseIntelligenceButton = new JButton("+");
         panel.add(decreaseIntelligenceButton);
         decreaseIntelligenceButton.addActionListener(this);
 

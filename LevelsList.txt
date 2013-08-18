@@ -2,7 +2,3 @@ Town.txt
 House1.txt
 House2.txt
 Dungeon1.txt
-
-Dungeon.txt
-
-Dungeon1.txt

@@ -1,14 +1,18 @@
+/*
+    * TODO List
+        * Add inventory
+ */
 
 public class LivingThing {
     
-  private String name;
-  private int str, dex, con, intel, wis, cha, gold, locX, locY;
+  protected String name; //Default no name
+  protected int str, dex, con, intel, wis, cha, gold, locX, locY;
     
         
     // one constructor
-    public LivingThing(String name) {
-        this.name = name;
-        
+    public LivingThing() {   //I removed the parameter "String name", so things that extend this can utilize it
+        this.name = "";
+
         //10 being average
         this.str = 10;
         this.dex = 10;
@@ -90,15 +94,7 @@ public class LivingThing {
 		return gold;
 	}
 
-	
-	//Hard sets this humanoid's gold
 	public void setGold(int gold) {
 		this.gold = gold;
-	}
-	
-	
-	//Soft sets (aka increases or decreases)
-	public void changeGold(int offset){
-		this.gold += gold;
-	}
+    }
 }
