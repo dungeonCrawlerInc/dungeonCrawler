@@ -19,7 +19,7 @@ import java.io.File;
 public class CharacterLoader {
     public CharacterLoader(String heroName)
     {
-
+        /*
         try {
             File heroFile = new File("C:\\Users\\Grehg\\IdeaProjects\\epicCrawl\\savedCharacters\\Sample Hero.char");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -49,9 +49,10 @@ public class CharacterLoader {
         } catch (Exception e) {
             e.printStackTrace();
         }
+       */
     }
 
     public static void main(String[] args) {
-        CharacterLoader characterDesigner = new CharacterLoader("Sample Hero.char");    //TODO: Un-hardcode the heroName
+        //CharacterLoader characterDesigner = new CharacterLoader("Sample Hero.char");    //TODO: Un-hardcode the heroName
     } //main
 }   //Class CharacterLoader
