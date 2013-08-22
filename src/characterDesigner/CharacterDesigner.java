@@ -54,47 +54,47 @@ public class CharacterDesigner extends JPanel implements ButtonListener, ActionL
         //Attributes
 
         //Strength
-        increaseStrengthButton = new JButton("-");
-        panel.add(increaseStrengthButton);
-        increaseStrengthButton.addActionListener(this);
+        decreaseStrengthButton = new JButton("-");
+        panel.add(decreaseStrengthButton);
+        decreaseStrengthButton.addActionListener(this);
 
         strength = new JTextField();
         strength.setText("Strength: " + strengthVal);
         strength.setEditable(false);
         panel.add(strength);
 
-        decreaseStrengthButton = new JButton("+");
-        panel.add(decreaseStrengthButton);
-        decreaseStrengthButton.addActionListener(this);
+        increaseStrengthButton = new JButton("+");
+        panel.add(increaseStrengthButton);
+        increaseStrengthButton.addActionListener(this);
 
 
         //Dexterity
-        increaseDexterityButton = new JButton("-");
-        panel.add(increaseDexterityButton);
-        increaseDexterityButton.addActionListener(this);
+        decreaseDexterityButton = new JButton("-");
+        panel.add(decreaseDexterityButton);
+        decreaseDexterityButton.addActionListener(this);
 
         dexterity = new JTextField();
         dexterity.setText("Dexterity: " + dexterityVal);
         dexterity.setEditable(false);
         panel.add(dexterity);
 
-        decreaseDexterityButton = new JButton("+");
-        panel.add(decreaseDexterityButton);
-        decreaseDexterityButton.addActionListener(this);
+        increaseDexterityButton = new JButton("+");
+        panel.add(increaseDexterityButton);
+        increaseDexterityButton.addActionListener(this);
 
         //Intelligence
-        increaseIntelligenceButton = new JButton("-");
-        panel.add(increaseIntelligenceButton);
-        increaseIntelligenceButton.addActionListener(this);
+        decreaseIntelligenceButton = new JButton("-");
+        panel.add(decreaseIntelligenceButton);
+        decreaseIntelligenceButton.addActionListener(this);
 
         intelligence = new JTextField();
         intelligence.setText("Intelligence: " + intelligenceVal);
         intelligence.setEditable(false);
         panel.add(intelligence);
 
-        decreaseIntelligenceButton = new JButton("+");
-        panel.add(decreaseIntelligenceButton);
-        decreaseIntelligenceButton.addActionListener(this);
+        increaseIntelligenceButton = new JButton("+");
+        panel.add(increaseIntelligenceButton);
+        increaseIntelligenceButton.addActionListener(this);
 
 
         remainingAttributePoints = new JTextField();
@@ -117,11 +117,11 @@ public class CharacterDesigner extends JPanel implements ButtonListener, ActionL
     {
         if(e.getSource() == textField)
         {
-            System.out.println("Name Changed!");
+            //System.out.println("Name Changed!");
         }
         else if(e.getSource() == raceList)
         {
-            System.out.println("Race Changed!");
+            //System.out.println("Race Changed!");
         }
         else if(changedAttributePoints(e.getSource()) == true)
         {
@@ -249,13 +249,13 @@ public class CharacterDesigner extends JPanel implements ButtonListener, ActionL
         try{
             FileWriter fw = new FileWriter(newCharacter.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write("<character>\n");
+            bw.write("<hero>\n");
             bw.write("\t<name>" + characterName + "</name>\n");
             bw.write("\t<race>" + String.valueOf(raceList.getSelectedItem()) + "</race>\n");
             bw.write("\t<strength>" + strengthVal + "</strength>\n");
             bw.write("\t<dexterity>" + dexterityVal + "</dexterity>\n");
             bw.write("\t<intelligence>" + intelligenceVal + "</intelligence>\n");
-            bw.write("</character>");
+            bw.write("</hero>");
             bw.close();
 
             System.out.println("Character Successfully Saved!");
@@ -272,4 +272,4 @@ public class CharacterDesigner extends JPanel implements ButtonListener, ActionL
     public static void main(String[] args) {
         CharacterDesigner characterDesigner = new CharacterDesigner();
     } //main
-} //class EmptyFrame1
+} //class CharacterDesigner
