@@ -1,3 +1,5 @@
+//TODO: Make mousePressed and mouseDragged call the same function.
+
 package levelDesigner;
 
 // ----------------TEST-------------------
@@ -7,9 +9,9 @@ package levelDesigner;
  * 		terrain
  * 		object
  * 		living thing
- * 
- * Add in option to change rows/columns
- * 
+ *
+ * Add in option to change numOfRows/columns
+ *
  * Add in ability to place objects on top of others
  */
 
@@ -37,7 +39,7 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 	private Grid[][] theView;
 	private ButtonPanel bp;
 	public static int val;
-	private int rows, cols;
+    private int numOfRows, numOfCols;
 	private JPanel gridPanel;
 	private JFrame frame;
 	private ImageIcon optionPaneIcon;
@@ -57,6 +59,14 @@ public class LevelDesigner extends JPanel implements ButtonListener{
             "villager1.png", "enemyBull.png", "enemySkeleton.png", "enemyRat.png"};
     private int paintBrushSize = 0; // 0 Indicates one tile to be painted
 
+    public int getNumOfRows() {
+        return numOfRows;
+    }
+
+    public int getNumOfCols() {
+        return numOfCols;
+    }
+
 	public LevelDesigner(int r, int c){
 		frame = new JFrame();
 		setVisible(true);
@@ -70,13 +80,13 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		catch(IOException e){System.err.println("Failed to load main screen image");}
 		optionPaneIcon = new ImageIcon(imageToPaint);
 
-		rows = r;
-		cols = c;
+		numOfRows = r;
+		numOfCols = c;
 		theView = new Grid[r][c];   
 		
 		GridLayout gridLayout = new GridLayout();
-		gridLayout.setColumns(cols);
-		gridLayout.setRows(rows);
+		gridLayout.setColumns(numOfCols);
+		gridLayout.setRows(numOfRows);
 
 		gridPanel = new JPanel();
 		gridPanel.setVisible(true);
@@ -98,51 +108,74 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 		frame.addMouseListener(new MouseAdapter(){
 			public void mousePressed(MouseEvent me) {
-                //paintBrushSize = (int) bp.iconPaintSize.getSelectedItem();    //TODO: Set paintBrushSize to the int vlaue of the iconPaintSize combo box
+                if(bp.fillCheckBox.isSelected())
+                {
+                    fill(me);
+                }
+                else
+                {
+                    paintBrushSize = (Integer)bp.iconPaintSizeCombo.getSelectedItem();
 
-                System.out.println("paintBrushSize:" + paintBrushSize);
+                    if(((String)bp.brushShapeCombo.getSelectedItem()).equals("Square Brush"))
+                    {
+                        for(int i = 0; i < numOfRows; ++i){
+                            for(int j = 0; j < numOfCols; ++j){
+                                Point pointOfClickDrag = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
 
-                for(int i = 0; i < rows; ++i){
-					for(int j = 0; j < cols; ++j){
-						Point pointOfClick = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);  //Top left of square
-						if (theView[i][j].contains(pointOfClick)){
-                            for(int colClick = 0; colClick <= paintBrushSize; colClick++){
-							    for(int rowClick = 0; rowClick <= paintBrushSize; rowClick++){
-                                    if((i+rowClick < rows) && (j+colClick < cols)){
-                                        theView[i+rowClick][j+colClick].actionPerformed(null);
+                                if (theView[i][j].contains(pointOfClickDrag)){
+                                    for(int colClick = 0; colClick < paintBrushSize; colClick++){
+                                        for(int rowClick = 0; rowClick < paintBrushSize; rowClick++){
+                                            if((i+rowClick < numOfRows) && (j+colClick < numOfCols)){
+                                                theView[i+rowClick][j+colClick].actionPerformed(null);
+                                            }
+                                        }
                                     }
+                                    return;
                                 }
                             }
-							return;
-						}
-					}
-				}
-			} 
+                        }
+                    }
+                    else
+                    {
+                        System.out.println((String)bp.brushShapeCombo.getSelectedItem() + " is not supported yet!");
+                    }
+                }
+            }
 		});
 
 		frame.addMouseMotionListener(new MouseMotionAdapter(){
 			public void mouseDragged(MouseEvent me) {
-                //paintBrushSize = (int) bp.iconPaintSize.getSelectedItem();    //TODO: Set paintBrushSize to the int vlaue of the iconPaintSize combo box
-                System.out.println("paintBrushSize:" + paintBrushSize);
+                paintBrushSize = (Integer)bp.iconPaintSizeCombo.getSelectedItem();
 
-                for(int i = 0; i < rows; ++i){
-					for(int j = 0; j < cols; ++j){
-						Point pointOfClickDrag = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
+                if(((String)bp.brushShapeCombo.getSelectedItem()).equals("Square Brush"))
+                {
+                    for(int i = 0; i < numOfRows; ++i){
+                        for(int j = 0; j < numOfCols; ++j){
+                            Point pointOfClickDrag = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
 
-						if (theView[i][j].contains(pointOfClickDrag)){
-                            for(int colClick = 0; colClick <= paintBrushSize; colClick++){
-                                for(int rowClick = 0; rowClick <= paintBrushSize; rowClick++){
-                                    if((i+rowClick < rows) && (j+colClick < cols)){
-                                        theView[i+rowClick][j+colClick].actionPerformed(null);
+                            if (theView[i][j].contains(pointOfClickDrag)){
+                                for(int colClick = 0; colClick < paintBrushSize; colClick++){
+                                    for(int rowClick = 0; rowClick < paintBrushSize; rowClick++){
+                                        if((i+rowClick < numOfRows) && (j+colClick < numOfCols)){
+                                            theView[i+rowClick][j+colClick].actionPerformed(null);
+                                        }
                                     }
                                 }
+                                return;
                             }
-                            return;
-						}
-					}
-				}
-			} 
+                        }
+                    }
+                }
+                else
+                {
+                    System.out.println((String)bp.brushShapeCombo.getSelectedItem() + " is not supported yet!");
+                }
+			}
+
+
 		});
+
+
 
 		Dimension dim = new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
 				(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 30);
@@ -155,8 +188,24 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close on exit
 		frame.repaint();
 		frame.add(this);
+
+
+
 	}
-	
+
+    public void fill(MouseEvent me)
+    {
+        //TODO: I need to know how to get the tile of a grid location
+        for(int i = 0; i < numOfRows; ++i){
+            for(int j = 0; j < numOfCols; ++j){
+                Point pointOfClickDrag = SwingUtilities.convertPoint(frame, me.getPoint(), theView[i][j]);
+
+                if (theView[i][j].contains(pointOfClickDrag)){
+
+                }
+            }
+        }
+    }
 
     //Increases the paintBrushSize by 1
     //Resetting it to 1, if it gets bigger than 10...
@@ -176,8 +225,8 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 
 	public String toString(){
 		String s = "";
-		for(int r = 0; r < rows; r++){
-			for(int c = 0; c < cols; c++){
+		for(int r = 0; r < numOfRows; r++){
+			for(int c = 0; c < numOfCols; c++){
 				for(String imageName: theView[r][c].gridImageNames){
 					if(imageName.equals("null"))
 						s = s + "void.png,";
@@ -221,6 +270,7 @@ public class LevelDesigner extends JPanel implements ButtonListener{
 		catch(IOException e){System.out.println("Error saving level to LevelsList.txt");}
 	}
 
+    //TODO: Note: this function failed on my Netbook
 	public void loadGame(){
 		ArrayList<String> savedLevelsList = new ArrayList<String>();
 		try{
@@ -299,17 +349,41 @@ public class LevelDesigner extends JPanel implements ButtonListener{
         return this.getPaintBrushSize();
     }
 
+
+    //Clears the entire level, as if we just opened the levelDesigner
+    public void clearLevel()
+    {
+        int response = JOptionPane.showConfirmDialog(null, "Do you want to clear all tiles?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.NO_OPTION) {
+            return; //User cancelled
+        } else if (response == JOptionPane.CLOSED_OPTION) {
+            return; //User cancelled
+        } else if (response == JOptionPane.YES_OPTION) {
+            for(int col = 0; col < numOfCols; col++){
+                for(int row = 0; row < numOfRows; row++){
+                    if((row < numOfRows) && (col < numOfCols)){
+                        theView[row][col].actionPerformed(null);    //TODO: Instead of filling the entire board with the selected tile, we want to fill the entire board with the tile the program starts with. Unsure of name
+                    }
+                }
+            }
+        }
+        return;
+    }
+
+
 	public void buttonPressed(int id){
 		if(id == -1) // Save
 			saveGame();
 		else if(id == -2) // Load
 			loadGame();
+        else if(id == -3)   //Clear
+            clearLevel();
 		else
 			val = id;
 	}
 
 	@SuppressWarnings("unused")
 	public static void main(String arg[]){ 
-		LevelDesigner levelDesigner = new LevelDesigner(50, 50);
+	     LevelDesigner levelDesigner = new LevelDesigner(50, 50);
 	}
 }

@@ -6,5 +6,4 @@
 package characterLoader;
 
 public class CharacterLoader {
-    Hero player = new Hero();
 }
